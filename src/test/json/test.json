@@ -1,0 +1,106 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "AMBEL_CTRL", "typeRef": "AMBEL_CTRL",
+   "comment": "YARV Control Register"
+  },
+  {
+   "offset": 4,
+   "name": "AMBEL_DEBUG_CTRL",
+   "typeRef": "AMBEL_DEBUG_CTRL",
+   "comment": "YARV Debug Control Register"
+  },
+  {
+   "offset": 8,
+   "name": "AMBEL_FOO_BAR",
+   "typeRef": "AMBEL_FOO_BAR",
+   "comment": "YARV Foo Bar Register"
+  },
+  {
+   "offset": 12,
+   "name": "AMBEL_BAZ0",
+   "typeRef": "AMBEL_BAZ",
+   "comment": "YARV BAZ Register 0"
+  },
+  {
+   "offset": 16,
+   "name": "AMBEL_BAZ1",
+   "typeRef": "AMBEL_BAZ",
+   "comment": "YARV BAZ Register 1"
+  },
+  {
+   "offset": 24,
+   "name": "AMBEL_RO_EXAMPLE",
+   "typeRef": "AMBEL_RO_EXAMPLE",
+   "comment": "YARV Read-only Example Register"
+  },
+  {
+   "offset": 28,
+   "name": "AMBEL_WO_GOBITS",
+   "typeRef": "AMBEL_WO_EXAMPLE",
+   "comment": "YARV Write-only Go-bit Example Register"
+  },
+  {
+   "offset": 32,
+   "name": "AMBEL_W1C_STATUS",
+   "typeRef": "AMBEL_W1C_EXAMPLE",
+   "comment": "YARV Write-1-to-Clear Status Bits Register"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "AMBEL_CTRL",
+   "fields": [
+    {"bits": [0, 0], "name": "CORE_RESET", "mode": "RW", "resetVal": 0, "comment": "Core reset"},
+    {"bits": [31, 1], "name": "RESERVED"}
+   ],
+   "comment": "Control register"
+  },
+  {
+   "typeRef": "AMBEL_DEBUG_CTRL",
+   "fields": [
+    {"bits": [0, 0], "name": "HALT", "mode": "RW", "resetVal": 0, "comment": "Halt core"},
+    {"bits": [1, 1], "name": "STEP", "mode": "WO", "resetVal": 0, "comment": "Single step"},
+    {"bits": [31, 2], "name": "RESERVED"}
+   ],
+   "comment": "Debug control register"
+  },
+  {
+   "typeRef": "AMBEL_FOO_BAR",
+   "fields": [
+    {"bits": [15, 0], "name": "FOO", "mode": "RW", "resetVal": 123, "comment": "Foo"},
+    {"bits": [31, 16], "name": "BAR", "mode": "RW", "resetVal": 456, "comment": "Bar"}
+   ],
+   "comment": "Foo bar register"
+  },
+  {
+   "typeRef": "AMBEL_BAZ",
+   "fields": [
+    {"bits": [31, 0], "name": "BAZ_BITS", "mode": "RW", "resetVal": 123456, "comment": "Bits of BAZ registers"}
+   ],
+   "comment": "Baz register"
+  },
+  {
+   "typeRef": "AMBEL_RO_EXAMPLE",
+   "fields": [
+    {"bits": [7, 0], "name": "STATUS_BITS", "mode": "RO", "comment": "Read-only status bits"}
+   ],
+   "comment": "Read-only example register"
+  },
+  {
+   "typeRef": "AMBEL_WO_EXAMPLE",
+   "fields": [
+    {"bits": [7, 0], "name": "GO_BITS", "mode": "WO", "comment": "Write-only go bits"}
+   ],
+   "comment": "Write-only example register"
+  },
+  {
+   "typeRef": "AMBEL_W1C_EXAMPLE",
+   "fields": [
+    {"bits": [15, 0], "name": "STAUS_BITS", "mode": "W1C", "comment": "Write-1-to-clear status bits"}
+   ],
+   "comment": "Write-1-to-clear example status register"
+  }
+ ]
+}
