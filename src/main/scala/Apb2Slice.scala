@@ -11,24 +11,24 @@ import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
   *
   * APB2 bus register slice for pipelining/timing closure.
   *
-  * @param addrWidth the width of the APB address bus
-  * @param dataWidth the width of the APB data bus
+  * @param ADDR_W the width of the APB address bus
+  * @param DATA_W the width of the APB data bus
   */
 class Apb2Slice(
-  val addrWidth: Int = 32, val dataWidth: Int = 32) extends Module {
-  assert(dataWidth % 8 == 0)
-  assert(addrWidth > log2Ceil(dataWidth/8))
-  val strbWidth = dataWidth/8
+  val ADDR_W: Int = 32, val DATA_W: Int = 32) extends Module {
+  assert(DATA_W % 8 == 0)
+  assert(ADDR_W > log2Ceil(DATA_W/8))
+  val strbWidth = DATA_W/8
 
   val io = IO(new Bundle {
-    val apb2t =         new Apb2IO(addrWidth, dataWidth)
-    val apb2i = Flipped(new Apb2IO(addrWidth, dataWidth))
+    val apb2t =         new Apb2IO(ADDR_W, DATA_W)
+    val apb2i = Flipped(new Apb2IO(ADDR_W, DATA_W))
   })
 
   // Bundle-literal initialized Registers of Bundles (implict initialization to zero/false)
   // NOTE wrapping Bundle declaration in WireInit is a work-around for https://github.com/chipsalliance/chisel3/issues/1671
-  val reqFF = RegInit(WireInit(new Apb2Req(addrWidth, dataWidth).Lit()))
-  val rspFF = RegInit(WireInit(new Apb2Rsp(addrWidth, dataWidth).Lit(_.pReady -> true.B)))
+  val reqFF = RegInit(WireInit(new Apb2Req(ADDR_W, DATA_W).Lit()))
+  val rspFF = RegInit(WireInit(new Apb2Rsp(ADDR_W, DATA_W).Lit(_.pReady -> true.B)))
 
   // Slice works by registering initiator request, forwarding to target, and extending
   // with wait states until targets responds

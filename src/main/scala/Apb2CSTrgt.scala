@@ -16,11 +16,52 @@ import io.circe.generic.auto._
 
 /** =Apb2CSTrgt=
   *
-  * Basic APB2 Control/Status register target with Control/Status register map
-  * supplied via JSON description.
+  * Basic APB2 Control/Status register target generator with Control/Status
+  * register map supplied via a simple JSON description.
+  *
+  * The following register bit field types are supported:
+  *
+  * ==RW register bits==
+  * Read-write. Generally these are static configuration bit fields and are
+  * connected to Outputs. The register bits can only be set or cleared by
+  * writing to the register.
+  *
+  * ==RO register bits==
+  * Read-only. These are connected to Inputs which should be driven by registered
+  * external status signals from the design instantiating Apb2CSTrgt. Writing to
+  * these registers has no effect.
+  *
+  * ==WO register bits==
+  * Write-only. These are connected to Outputs but after being written to '1' they
+  * are always set back to to '0' on the following clock cycle, so writing a '1' to
+  * a WO register bit will create a single-cycle pulse on the corresponding Output.
+  * This bit field mode can be used to implement 'go bits' which trigger some
+  * event elsewhere in the design instantiating Apb2CSTrgt.  Writing a '0' has no
+  * effect, reads are always '0'.
+  *
+  * ==W1C register bits==
+  * Write-1-to-clear. These are connected to Inputs on which a single cycle pulse
+  * will set the corresponding register bit to '1'. Writing a '1' to the same bit
+  * will clear it. Writing a '0' has no effect, regardless of the current value of
+  * the bit. This bit field mode is the one to use for interrupt status registers.
+  * Interrupt enable/mask registers should be implemented using RW bit fields
+  * with the enable/mask logic implemented externally in the design instantiating
+  * Apb2CSTrgt.
+  *
+  * @note pStrb is implemented as follows. There is no masking of pWriteData with
+  * pStrb. However, foreach bitfield of a register being written the implementation
+  * checks that the pStrb bits that correspond to that bit field are set. If they
+  * are not then pSlvErr is signalled. Again, the bit field is written whether the
+  * pStrb bits are set or not. This is a design decision. The AMBA APB2 spec only
+  * discusses the pStrb bits in the context of the validity of the byte lanes of
+  * the write data bus.
+  * @param DATA_W the width of the APB2 data bus in bits
+  * @param REG_DESC_JSON a string giving the path to the register description JSON
+  * to be generated
+  * @todo implement pProt
   */
 class Apb2CSTrgt(
-  DATA_W: Int = 32, // @todo consider moving into JSON?
+  DATA_W: Int = 32,
   REG_DESC_JSON: String) extends Module {
   val NUM_BYTE = DATA_W/8
   val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
@@ -169,31 +210,6 @@ class Apb2CSTrgt(
   // println(namesAndBits)
 
   // Build ordered maps of different register bit field categories
-  //
-  // RW register bits
-  // ================
-  // Generally these are static configuration bit fields and are connected
-  // to Outputs. The register bits can only be set or cleared by writing to
-  // the register.
-  // RO register bits
-  // ================
-  // These are connected to Inputs which should be driven by registered external
-  // status signals from the design, writing to these registers has no effect.
-  // WO register bits
-  // ================
-  // These are connected to Outputs but after being written to they are always
-  // set back to to '0' on the following clock cycle, so writing a '1' to a WO
-  // register bit will create a single-cycle pulse on the corresponding Output.
-  // This bit field mode can be used to implement 'go bits' which trigger some
-  // event elsewhere in the design
-  // W1C register bits
-  // =================
-  // Write-1-to-clear: these are connected to Inputs on which a single cycle pulse
-  // will set the corresponding register bit to '1'. Writing a '1' to the same bit
-  // will clear it. Writing a '0' has no effect, regardless of the current value of
-  // the bit. This bit field mode is the one to use for interrupt status registers.
-  // Interrupt enable/mask registers should be implemented using RW bit
-  // fields with the enable/mask logic implemented externally
   var rwRegBits = ListMap[String, Int]()
   var roRegBits = ListMap[String, Int]()
   var woRegBits = ListMap[String, Int]()
@@ -366,7 +382,7 @@ class Apb2CSTrgt(
             // and not all the corresponding bits of pStrb are set the pSlvErr is signalled
             // Following logic finds the write strobes that cover the bit field and ANDs them
             // b  | range | check
-            // ---|-------|---------
+            // ---|-------|---------------------------------
             // 0  | 7:0   | pos < 8  && pos + width -  0 > 0
             // 1  | 15:8  | pos < 16 && pos + width -  8 > 0
             // 2  | 23:16 | pos < 24 && pos + width - 16 > 0
@@ -437,90 +453,3 @@ class Apb2CSTrgt(
 object Apb2CSTrgtDriver extends App {
   (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/test/json/test.json"))))
 }
-
-
-/** =Apb2BasicTrgt=
-  *
-  * Basic APB2 target with a bank of 4x 32 bit (by default) read/write registers
-  *
-  * @param NUM_REGS number of registers
-  * @param DATA_W width of registers in bits
-  */
-class Apb2BasicTrgt(NUM_REGS: Int = 4, DATA_W: Int = 32) extends Module {
-  val NUM_BYTE = DATA_W/8
-  val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
-  val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
-
-  val io = IO(new Apb2IO(ADDR_W, DATA_W))
-
-  // Boiler plating to create [NUM_REGS][NUM_BYTE] array of initialized registers
-  val regBankFF = RegInit(VecInit(Seq.fill(NUM_REGS)(VecInit(Seq.fill(NUM_BYTE)(0.U(8.W))))))
-
-  val pAddrFF   = RegInit(0.U(ADDR_W.W))
-  val pWriteFF  = RegInit(false.B)
-  val pReadyFF  = RegInit(true.B)
-  val pRDataFF  = RegInit(0.U(DATA_W.W))
-  val pSlvErrFF = RegInit(false.B)
-
-  val regIndex  = Wire(UInt((ADDR_W - NUM_BITS_SHIFT).W))
-  val decodeOK  = Wire(Bool())
-
-  // Access detect
-  when (io.req.pSel & !io.req.pEnable) {
-    pAddrFF  :=  io.req.pAddr
-    pWriteFF :=  io.req.pWrite
-    pReadyFF :=  io.req.pWrite // One wait state for reads, none for writes
-
-    // Debug
-    //printf("Access detected:\n")
-    //printf("  pAddr = 0x%x, pWrite = %b, pStrb = %b, pWData = 0x%x\n", io.pAddr, io.pWrite, io.pStrb, io.pWData)
-  } .otherwise {
-    pWriteFF := false.B
-  }
-
-  regIndex := pAddrFF >> NUM_BITS_SHIFT
-  decodeOK := regIndex >= 0.U && regIndex < NUM_REGS.U
-
-  when (pWriteFF) {
-    // Write process
-    pWriteFF  := false.B
-    pSlvErrFF := true.B
-
-    when (decodeOK) {
-      pSlvErrFF := false.B
-      // Iterate over pStrb bits, update bytes of selected register
-      for ((bit, n) <- io.req.pStrb.asBools.zipWithIndex) {
-        when (bit) {
-          regBankFF(regIndex)(n) := io.req.pWData(n*8+7, n*8)
-        }
-      }
-    }
-  } .elsewhen (!pReadyFF) {
-    // Read process
-    pSlvErrFF := true.B
-    pReadyFF  := true.B
-    when (decodeOK) {
-      pSlvErrFF := false.B
-      pRDataFF  := regBankFF(regIndex).asUInt
-    }
-  }
-
-  io.rsp.pReady  := pReadyFF
-  io.rsp.pRData  := pRDataFF
-  io.rsp.pSlvErr := pSlvErrFF
-}
-
-
-/** =Verilog generation boiler plate=
-  *
-  * Run this driver as follows...
-  * From within sbt use:
-  * {{{
-  * runMain ambel.Apb2BasicTrgtDriver
-  * }}}
-  */
-// $COVERAGE-OFF$
-object Apb2BasicTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2BasicTrgt(8, 32))))
-}
-// $COVERAGE-OFF$

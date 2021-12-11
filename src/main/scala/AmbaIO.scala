@@ -1,5 +1,4 @@
 // See README.md for license details.
-
 package ambel
 
 import chisel3._

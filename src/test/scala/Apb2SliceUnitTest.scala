@@ -8,7 +8,7 @@ import chiseltest._
 
 /** =Apb2Slice Test Harness=
   *
-  * Connects Apb2Slice DUT to Apb2BasicTrgt instance
+  * Connects Apb2Slice DUT to Apb2RegFile instance
   */
 class Apb2SliceTestHarness extends Module {
   val dataWidth = 32
@@ -18,7 +18,7 @@ class Apb2SliceTestHarness extends Module {
   val io = IO(new Apb2IO(addrWidth, dataWidth))
 
   val Apb2Slice_i = Module(new Apb2Slice(addrWidth, dataWidth))
-  val Apb2Trgt_i = Module(new Apb2BasicTrgt(nRegs, dataWidth))
+  val Apb2Trgt_i = Module(new Apb2RegFile(nRegs, dataWidth))
 
   Apb2Slice_i.io.apb2t <> io
   Apb2Slice_i.io.apb2i <> Apb2Trgt_i.io

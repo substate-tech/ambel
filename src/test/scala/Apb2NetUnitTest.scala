@@ -8,7 +8,7 @@ import chiseltest._
 
 /** =Apb2Net Test Harness=
   *
-  * Connects Apb2Net DUT to (Seq) array of Module Apb2BasicTrgt instances
+  * Connects Apb2Net DUT to (Seq) array of Module Apb2RegFile instances
   */
 class Apb2NetTestHarness(
   val NUM_INIT: Int = 1, val NUM_TARG: Int = 2,
@@ -22,7 +22,7 @@ class Apb2NetTestHarness(
   })
 
   val Apb2Net_i = Module(new Apb2Net(NUM_INIT=NUM_INIT, NUM_TARG=NUM_TARG, TARGET_SIZES=TARGET_SIZES))
-  val Apb2TrgtArr_i = Seq.fill(NUM_TARG)(Module(new Apb2BasicTrgt(NUM_REGS, DATA_WIDTH)))
+  val Apb2TrgtArr_i = Seq.fill(NUM_TARG)(Module(new Apb2RegFile(NUM_REGS, DATA_WIDTH)))
 
   Apb2Net_i.io.apb2i <> io.apb2i
 

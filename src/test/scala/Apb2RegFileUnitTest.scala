@@ -6,23 +6,23 @@ import chisel3._
 import chisel3.util._
 import chiseltest._
 
-/** =Apb2Trgt Unit Tester=
+/** =Apb2RegFile Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
   * {{{
-  * testOnly ambel.Apb2TrgtUnitTester
+  * testOnly ambel.Apb2RegFileUnitTester
   * }}}
   * From a terminal shell use:
   * {{{
-  * sbt 'testOnly ambel.Apb2TrgtUnitTester'
+  * sbt 'testOnly ambel.Apb2RegFileUnitTester'
   * }}}
   * For VCD dump use:
   * {{{
-  * testOnly ambel.Apb2TrgtUnitTester -- -DwriteVcd=1
+  * testOnly ambel.Apb2RegFileUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2TrgtUnitTester extends AmbelUnitTester {
-  behavior of "Apb2BasicTrgt"
+class Apb2RegFileUnitTester extends AmbelUnitTester {
+  behavior of "Apb2RegFile"
 
   /**
     * Test cases
@@ -31,7 +31,7 @@ class Apb2TrgtUnitTester extends AmbelUnitTester {
   val DATA_W = 32
 
   it should "write then read consecutive addresses back to back" in {
-    test(new Apb2BasicTrgt(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until NUM_REGS) {
@@ -46,7 +46,7 @@ class Apb2TrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses in sequence then read all back" in {
-    test(new Apb2BasicTrgt(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
       dut.clock.step(4)
 
       val dataSeq = new ListBuffer[Int]
@@ -70,7 +70,7 @@ class Apb2TrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes" in {
-    test(new Apb2BasicTrgt(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
       dut.clock.step(4)
 
       val NUM_BYTE = dut.NUM_BYTE
