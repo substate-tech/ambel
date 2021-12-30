@@ -17,7 +17,9 @@ class Apb2RegFile(NUM_REGS: Int = 4, DATA_W: Int = 32) extends Module {
   val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
   val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
 
-  val io = IO(new Apb2IO(ADDR_W, DATA_W))
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+  })
 
   // Boiler plating to create [NUM_REGS][NUM_BYTE] array of initialized registers
   val regBankFF = RegInit(VecInit(Seq.fill(NUM_REGS)(VecInit(Seq.fill(NUM_BYTE)(0.U(8.W))))))
@@ -32,14 +34,14 @@ class Apb2RegFile(NUM_REGS: Int = 4, DATA_W: Int = 32) extends Module {
   val decodeOK  = Wire(Bool())
 
   // Access detect
-  when (io.req.pSel & !io.req.pEnable) {
-    pAddrFF  :=  io.req.pAddr
-    pWriteFF :=  io.req.pWrite
-    pReadyFF :=  io.req.pWrite // One wait state for reads, none for writes
+  when (io.apb2T.req.pSel & !io.apb2T.req.pEnable) {
+    pAddrFF  :=  io.apb2T.req.pAddr
+    pWriteFF :=  io.apb2T.req.pWrite
+    pReadyFF :=  io.apb2T.req.pWrite // One wait state for reads, none for writes
 
     // Debug
     //printf("Access detected:\n")
-    //printf("  pAddr = 0x%x, pWrite = %b, pStrb = %b, pWData = 0x%x\n", io.pAddr, io.pWrite, io.pStrb, io.pWData)
+    //printf("  pAddr = 0x%x, pWrite = %b, pStrb = %b, pWData = 0x%x\n", io.apb2T.pAddr, io.apb2T.pWrite, io.apb2T.pStrb, io.apb2T.pWData)
   } .otherwise {
     pWriteFF := false.B
   }
@@ -55,9 +57,9 @@ class Apb2RegFile(NUM_REGS: Int = 4, DATA_W: Int = 32) extends Module {
     when (decodeOK) {
       pSlvErrFF := false.B
       // Iterate over pStrb bits, update bytes of selected register
-      for ((bit, n) <- io.req.pStrb.asBools.zipWithIndex) {
+      for ((bit, n) <- io.apb2T.req.pStrb.asBools.zipWithIndex) {
         when (bit) {
-          regBankFF(regIndex)(n) := io.req.pWData(n*8+7, n*8)
+          regBankFF(regIndex)(n) := io.apb2T.req.pWData(n*8+7, n*8)
         }
       }
     }
@@ -71,9 +73,9 @@ class Apb2RegFile(NUM_REGS: Int = 4, DATA_W: Int = 32) extends Module {
     }
   }
 
-  io.rsp.pReady  := pReadyFF
-  io.rsp.pRData  := pRDataFF
-  io.rsp.pSlvErr := pSlvErrFF
+  io.apb2T.rsp.pReady  := pReadyFF
+  io.apb2T.rsp.pRData  := pRDataFF
+  io.apb2T.rsp.pSlvErr := pSlvErrFF
 }
 
 

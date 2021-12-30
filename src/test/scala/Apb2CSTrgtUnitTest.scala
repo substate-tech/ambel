@@ -6,23 +6,23 @@ import chisel3._
 import chisel3.util._
 import chiseltest._
 
-/** =Apb2RegFile Unit Tester=
+/** =Apb2CSTrgt Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
   * {{{
-  * testOnly ambel.Apb2RegFileUnitTester
+  * testOnly ambel.Apb2CSTrgtUnitTester
   * }}}
   * From a terminal shell use:
   * {{{
-  * sbt 'testOnly ambel.Apb2RegFileUnitTester'
+  * sbt 'testOnly ambel.Apb2CSTrgtUnitTester'
   * }}}
   * For VCD dump use:
   * {{{
-  * testOnly ambel.Apb2RegFileUnitTester -- -DwriteVcd=1
+  * testOnly ambel.Apb2CSTrgtUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2RegFileUnitTester extends AmbelUnitTester {
-  behavior of "Apb2RegFile"
+class Apb2CSTrgtUnitTester extends AmbelUnitTester {
+  behavior of "Apb2CSTrgt"
 
   /**
     * Test cases
@@ -31,7 +31,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   val DATA_W = 32
 
   it should "write then read consecutive addresses back to back" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2CSTrgt(32, "src/test/json/regfile.json")) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until NUM_REGS) {
@@ -44,7 +44,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
       dut.clock.step(4)
     }
 
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2CSTrgt(32, "src/test/json/regfile.json")) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until NUM_REGS) {
@@ -59,7 +59,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses in sequence then read all back" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2CSTrgt(32, "src/test/json/regfile.json")) { dut =>
       dut.clock.step(4)
 
       val dataSeq = new ListBuffer[Int]
@@ -83,7 +83,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2CSTrgt(32, "src/test/json/regfile.json")) { dut =>
       dut.clock.step(4)
 
       val NUM_BYTE = dut.NUM_BYTE

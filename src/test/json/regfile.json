@@ -1,0 +1,96 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 4,
+   "name": "REG_ONE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 8,
+   "name": "REG_TWO", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 12,
+   "name": "REG_THREE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 16,
+   "name": "REG_FOUR", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 20,
+   "name": "REG_FIVE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 24,
+   "name": "REG_SIX", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 28,
+   "name": "REG_SEVEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 32,
+   "name": "REG_EIGHT", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 36,
+   "name": "REG_NINE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 40,
+   "name": "REG_TEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 44,
+   "name": "REG_ELEVEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 48,
+   "name": "REG_TWELVE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 52,
+   "name": "REG_THIRTEEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 56,
+   "name": "REG_FOURTEEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 60,
+   "name": "REG_FIFTEEN", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "fields": [
+    {"bits": [7, 0], "name": "BYTE_ZERO", "mode": "RW", "resetVal": 0, "comment": "Byte zero"},
+    {"bits": [15, 8], "name": "BYTE_ONE", "mode": "RW", "resetVal": 0, "comment": "Byte one"},
+    {"bits": [23, 16], "name": "BYTE_TWO", "mode": "RW", "resetVal": 0, "comment": "Byte two"},
+    {"bits": [31, 24], "name": "BYTE_THREE", "mode": "RW", "resetVal": 0, "comment": "Byte three"}
+   ],
+   "comment": "32 bit register with individual byte access"
+  }
+ ]
+}
