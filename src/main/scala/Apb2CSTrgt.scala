@@ -62,7 +62,8 @@ import io.circe.generic.auto._
   */
 class Apb2CSTrgt(
   DATA_W: Int = 32,
-  REG_DESC_JSON: String) extends Module {
+  REG_DESC_JSON: String,
+  VERBOSE: Boolean = false) extends Module {
   val NUM_BYTE = DATA_W/8
   val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
 
@@ -151,9 +152,9 @@ class Apb2CSTrgt(
 
   val attributes: List[RegisterAttr] = regDesc match {
     case Some(r) => for (m <- r.regMap) yield
-      new RegisterAttr(offset = m.offset, typeRef = m.typeRef)
+      RegisterAttr(offset = m.offset, typeRef = m.typeRef)
     case None => List(
-      new RegisterAttr(offset = 0, typeRef = "NONE")
+      RegisterAttr(offset = 0, typeRef = "NONE")
     )
   }
 
@@ -165,7 +166,7 @@ class Apb2CSTrgt(
   val fields: List[List[BitField]] = regDesc match {
     case Some(r) => for (t <- r.regTypes) yield t.fields
     case None => List(List(
-      new BitField(bits = List(0,0),
+      BitField(bits = List(0,0),
         name = "NONE", mode = Some("RW"),
         resetVal = Some(0), comment = Some("No comment")
       )
@@ -190,15 +191,17 @@ class Apb2CSTrgt(
   val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
   val MAX_REGS = pow(2, ADDR_W).toInt >> NUM_BITS_SHIFT
 
-  println(f"NUM_REGS = ${NUM_REGS}, ADDR_W = ${ADDR_W}, MAX_REGS = ${MAX_REGS}")
+  if (VERBOSE) {
+    println(f"NUM_REGS = ${NUM_REGS}, ADDR_W = ${ADDR_W}, MAX_REGS = ${MAX_REGS}")
+  }
 
   val namesAndBits: List[RegisterBits] = regDesc match {
     case Some(r) => for (m <- r.regMap) yield
-      new RegisterBits(name = m.name, fields = typeFieldMap(m.typeRef))
+      RegisterBits(name = m.name, fields = typeFieldMap(m.typeRef))
     case None => List(
-      new RegisterBits(
+      RegisterBits(
         name = "NONE",
-        fields = List(new BitField(bits = List(0,0),
+        fields = List(BitField(bits = List(0,0),
           name = "NONE", mode = Some("RW"),
           resetVal = Some(0), comment = Some("No comment")
         ))
@@ -236,8 +239,6 @@ class Apb2CSTrgt(
   // println(wcRegBits)
 
   // NOTE suggestName doesn't actually work in IO Bundles yet
-  val rwStaticCfgSignalList = rwRegBits.keys.toList
-  val roSignalList = roRegBits.keys.toList
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
     val rwVec = Output(MixedVec((rwRegBits map { case (k, v) => UInt(v.W).suggestName(k) }).toList))
@@ -246,14 +247,15 @@ class Apb2CSTrgt(
     val wcVec = Input(MixedVec((wcRegBits map { case (k, v) => UInt(v.W).suggestName(k) }).toList))
   })
 
-  // Build a 2D array of registers and their RegInit() bit fields with
+  // Build a 2D array of all registers and their RegInit() bit fields with
   // JSON specified reset values and widths. No RegInit() for RESERVED
   // bit fields which are read-only zeros. Each RegInit() is part of a tuple
   // which also holds its position and its mode
-  val regArr = Array.ofDim[ArrayBuffer[(UInt, Int, Int, String)]](MAX_REGS)
+  case class BitFieldDetails(reg: UInt, pos: Int, width: Int, mode: String, name: String)
+  val regArr = Array.ofDim[ArrayBuffer[BitFieldDetails]](MAX_REGS)
 
   for (i <- 0 until MAX_REGS) {
-    regArr(i) = ArrayBuffer[(UInt, Int, Int, String)]()
+    regArr(i) = ArrayBuffer[BitFieldDetails]()
     val offset = i << NUM_BITS_SHIFT
     if (offNameMap.contains(offset)) {
       for (f <- typeFieldMap(regMap(offNameMap(offset)).typeRef)) {
@@ -261,44 +263,55 @@ class Apb2CSTrgt(
           val width: Int = f.bits.head - f.bits.last + 1
           val pos: Int = f.bits.last
           val regName: String = offNameMap(offset)
+          val fieldName: String = f.name.toLowerCase
           if (f.mode == Some("RW")) {
             // For RW bit fields use reset value of 0 assumed if none specified
-            println(f"Creating RW register bit field ${regName}.${f.name} @offset h${offset}%04x")
+            if (VERBOSE) {
+              println(f"Creating RW register bit field ${regName}.${f.name} @offset h${offset}%04x")
+            }
             f.resetVal match {
               case Some(value) => {
-                regArr(i) += new Tuple4(RegInit(value.U(width.W)).suggestName(name.toLowerCase), pos, width, "RW")
+                regArr(i) += BitFieldDetails(RegInit(value.U(width.W)).suggestName(fieldName), pos, width, "RW", fieldName)
               }
               case None => {
-                regArr(i) += new Tuple4(RegInit(0.U(width.W)).suggestName(name.toLowerCase), pos, width, "N/A")
+                regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "N/A", fieldName)
               }
             }
           }
           if (f.mode == Some("RO")) {
             // For RO bit fields declare Wires rather than registers
-            println(f"Found RO register bit field ${regName}.${f.name} @offset h${offset}%04x")
-            regArr(i) += new Tuple4(Wire(UInt(width.W)).suggestName(name.toLowerCase), pos, width, "RO")
+            if (VERBOSE) {
+              println(f"Found RO register bit field ${regName}.${f.name} @offset h${offset}%04x")
+            }
+            regArr(i) += BitFieldDetails(Wire(UInt(width.W)).suggestName(fieldName), pos, width, "RO", fieldName)
           }
           if (f.mode == Some("WO")) {
             // For WO bit fields reset value of 0
-            println(f"Creating WO register bit field ${regName}.${f.name} @offset h${offset}%04x")
-            regArr(i) += new Tuple4(RegInit(0.U(width.W)).suggestName(name.toLowerCase), pos, width, "WO")
+            if (VERBOSE) {
+              println(f"Creating WO register bit field ${regName}.${f.name} @offset h${offset}%04x")
+            }
+            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "WO", fieldName)
           }
           if (f.mode == Some("W1C")) {
             // For W1C bit fields reset value of 0
-            println(f"Creating W1C register bit field ${regName}.${f.name} @offset h${offset}%04x")
-            regArr(i) += new Tuple4(RegInit(0.U(width.W)).suggestName(name.toLowerCase), pos, width, "W1C")
+            if (VERBOSE) {
+              println(f"Creating W1C register bit field ${regName}.${f.name} @offset h${offset}%04x")
+            }
+            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "W1C", fieldName)
           }
         }
       }
     } else {
       // No register defined at this offset (unmapped) - mark a not applicable
       // and create a single WireDefault() bit field with a value of 0
-      println(f"No register @offset h${offset}%04x")
-      regArr(i) += new Tuple4(WireDefault(0.U(DATA_W.W)), 0, DATA_W, "N/A")
+      if (VERBOSE) {
+        println(f"No register @offset h${offset}%04x")
+      }
+      regArr(i) += BitFieldDetails(WireDefault(0.U(DATA_W.W)), 0, DATA_W, "N/A", "None")
     }
   }
 
-  // Connect different register bit fields categories to MixedVec IOs
+  // Connect different register bit field categories to MixedVec IOs
   // NOTE the Vecs are declared in same order as registers are declared
   // in JSON description therefore iterate over names and index regArr with
   // corresponding offset
@@ -308,17 +321,23 @@ class Apb2CSTrgt(
   val wcIt = io.wcVec.iterator
   for (r <- names) {
     for (f <- regArr(regMap(r).offset >> NUM_BITS_SHIFT).iterator) {
-      if (f._4 == "RW") {
-        println(f"Connecting RW bit field to IO Bundle") // ${r}.${f.name}[${f.bits.head}%d:${f.bits.last}%d]
-        rwIt.next := f._1
+      if (f.mode == "RW") {
+        if (VERBOSE) {
+          println(f"Connecting RW bit field ${f.name} to IO Bundle rwVec Output")
+        }
+        rwIt.next := f.reg
       }
-      if (f._4 == "RO") {
-        println(f"Connecting RO bit field to IO Bundle") // ${r}.${f.name}[${f.bits.head}%d:${f.bits.last}%d]
-        f._1 := roIt.next
+      if (f.mode == "RO") {
+        if (VERBOSE) {
+          println(f"Connecting RO bit field ${f.name} to IO Bundle roVec Input")
+        }
+        f.reg := roIt.next
       }
-      if (f._4 == "WO") {
-        println(f"Connecting WO bit field to IO Bundle") // ${r}.${f.name}[${f.bits.head}%d:${f.bits.last}%d]
-        woIt.next := f._1
+      if (f.mode == "WO") {
+        if (VERBOSE) {
+          println(f"Connecting WO bit field ${f.name} to IO Bundle woVec Output")
+        }
+        woIt.next := f.reg
       }
     }
   }
@@ -357,44 +376,45 @@ class Apb2CSTrgt(
         // Write data to the individual writable bit fields of the
         // register and signal error if the register is unmapped
         for (f <- regArr(i)) {
-          if (f._4 == "RW" || f._4 == "WO" || f._4 == "W1C") {
+          if (f.mode == "RW" || f.mode == "WO" || f.mode == "W1C") {
             // Write strobes: pStrb bits are used to mask or enable writes to individual
             // bytes of bit fields. However, if a bit field straddles two or more byte lanes
             // and not ALL the corresponding bits of pStrb are set then the bit field is not
-            // written and pSlvErr is signalled.
+            // written (at all) and pSlvErr is signalled.
             //
             // Following logic finds the write strobes that cover the bit field and ANDs them
+            //
             // b  | range | check
             // ---|-------|---------------------------------
-            // 0  | 7:0   | pos < 8  && pos + width -  0 > 0
+            // 0  |  7:0  | pos < 8  && pos + width -  0 > 0
             // 1  | 15:8  | pos < 16 && pos + width -  8 > 0
             // 2  | 23:16 | pos < 24 && pos + width - 16 > 0
             // 3  | 31:24 | pos < 32 && pos + width - 24 > 0
             val fieldPStrbBits = for {
-              b <- 0 until NUM_BYTE if (f._2 < ((b + 1) * 8)) && ((f._2 + f._3 - b * 8) > 0)
+              b <- 0 until NUM_BYTE if (f.pos < ((b + 1) * 8)) && ((f.pos + f.width - b * 8) > 0)
             } yield io.apb2T.req.pStrb(b)
 
             when (fieldPStrbBits.reduceLeft(_ & _)) {
-              if (f._4 == "W1C") {
+              if (f.mode == "W1C") {
                 // Write-1-to-clear: create a Bool Vec of the register bit field
                 // and zip it with a Bool Vec of the write data clear each bit
                 // of the bit field individually
-                val nxtBits = VecInit(f._1.asBools)
-                val clrBits = VecInit((io.apb2T.req.pWData >> f._2).asBools)
+                val nxtBits = VecInit(f.reg.asBools)
+                val clrBits = VecInit((io.apb2T.req.pWData >> f.pos).asBools)
                 for ((nxt, clr) <- (nxtBits zip clrBits).toMap) {
                   when (clr) {
                     nxt := false.B
                   }
                 }
-                f._1 := nxtBits.asUInt
+                f.reg := nxtBits.asUInt
               } else {
-                // f._4 == "RW" || f._4 == "WO"
-                f._1 := io.apb2T.req.pWData >> f._2
+                // f.mode == "RW" || f.mode == "WO"
+                f.reg := io.apb2T.req.pWData >> f.pos
               }
             }.otherwise {
               pSlvErrFF := true.B
             }
-          } else if (f._4 == "N/A") {
+          } else if (f.mode == "N/A") {
             pSlvErrFF := true.B
           }
         }
@@ -402,21 +422,23 @@ class Apb2CSTrgt(
     }
   }.otherwise {
     // Clear all WO register bit fields
-    regArr.foreach(r => { r.foreach(f => { if (f._4 == "WO") f._1 := 0.U }) })
+    regArr.foreach(r => { r.foreach(f => { if (f.mode == "WO") f.reg := 0.U }) })
 
     // Update all W1C register bit fields
     regArr.foreach(r => {
       r.foreach(f => {
-        if (f._4 == "W1C") {
-          println(f"Connecting W1C bit field to IO Bundle") // ${r}.${f.name}[${f.bits.head}%d:${f.bits.last}%d]
-          val nxtBits = VecInit(f._1.asBools)
+        if (f.mode == "W1C") {
+          if (VERBOSE) {
+            println(f"Connecting W1C bit field ${f.name} to IO Bundle")
+          }
+          val nxtBits = VecInit(f.reg.asBools)
           val setBits = VecInit(wcIt.next.asBools)
           for ((nxt, set) <- (nxtBits zip setBits).toMap) {
             when (set) {
               nxt := true.B
             }
           }
-          f._1 := nxtBits.asUInt
+          f.reg := nxtBits.asUInt
         }
       })
     })
@@ -432,10 +454,10 @@ class Apb2CSTrgt(
       when (regIndex === i.U) {
         // Shift the individual bit fields of the indexed register into position and OR
         // to be read together and signal error if the register is unmapped
-        val shiftedBits: List[UInt] = for (f <- regArr(i).toList) yield (f._1 << f._2)
+        val shiftedBits: List[UInt] = for (f <- regArr(i).toList) yield (f.reg << f.pos)
         pRDataFF := shiftedBits.reduceLeft(_ | _)
         for (f <- regArr(i)) {
-          if (f._4 == "N/A") pSlvErrFF := true.B
+          if (f.mode == "N/A") pSlvErrFF := true.B
         }
       }
     }
@@ -456,5 +478,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/test/json/test.json"))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/example.json", true))))
 }

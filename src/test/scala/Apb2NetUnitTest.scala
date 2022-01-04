@@ -27,7 +27,7 @@ class Apb2NetTestHarness(
   Apb2Net_i.io.apb2i <> io.apb2i
 
   for (t <- 0 until NUM_TARG) {
-    Apb2TrgtArr_i(t).io <> Apb2Net_i.io.apb2t(t)
+    Apb2TrgtArr_i(t).io.apb2T <> Apb2Net_i.io.apb2t(t)
   }
 }
 

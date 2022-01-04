@@ -7,7 +7,7 @@ ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "lz.tech"
 
-val chisel3Version = "3.4.3"
+val chisel3Version = "3.4.4"
 val chiseltestVersion = "0.3.3"
 val circeVersion = "0.7.0"
 

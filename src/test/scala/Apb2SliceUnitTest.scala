@@ -21,7 +21,7 @@ class Apb2SliceTestHarness extends Module {
   val Apb2Trgt_i = Module(new Apb2RegFile(nRegs, dataWidth))
 
   Apb2Slice_i.io.apb2t <> io
-  Apb2Slice_i.io.apb2i <> Apb2Trgt_i.io
+  Apb2Slice_i.io.apb2i <> Apb2Trgt_i.io.apb2T
 }
 
 /** =Apb2Slice Unit Tester=
@@ -85,7 +85,6 @@ class Apb2SliceUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes" in {
-
     test(new Apb2SliceTestHarness) { dut =>
       dut.clock.step(4)
 
