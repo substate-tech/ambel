@@ -43,19 +43,6 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
 
       dut.clock.step(4)
     }
-
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
-      dut.clock.step(4)
-
-      for (i <- 0 until NUM_REGS) {
-        val addr = i << 2
-        val data = 0xff << i*8
-        ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0xf)
-        ApbReadExpect(dut.io.apb2T, dut.clock, addr, data)
-      }
-
-      dut.clock.step(4)
-    }
   }
 
   it should "write all addresses in sequence then read all back" in {
@@ -88,9 +75,9 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
 
       val NUM_BYTE = dut.NUM_BYTE
 
-      val addr = 0
       val data = 0xabbaface
       for (i <- 0 until NUM_REGS) {
+        val addr = i << 2
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0, 0xf)
         ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
         var dataExp = 0x0
