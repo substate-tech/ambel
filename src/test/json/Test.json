@@ -98,7 +98,7 @@
   {
    "typeRef": "AMBEL_W1C_EXAMPLE",
    "fields": [
-    {"bits": [15, 0], "name": "STAUS_BITS", "mode": "W1C", "comment": "Write-1-to-clear status bits"}
+    {"bits": [15, 0], "name": "STATUS_BITS", "mode": "W1C", "comment": "Write-1-to-clear status bits"}
    ],
    "comment": "Write-1-to-clear example status register"
   }

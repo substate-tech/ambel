@@ -1,9 +1,11 @@
 // See README.md for license details.
 package ambel
 
+import java.io._
 import scala.io.Source
 import scala.math.pow
 import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.Map
 import scala.collection.immutable.ListMap
 import chisel3._
@@ -58,6 +60,7 @@ import io.circe.generic.auto._
   * @param DATA_W the width of the APB2 data bus in bits
   * @param REG_DESC_JSON a string giving the path to the register description JSON
   * to be generated
+  * @param VERBOSE enables verbose output during generation
   * @todo implement pProt
   */
 class Apb2CSTrgt(
@@ -217,8 +220,8 @@ class Apb2CSTrgt(
   var wcRegBits = ListMap[String, Int]()
   for (r <- namesAndBits) {
     for (f <- r.fields) {
-      val width: Int = f.bits.head - f.bits.last + 1
-      val name: String = r.name.toLowerCase + "_" + f.name.toLowerCase
+      val width = f.bits.head - f.bits.last + 1
+      val name = r.name.toLowerCase + "_" + f.name.toLowerCase
       if (f.mode == Some("RW")) {
         rwRegBits += (name -> width)
       }
@@ -254,16 +257,25 @@ class Apb2CSTrgt(
   case class BitFieldDetails(reg: UInt, pos: Int, width: Int, mode: String, name: String)
   val regArr = Array.ofDim[ArrayBuffer[BitFieldDetails]](MAX_REGS)
 
+  // Takes a snake_case or SNAKE_CASE string name and converts to CamelCase
+  def toCamelCase(s: String): String = {
+    val pieces = s.split('_')
+    val camelArr: Array[String] = for (p <- pieces) yield p.toLowerCase.capitalize
+    val camel: String = camelArr.mkString
+    return camel
+  }
+
   for (i <- 0 until MAX_REGS) {
     regArr(i) = ArrayBuffer[BitFieldDetails]()
     val offset = i << NUM_BITS_SHIFT
     if (offNameMap.contains(offset)) {
       for (f <- typeFieldMap(regMap(offNameMap(offset)).typeRef)) {
         if (f.name != "RESERVED") {
-          val width: Int = f.bits.head - f.bits.last + 1
-          val pos: Int = f.bits.last
-          val regName: String = offNameMap(offset)
-          val fieldName: String = f.name.toLowerCase
+          val width = f.bits.head - f.bits.last + 1
+          val pos = f.bits.last
+          val regName = offNameMap(offset)
+          val fieldName = f.name.toLowerCase
+          val name = toCamelCase(regName) + "_" + toCamelCase(fieldName)
           if (f.mode == Some("RW")) {
             // For RW bit fields use reset value of 0 assumed if none specified
             if (VERBOSE) {
@@ -271,10 +283,10 @@ class Apb2CSTrgt(
             }
             f.resetVal match {
               case Some(value) => {
-                regArr(i) += BitFieldDetails(RegInit(value.U(width.W)).suggestName(fieldName), pos, width, "RW", fieldName)
+                regArr(i) += BitFieldDetails(RegInit(value.U(width.W)).suggestName(name), pos, width, "RW", name)
               }
               case None => {
-                regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "N/A", fieldName)
+                regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(name), pos, width, "N/A", name)
               }
             }
           }
@@ -283,21 +295,21 @@ class Apb2CSTrgt(
             if (VERBOSE) {
               println(f"Found RO register bit field ${regName}.${f.name} @offset h${offset}%04x")
             }
-            regArr(i) += BitFieldDetails(Wire(UInt(width.W)).suggestName(fieldName), pos, width, "RO", fieldName)
+            regArr(i) += BitFieldDetails(Wire(UInt(width.W)).suggestName(name), pos, width, "RO", name)
           }
           if (f.mode == Some("WO")) {
             // For WO bit fields reset value of 0
             if (VERBOSE) {
               println(f"Creating WO register bit field ${regName}.${f.name} @offset h${offset}%04x")
             }
-            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "WO", fieldName)
+            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(name), pos, width, "WO", name)
           }
           if (f.mode == Some("W1C")) {
             // For W1C bit fields reset value of 0
             if (VERBOSE) {
               println(f"Creating W1C register bit field ${regName}.${f.name} @offset h${offset}%04x")
             }
-            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(fieldName), pos, width, "W1C", fieldName)
+            regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(name), pos, width, "W1C", name)
           }
         }
       }
@@ -314,29 +326,74 @@ class Apb2CSTrgt(
   // Connect different register bit field categories to MixedVec IOs
   // NOTE the Vecs are declared in same order as registers are declared
   // in JSON description therefore iterate over names and index regArr with
-  // corresponding offset
+  // corresponding offset. Simultaneously we generate a Chisel Bundle with signal
+  // names suitable for connection to the MixedVecs
+  val chisel3BundleFilePath = REG_DESC_JSON.replaceAll("json", "scala")
+  val chisel3BundleFileName = chisel3BundleFilePath.split('/').last
+  val pw = new PrintWriter(new File(f"${chisel3BundleFilePath}"))
+  println(f"Writing ${chisel3BundleFilePath}")
+
+  pw.write("// See README.md for license details.\n")
+  pw.write("package ambel\n\n")
+  pw.write("import chisel3._\n\n")
+  pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")\n""")
+  pw.write("  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
+
   val rwIt = io.rwVec.iterator
   val roIt = io.roVec.iterator
   val woIt = io.woVec.iterator
   val wcIt = io.wcVec.iterator
+
+  val bundlePrefix = chisel3BundleFileName.split('.').head.capitalize
+
+  val rwBundleBuffer = new ListBuffer[String]()
+  val roBundleBuffer = new ListBuffer[String]()
+  val woBundleBuffer = new ListBuffer[String]()
+  val wcBundleBuffer = new ListBuffer[String]()
+
+  def writeBundleMember(f: BitFieldDetails): String = {
+    var s = f"  val ${f.name} = "
+    if (f.width > 1)
+      s = s + f"UInt(${f.width}.W)\n"
+    else
+      s = s + f"Bool()\n"
+    return s
+  }
+
+  if (rwIt.nonEmpty) {
+    rwBundleBuffer += f"class _${bundlePrefix}RwVec_ extends Bundle {\n"
+  }
+  if (roIt.nonEmpty) {
+    roBundleBuffer += f"class _${bundlePrefix}RoVec_ extends Bundle {\n"
+  }
+  if (woIt.nonEmpty) {
+    woBundleBuffer += f"class _${bundlePrefix}WoVec_ extends Bundle {\n"
+  }
+  if (wcIt.nonEmpty) {
+    wcBundleBuffer += f"class _${bundlePrefix}WcVec_ extends Bundle {\n"
+  }
+
   for (r <- names) {
     for (f <- regArr(regMap(r).offset >> NUM_BITS_SHIFT).iterator) {
       if (f.mode == "RW") {
         if (VERBOSE) {
           println(f"Connecting RW bit field ${f.name} to IO Bundle rwVec Output")
         }
+        rwBundleBuffer += writeBundleMember(f)
         rwIt.next := f.reg
       }
       if (f.mode == "RO") {
         if (VERBOSE) {
           println(f"Connecting RO bit field ${f.name} to IO Bundle roVec Input")
         }
+        roBundleBuffer += writeBundleMember(f)
         f.reg := roIt.next
       }
       if (f.mode == "WO") {
         if (VERBOSE) {
           println(f"Connecting WO bit field ${f.name} to IO Bundle woVec Output")
         }
+        woBundleBuffer += writeBundleMember(f)
         woIt.next := f.reg
       }
     }
@@ -382,7 +439,8 @@ class Apb2CSTrgt(
             // and not ALL the corresponding bits of pStrb are set then the bit field is not
             // written (at all) and pSlvErr is signalled.
             //
-            // Following logic finds the write strobes that cover the bit field and ANDs them
+            // Following logic extracts only the write strobes that cover the bit field
+            // then and ANDs them together
             //
             // b  | range | check
             // ---|-------|---------------------------------
@@ -390,11 +448,13 @@ class Apb2CSTrgt(
             // 1  | 15:8  | pos < 16 && pos + width -  8 > 0
             // 2  | 23:16 | pos < 24 && pos + width - 16 > 0
             // 3  | 31:24 | pos < 32 && pos + width - 24 > 0
+            //
             val fieldPStrbBits = for {
               b <- 0 until NUM_BYTE if (f.pos < ((b + 1) * 8)) && ((f.pos + f.width - b * 8) > 0)
             } yield io.apb2T.req.pStrb(b)
 
             when (fieldPStrbBits.reduceLeft(_ & _)) {
+              // ALL bits of pStrb covering the bit field are set
               if (f.mode == "W1C") {
                 // Write-1-to-clear: create a Bool Vec of the register bit field
                 // and zip it with a Bool Vec of the write data clear each bit
@@ -411,7 +471,8 @@ class Apb2CSTrgt(
                 // f.mode == "RW" || f.mode == "WO"
                 f.reg := io.apb2T.req.pWData >> f.pos
               }
-            }.otherwise {
+            }.elsewhen (fieldPStrbBits.reduceLeft(_ | _)) {
+              // SOME but not ALL bits of pStrb covering the bit field are set
               pSlvErrFF := true.B
             }
           } else if (f.mode == "N/A") {
@@ -431,6 +492,8 @@ class Apb2CSTrgt(
           if (VERBOSE) {
             println(f"Connecting W1C bit field ${f.name} to IO Bundle")
           }
+          wcBundleBuffer += writeBundleMember(f)
+
           val nxtBits = VecInit(f.reg.asBools)
           val setBits = VecInit(wcIt.next.asBools)
           for ((nxt, set) <- (nxtBits zip setBits).toMap) {
@@ -466,6 +529,25 @@ class Apb2CSTrgt(
   io.apb2T.rsp.pReady  := pReadyFF
   io.apb2T.rsp.pRData  := pRDataFF
   io.apb2T.rsp.pSlvErr := pSlvErrFF
+
+  if (rwBundleBuffer.nonEmpty) {
+    rwBundleBuffer += "}\n"
+  }
+  if (roBundleBuffer.nonEmpty) {
+    roBundleBuffer += "}\n"
+  }
+  if (woBundleBuffer.nonEmpty) {
+    woBundleBuffer += "}\n"
+  }
+  if (wcBundleBuffer.nonEmpty) {
+    wcBundleBuffer += "}\n"
+  }
+
+  rwBundleBuffer.foreach(pw.write)
+  roBundleBuffer.foreach(pw.write)
+  woBundleBuffer.foreach(pw.write)
+  wcBundleBuffer.foreach(pw.write)
+  pw.close
 }
 
 /** =Verilog generation boiler plate=
@@ -478,5 +560,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/example.json", true))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/Example.json", true))))
 }

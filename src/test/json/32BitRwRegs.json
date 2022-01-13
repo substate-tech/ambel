@@ -25,15 +25,15 @@
   {
    "typeRef": "REG_RW_32_WORD_ACCESS",
    "fields": [
-    {"bits": [31, 0], "name": "RW_REG", "mode": "RW", "resetVal": 0}
+    {"bits": [31, 0], "name": "WORD", "mode": "RW", "resetVal": 0}
    ],
    "comment": "32 bit register with individual byte access"
   },
   {
    "typeRef": "REG_RW_32_HALF_ACCESS",
    "fields": [
-    {"bits": [15, 0], "name": "RW_REG_LOWER_HALF", "mode": "RW", "resetVal": 0},
-    {"bits": [31, 16], "name": "RW_REG_UPPER_HALF", "mode": "RW", "resetVal": 0}
+    {"bits": [15, 0], "name": "LOWER_HALF", "mode": "RW", "resetVal": 0},
+    {"bits": [31, 16], "name": "UPPER_HALF", "mode": "RW", "resetVal": 0}
    ],
    "comment": "32 bit register with individual byte access"
   },
