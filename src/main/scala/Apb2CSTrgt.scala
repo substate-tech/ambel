@@ -57,16 +57,24 @@ import io.circe.generic.auto._
   * pStrb bits are set or not. This is a design decision. The AMBA APB2 spec only
   * discusses the pStrb bits in the context of the validity of the byte lanes of
   * the write data bus.
+  *
   * @param DATA_W the width of the APB2 data bus in bits
   * @param REG_DESC_JSON a string giving the path to the register description JSON
   * to be generated
   * @param VERBOSE enables verbose output during generation
+  * @param GEN_BUNDLE enables generation of Scala Bundles suitable for connection
+  * to the generated MixedVec IOs. The signal names used in the Bundles match their
+  * corresponding register and bit field names, as specified in the JSON. They are
+  * declared in the same order as the entries of the corresponding MixedVecs and
+  * are therefore very simple to connect to create wrapper Modules with named IO
+  * for specific (JSON) parameterizations of Apb2CSTrgt
   * @todo implement pProt
   */
 class Apb2CSTrgt(
   DATA_W: Int = 32,
   REG_DESC_JSON: String,
-  VERBOSE: Boolean = false) extends Module {
+  VERBOSE: Boolean = false,
+  GEN_BUNDLE: Boolean = false) extends Module {
   val NUM_BYTE = DATA_W/8
   val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
 
@@ -241,7 +249,8 @@ class Apb2CSTrgt(
   // println(woRegBits)
   // println(wcRegBits)
 
-  // NOTE suggestName doesn't actually work in IO Bundles yet
+  // NOTE suggestName doesn't actually work in IO Bundles. unclear whether it ever will, but if
+  // it was possible we'd use it here, negating the requirement for the GEN_BUNDLE functionality
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
     val rwVec = Output(MixedVec((rwRegBits map { case (k, v) => UInt(v.W).suggestName(k) }).toList))
@@ -326,39 +335,22 @@ class Apb2CSTrgt(
   // Connect different register bit field categories to MixedVec IOs
   // NOTE the Vecs are declared in same order as registers are declared
   // in JSON description therefore iterate over names and index regArr with
-  // corresponding offset. Simultaneously we generate a Chisel Bundle with signal
-  // names suitable for connection to the MixedVecs
-  val chisel3BundleFilePath = REG_DESC_JSON.replaceAll("json", "scala")
-  val chisel3BundleFileName = chisel3BundleFilePath.split('/').last
-  val pw = new PrintWriter(new File(f"${chisel3BundleFilePath}"))
-  println(f"Writing ${chisel3BundleFilePath}")
-
-  pw.write("// See README.md for license details.\n")
-  pw.write("package ambel\n\n")
-  pw.write("import chisel3._\n\n")
-  pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")\n""")
-  pw.write("  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
+  // corresponding offset. Simultaneously we generate Chisel Bundles with
+  // signal names suitable for connection to the MixedVecs. These are
+  // written to file if (GEN_BUNDLE)
+  val rwBundleBuffer = new ListBuffer[String]()
+  val roBundleBuffer = new ListBuffer[String]()
+  val woBundleBuffer = new ListBuffer[String]()
+  val wcBundleBuffer = new ListBuffer[String]()
 
   val rwIt = io.rwVec.iterator
   val roIt = io.roVec.iterator
   val woIt = io.woVec.iterator
   val wcIt = io.wcVec.iterator
 
+  val chisel3BundleFilePath = REG_DESC_JSON.replaceAll("json", "scala")
+  val chisel3BundleFileName = chisel3BundleFilePath.split('/').last
   val bundlePrefix = chisel3BundleFileName.split('.').head.capitalize
-
-  val rwBundleBuffer = new ListBuffer[String]()
-  val roBundleBuffer = new ListBuffer[String]()
-  val woBundleBuffer = new ListBuffer[String]()
-  val wcBundleBuffer = new ListBuffer[String]()
-
-  def writeBundleMember(f: BitFieldDetails): String = {
-    var s = f"  val ${f.name} = "
-    if (f.width > 1)
-      s = s + f"UInt(${f.width}.W)\n"
-    else
-      s = s + f"Bool()\n"
-    return s
-  }
 
   if (rwIt.nonEmpty) {
     rwBundleBuffer += f"class _${bundlePrefix}RwVec_ extends Bundle {\n"
@@ -371,6 +363,15 @@ class Apb2CSTrgt(
   }
   if (wcIt.nonEmpty) {
     wcBundleBuffer += f"class _${bundlePrefix}WcVec_ extends Bundle {\n"
+  }
+
+  def writeBundleMember(f: BitFieldDetails): String = {
+    var s = f"  val ${f.name} = "
+    if (f.width > 1)
+      s = s + f"UInt(${f.width}.W)\n"
+    else
+      s = s + f"Bool()\n"
+    return s
   }
 
   for (r <- names) {
@@ -530,24 +531,38 @@ class Apb2CSTrgt(
   io.apb2T.rsp.pRData  := pRDataFF
   io.apb2T.rsp.pSlvErr := pSlvErrFF
 
-  if (rwBundleBuffer.nonEmpty) {
-    rwBundleBuffer += "}\n"
-  }
-  if (roBundleBuffer.nonEmpty) {
-    roBundleBuffer += "}\n"
-  }
-  if (woBundleBuffer.nonEmpty) {
-    woBundleBuffer += "}\n"
-  }
-  if (wcBundleBuffer.nonEmpty) {
-    wcBundleBuffer += "}\n"
-  }
+  // Optional write of generated Bundles to file
+  if (GEN_BUNDLE) {
+    val pw = new PrintWriter(new File(f"${chisel3BundleFilePath}"))
 
-  rwBundleBuffer.foreach(pw.write)
-  roBundleBuffer.foreach(pw.write)
-  woBundleBuffer.foreach(pw.write)
-  wcBundleBuffer.foreach(pw.write)
-  pw.close
+    println(f"Writing ${chisel3BundleFilePath}")
+
+    pw.write("// See README.md for license details.\n")
+    pw.write("package ambel\n\n")
+    pw.write("import chisel3._\n\n")
+    pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")\n""")
+    pw.write("  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
+
+    if (rwBundleBuffer.nonEmpty) {
+      rwBundleBuffer += "}\n"
+    }
+    if (roBundleBuffer.nonEmpty) {
+      roBundleBuffer += "}\n"
+    }
+    if (woBundleBuffer.nonEmpty) {
+      woBundleBuffer += "}\n"
+    }
+    if (wcBundleBuffer.nonEmpty) {
+      wcBundleBuffer += "}\n"
+    }
+
+    rwBundleBuffer.foreach(pw.write)
+    roBundleBuffer.foreach(pw.write)
+    woBundleBuffer.foreach(pw.write)
+    wcBundleBuffer.foreach(pw.write)
+
+    pw.close
+  }
 }
 
 /** =Verilog generation boiler plate=
