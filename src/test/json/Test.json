@@ -51,6 +51,7 @@
  "regTypes": [
   {
    "typeRef": "AMBEL_CTRL",
+   "width": 32,
    "fields": [
     {"bits": [0, 0], "name": "CORE_RESET", "mode": "RW", "resetVal": 0, "comment": "Core reset"},
     {"bits": [31, 1], "name": "RESERVED"}
@@ -59,6 +60,7 @@
   },
   {
    "typeRef": "AMBEL_DEBUG_CTRL",
+   "width": 32,
    "fields": [
     {"bits": [0, 0], "name": "HALT", "mode": "RW", "resetVal": 0, "comment": "Halt core"},
     {"bits": [1, 1], "name": "STEP", "mode": "WO", "resetVal": 0, "comment": "Single step"},
@@ -68,6 +70,7 @@
   },
   {
    "typeRef": "AMBEL_FOO_BAR",
+   "width": 32,
    "fields": [
     {"bits": [15, 0], "name": "FOO", "mode": "RW", "resetVal": 123, "comment": "Foo"},
     {"bits": [31, 16], "name": "BAR", "mode": "RW", "resetVal": 456, "comment": "Bar"}
@@ -76,6 +79,7 @@
   },
   {
    "typeRef": "AMBEL_BAZ",
+   "width": 32,
    "fields": [
     {"bits": [31, 0], "name": "BAZ_BITS", "mode": "RW", "resetVal": 123456, "comment": "Bits of BAZ registers"}
    ],
@@ -83,6 +87,7 @@
   },
   {
    "typeRef": "AMBEL_RO_EXAMPLE",
+   "width": 32,
    "fields": [
     {"bits": [7, 0], "name": "STATUS_BITS", "mode": "RO", "comment": "Read-only status bits"}
    ],
@@ -90,6 +95,7 @@
   },
   {
    "typeRef": "AMBEL_WO_EXAMPLE",
+   "width": 32,
    "fields": [
     {"bits": [7, 0], "name": "GO_BITS", "mode": "WO", "comment": "Write-only go bits"}
    ],
@@ -97,6 +103,7 @@
   },
   {
    "typeRef": "AMBEL_W1C_EXAMPLE",
+   "width": 32,
    "fields": [
     {"bits": [15, 0], "name": "STATUS_BITS", "mode": "W1C", "comment": "Write-1-to-clear status bits"}
    ],

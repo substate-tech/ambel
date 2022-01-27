@@ -50,13 +50,26 @@ import io.circe.generic.auto._
   * with the enable/mask logic implemented externally in the design instantiating
   * Apb2CSTrgt.
   *
-  * @note pStrb is implemented as follows. There is no masking of pWriteData with
-  * pStrb. However, foreach bitfield of a register being written the implementation
-  * checks that the pStrb bits that correspond to that bit field are set. If they
-  * are not then pSlvErr is signalled. Again, the bit field is written whether the
-  * pStrb bits are set or not. This is a design decision. The AMBA APB2 spec only
-  * discusses the pStrb bits in the context of the validity of the byte lanes of
-  * the write data bus.
+  * @note pStrb is implemented as follows: pStrb bits are used to mask or enable
+  * writes to individual bytes of bit fields. However, if a bit field straddles
+  * two or more byte lanes and not ALL the corresponding bits of pStrb are set
+  * then the bit field is not written (at all) and pSlvErr is signalled. In other
+  * words, partial writes to bitfields are not supported; either the whole bit
+  * field is written, when ALL corresponding pStrb bits are set, or the bit field
+  * is not written at all. Writing to a register with NONE of the pStrb bits
+  * corresponding to a given bit field set is OK and is NOT an error condition.
+  * This is a design decision. The AMBA APB2 spec only discusses the pStrb bits in the
+  * context of the validity of the byte lanes of the write data bus.
+  *
+  * The JSON register description specifies the width of each register type. All
+  * registers in a given JSON must have width >= DATA_W and if width is > DATA_W
+  * then it must be power of two a multiple of DATA_W. i.e. 64 bit registers are
+  * supported with 32 bit access but 96 bit registers are not supported and 16 bit
+  * registers are not supported with 32 bit access.
+  *
+  * If a register wider than DATA_W specifies a field which straddles the DATA_W
+  * boundary then it is broken into two (or more) pieces, for DATA_W access, which
+  * are concatenated together.
   *
   * @param DATA_W the width of the APB2 data bus in bits
   * @param REG_DESC_JSON a string giving the path to the register description JSON
@@ -81,7 +94,7 @@ class Apb2CSTrgt(
   // Decode JSON register map
   case class Register(offset: Int, name: String, typeRef: String, comment: Option[String])
   case class BitField(bits: List[Int], name: String, mode: Option[String], resetVal: Option[Int], comment: Option[String])
-  case class RegisterType(typeRef: String, fields: List[BitField], comment: Option[String])
+  case class RegisterType(typeRef: String, width: Int, fields: List[BitField], comment: Option[String])
   case class RegisterDesc(regMap: List[Register], regTypes: List[RegisterType])
 
   // Register attributes - offset and typeRef
@@ -127,7 +140,7 @@ class Apb2CSTrgt(
   }
 
   def prettyPrintRegType(t: RegisterType) {
-    print(f"${t.typeRef}")
+    print(f"${t.typeRef}, ${t.width} bits")
     t.comment match {
       case Some(comment) => print(f"  (${comment})\n")
       case None => print(f"\n")
@@ -174,6 +187,11 @@ class Apb2CSTrgt(
     case None => List("Empty")
   }
 
+  val widths: List[Int] = regDesc match {
+    case Some(r) => for (t <- r.regTypes) yield t.width
+    case None => List(0)
+  }
+
   val fields: List[List[BitField]] = regDesc match {
     case Some(r) => for (t <- r.regTypes) yield t.fields
     case None => List(List(
@@ -185,9 +203,17 @@ class Apb2CSTrgt(
   }
   // println(names)
   // println(offsets)
+  // println(widths)
   // println(attributes)
   // println(types)
   // println(fields)
+
+  // Check that registers do not overlap (i.e. offset + width <= next offset in ordered sequence)
+  val offsetWidthMap = offsets zip widths
+  val sortedOffsetWidthArr = ListMap(offsetWidthMap.sortBy(_._1):_*).toSeq
+  for (i <- 0 until sortedOffsetWidthArr.size - 1) {
+    assert (sortedOffsetWidthArr(i)._1 + sortedOffsetWidthArr(i)._2 / 8 <= sortedOffsetWidthArr(i+1)._1)
+  }
 
   val regMap = (names zip attributes).toMap
   val offNameMap = (offsets zip names).toMap

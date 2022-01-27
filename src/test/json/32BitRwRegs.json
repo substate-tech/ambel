@@ -24,6 +24,7 @@
  "regTypes": [
   {
    "typeRef": "REG_RW_32_WORD_ACCESS",
+   "width": 32,
    "fields": [
     {"bits": [31, 0], "name": "WORD", "mode": "RW", "resetVal": 0}
    ],
@@ -31,6 +32,7 @@
   },
   {
    "typeRef": "REG_RW_32_HALF_ACCESS",
+   "width": 32,
    "fields": [
     {"bits": [15, 0], "name": "LOWER_HALF", "mode": "RW", "resetVal": 0},
     {"bits": [31, 16], "name": "UPPER_HALF", "mode": "RW", "resetVal": 0}
@@ -39,6 +41,7 @@
   },
   {
    "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "width": 32,
    "fields": [
     {"bits": [7, 0], "name": "BYTE_ZERO", "mode": "RW", "resetVal": 0, "comment": "Byte zero"},
     {"bits": [15, 8], "name": "BYTE_ONE", "mode": "RW", "resetVal": 0, "comment": "Byte one"},
