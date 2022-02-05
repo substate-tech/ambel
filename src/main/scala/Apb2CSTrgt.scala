@@ -65,7 +65,7 @@ import io.circe.generic.auto._
   * registers in a given JSON must have width >= DATA_W and if width is > DATA_W
   * then it must be power of two a multiple of DATA_W. i.e. 64 bit registers are
   * supported with 32 bit access but 96 bit registers are not supported and 16 bit
-  * registers are not supported with 32 bit access.
+  * registers are not supported with 32 bit access, for example.
   *
   * If a register wider than DATA_W specifies a field which straddles the DATA_W
   * boundary then it is broken into two (or more) pieces, for DATA_W access, which
@@ -97,8 +97,8 @@ class Apb2CSTrgt(
   case class RegisterType(typeRef: String, width: Int, fields: List[BitField], comment: Option[String])
   case class RegisterDesc(regMap: List[Register], regTypes: List[RegisterType])
 
-  // Register attributes - offset and typeRef
-  case class RegisterAttr(offset: Int, typeRef: String)
+  // Register attributes - offset, width and typeRef
+  case class RegisterAttr(offset: Int, width: Int, typeRef: String)
 
   // Register bits - name and bitfield list
   case class RegisterBits(name: String, fields: List[BitField])
@@ -174,14 +174,6 @@ class Apb2CSTrgt(
     case None => List(0)
   }
 
-  val attributes: List[RegisterAttr] = regDesc match {
-    case Some(r) => for (m <- r.regMap) yield
-      RegisterAttr(offset = m.offset, typeRef = m.typeRef)
-    case None => List(
-      RegisterAttr(offset = 0, typeRef = "NONE")
-    )
-  }
-
   val types: List[String] = regDesc match {
     case Some(r) => for (t <- r.regTypes) yield t.typeRef
     case None => List("Empty")
@@ -190,6 +182,16 @@ class Apb2CSTrgt(
   val widths: List[Int] = regDesc match {
     case Some(r) => for (t <- r.regTypes) yield t.width
     case None => List(0)
+  }
+
+  val typeWidthMap = (types zip widths).toMap
+
+  val attributes: List[RegisterAttr] = regDesc match {
+    case Some(r) => for (m <- r.regMap) yield
+      RegisterAttr(offset = m.offset, typeWidthMap(m.typeRef), typeRef = m.typeRef)
+    case None => List(
+      RegisterAttr(offset = 0, width = 0, typeRef = "NONE")
+    )
   }
 
   val fields: List[List[BitField]] = regDesc match {
@@ -208,11 +210,27 @@ class Apb2CSTrgt(
   // println(types)
   // println(fields)
 
-  // Check that registers do not overlap (i.e. offset + width <= next offset in ordered sequence)
-  val offsetWidthMap = offsets zip widths
-  val sortedOffsetWidthArr = ListMap(offsetWidthMap.sortBy(_._1):_*).toSeq
-  for (i <- 0 until sortedOffsetWidthArr.size - 1) {
-    assert (sortedOffsetWidthArr(i)._1 + sortedOffsetWidthArr(i)._2 / 8 <= sortedOffsetWidthArr(i+1)._1)
+  // Run basic register description checks and derive basic parameters
+  // 1. Sort the attributes List by offset (i.e. put the registers into order)
+  val sorted: List[RegisterAttr] = attributes.sortWith(_.offset < _.offset)
+  println(sorted)
+
+  // 1. Check alignment: offset should be on a width / 8 boundary
+  var bytes: Int = 0
+  for (r <- attributes) {
+    assert ((r.offset % (r.width / 8)) == 0)
+    bytes += r.width / 8
+  }
+
+  // 2. Determine number of (possible) DATA_W registers from maximum offset
+  // used in the register description
+  val NUM_REGS = bytes >> NUM_BITS_SHIFT
+  val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
+  val MAX_REGS = pow(2, ADDR_W).toInt >> NUM_BITS_SHIFT
+
+  // 3. Check that registers do not overlap
+  for (i <- 0 until sorted.size - 1) {
+    assert (sorted(i).offset + sorted(i).width / 8 <= sorted(i+1).offset)
   }
 
   val regMap = (names zip attributes).toMap
@@ -222,11 +240,6 @@ class Apb2CSTrgt(
   // println(offNameMap)
   // println(typeFieldMap)
 
-  // Determine number of (possible) registers from maximum offset used in the
-  // register description
-  val NUM_REGS = (offsets.max >> NUM_BITS_SHIFT) + 1
-  val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
-  val MAX_REGS = pow(2, ADDR_W).toInt >> NUM_BITS_SHIFT
 
   if (VERBOSE) {
     println(f"NUM_REGS = ${NUM_REGS}, ADDR_W = ${ADDR_W}, MAX_REGS = ${MAX_REGS}")
@@ -321,7 +334,7 @@ class Apb2CSTrgt(
                 regArr(i) += BitFieldDetails(RegInit(value.U(width.W)).suggestName(name), pos, width, "RW", name)
               }
               case None => {
-                regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(name), pos, width, "N/A", name)
+                regArr(i) += BitFieldDetails(RegInit(0.U(width.W)).suggestName(name), pos, width, "RW", name)
               }
             }
           }

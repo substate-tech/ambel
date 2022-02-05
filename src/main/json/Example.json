@@ -6,12 +6,6 @@
    "comment": "Example Control Register"
   },
   {
-   "offset": 4,
-   "name": "AMBEL_DEBUG_CTRL",
-   "typeRef": "AMBEL_DEBUG_CTRL",
-   "comment": "Example Debug Control Register"
-  },
-  {
    "offset": 8,
    "name": "AMBEL_FOO_BAR",
    "typeRef": "AMBEL_FOO_BAR",
@@ -22,6 +16,12 @@
    "name": "AMBEL_BAZ0",
    "typeRef": "AMBEL_BAZ",
    "comment": "Example BAZ Register 0"
+  },
+  {
+   "offset": 4,
+   "name": "AMBEL_DEBUG_CTRL",
+   "typeRef": "AMBEL_DEBUG_CTRL",
+   "comment": "Example Debug Control Register"
   },
   {
    "offset": 16,
@@ -46,6 +46,12 @@
    "name": "AMBEL_W1C_STATUS",
    "typeRef": "AMBEL_W1C_EXAMPLE",
    "comment": "Example Write-1-to-Clear Status Bits Register"
+  },
+  {
+   "offset": 40,
+   "name": "AMBEL_BIG_REG_EXAMPLE",
+   "typeRef": "AMBEL_64BIT_RW_EXAMPLE",
+   "comment": "Example big 64 bit register"
   }
  ],
  "regTypes": [
@@ -95,7 +101,7 @@
   },
   {
    "typeRef": "AMBEL_WO_EXAMPLE",
-   "width": 64,
+   "width": 32,
    "fields": [
     {"bits": [7, 0], "name": "GO_BITS", "mode": "WO", "comment": "Write-only go bits"}
    ],
@@ -108,6 +114,14 @@
     {"bits": [15, 0], "name": "STAUS_BITS", "mode": "W1C", "comment": "Write-1-to-clear status bits"}
    ],
    "comment": "Write-1-to-clear example status register"
+  },
+  {
+   "typeRef": "AMBEL_64BIT_RW_EXAMPLE",
+   "width": 64,
+   "fields": [
+    {"bits": [63, 0], "name": "BIG_BITS", "mode": "RW", "comment": "Example of a 64 bit register bit field"}
+   ],
+   "comment": "Example of a 64 bit register"
   }
  ]
 }
