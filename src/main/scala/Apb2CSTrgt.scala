@@ -82,6 +82,7 @@ import io.circe.generic.auto._
   * are therefore very simple to connect to create wrapper Modules with named IO
   * for specific (JSON) parameterizations of Apb2CSTrgt
   * @todo implement pProt
+  * @todo implement check that there are no spaces in register or regType names in JSON
   */
 class Apb2CSTrgt(
   DATA_W: Int = 32,
@@ -614,5 +615,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/Example.json", true))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/test/json/8GoBitWoRegs.json", true, true))))
 }
