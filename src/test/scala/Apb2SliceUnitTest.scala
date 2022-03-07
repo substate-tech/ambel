@@ -46,7 +46,7 @@ class Apb2SliceUnitTester extends AmbelUnitTester {
     * Test cases
     */
   it should "write then read consecutive addresses back to back" in {
-    test(new Apb2SliceTestHarness) { dut =>
+    test(new Apb2SliceTestHarness).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until 4) {
@@ -61,7 +61,7 @@ class Apb2SliceUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses in sequence then read all back" in {
-    test(new Apb2SliceTestHarness) { dut =>
+    test(new Apb2SliceTestHarness).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val dataSeq = new ListBuffer[Int]
@@ -85,7 +85,7 @@ class Apb2SliceUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes" in {
-    test(new Apb2SliceTestHarness) { dut =>
+    test(new Apb2SliceTestHarness).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val addr = 0

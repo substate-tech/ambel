@@ -7,9 +7,12 @@ ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "lz.tech"
 
+val circeVersion = "0.7.0"
 val chisel3Version = "3.5.0"
 val chiseltestVersion = "0.5.0"
-val circeVersion = "0.7.0"
+val chiselVerifyVersion = "0.2.0"
+
+libraryDependencies += "io.github.chiselverify" % "chiselverify" % "0.2.0"
 
 lazy val root = (project in file("."))
   .settings(
@@ -17,6 +20,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "edu.berkeley.cs" %% "chisel3" % chisel3Version,
       "edu.berkeley.cs" %% "chiseltest" % chiseltestVersion % "test",
+      "io.github.chiselverify" % "chiselverify" % chiselVerifyVersion,
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion

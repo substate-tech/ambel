@@ -31,7 +31,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   val DATA_W = 32
 
   it should "write then read consecutive addresses back to back" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until NUM_REGS) {
@@ -46,7 +46,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses in sequence then read all back" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val dataSeq = new ListBuffer[Int]
@@ -70,7 +70,7 @@ class Apb2RegFileUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes" in {
-    test(new Apb2RegFile(NUM_REGS, DATA_W)) { dut =>
+    test(new Apb2RegFile(NUM_REGS, DATA_W)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_BYTE = dut.NUM_BYTE
