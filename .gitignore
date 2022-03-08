@@ -1,0 +1,6 @@
+.bsp/
+*.anno.json
+*.fir
+*.v
+project/
+target/

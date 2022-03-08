@@ -1,0 +1,30 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_WO_8_GO_BITS"
+  },
+  {
+   "offset": 4,
+   "name": "REG_ONE", "typeRef": "REG_WO_8_GO_BITS"
+  },
+  {
+   "offset": 8,
+   "name": "REG_TWO", "typeRef": "REG_WO_8_GO_BITS"
+  },
+  {
+   "offset": 12,
+   "name": "REG_THREE", "typeRef": "REG_WO_8_GO_BITS"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_WO_8_GO_BITS",
+   "width": 32,
+   "fields": [
+    {"bits": [7, 0], "name": "GO_BITS", "mode": "WO", "resetVal": 0}
+   ],
+   "comment": "8 go bits, writing 1 creates a single-cycle pulse, writing 0 has no effect. Always reads 0."
+  }
+ ]
+}

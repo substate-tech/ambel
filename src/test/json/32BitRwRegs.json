@@ -1,0 +1,54 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_RW_32_WORD_ACCESS",
+   "comment": "32 bit register, single bit field, word access only"
+  },
+  {
+   "offset": 4,
+   "name": "REG_ONE", "typeRef": "REG_RW_32_HALF_ACCESS",
+   "comment": "32 bit register, two bit fields, half word access"
+  },
+  {
+   "offset": 8,
+   "name": "REG_TWO", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "offset": 12,
+   "name": "REG_THREE", "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "comment": "32 bit register with individual byte access"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_RW_32_WORD_ACCESS",
+   "width": 32,
+   "fields": [
+    {"bits": [31, 0], "name": "WORD", "mode": "RW", "resetVal": 0}
+   ],
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "typeRef": "REG_RW_32_HALF_ACCESS",
+   "width": 32,
+   "fields": [
+    {"bits": [15, 0], "name": "LOWER_HALF", "mode": "RW", "resetVal": 0},
+    {"bits": [31, 16], "name": "UPPER_HALF", "mode": "RW", "resetVal": 0}
+   ],
+   "comment": "32 bit register with individual byte access"
+  },
+  {
+   "typeRef": "REG_RW_32_BYTE_ACCESS",
+   "width": 32,
+   "fields": [
+    {"bits": [7, 0], "name": "BYTE_ZERO", "mode": "RW", "resetVal": 0, "comment": "Byte zero"},
+    {"bits": [15, 8], "name": "BYTE_ONE", "mode": "RW", "resetVal": 0, "comment": "Byte one"},
+    {"bits": [23, 16], "name": "BYTE_TWO", "mode": "RW", "resetVal": 0, "comment": "Byte two"},
+    {"bits": [31, 24], "name": "BYTE_THREE", "mode": "RW", "resetVal": 0, "comment": "Byte three"}
+   ],
+   "comment": "32 bit register with individual byte access"
+  }
+ ]
+}
