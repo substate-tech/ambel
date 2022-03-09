@@ -1,4 +1,4 @@
-<img src="https://github.com/richmorj/ambel/blob/main/docs/AMBEL.png" width="400" />
+![AMBEL Logo](docs/AMBEL.png)
 
 A ![Chisel](https://github.com/chipsalliance/chisel3) library for generating ![AMBA](https://developer.arm.com/architectures/system-architectures/amba) components
 
