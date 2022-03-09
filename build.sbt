@@ -35,3 +35,9 @@ lazy val root = (project in file("."))
     addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % chisel3Version cross CrossVersion.full),
     addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full)
   )
+
+enablePlugins(SiteScaladocPlugin)
+publishSite
+
+enablePlugins(GhpagesPlugin)
+git.remoteRepo := "git@github.com:richmorj/ambel.git"
