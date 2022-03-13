@@ -204,12 +204,7 @@ class Apb2CSTrgt(
       )
     ))
   }
-  // println(names)
-  // println(offsets)
-  // println(widths)
-  // println(attributes)
-  // println(types)
-  // println(fields)
+
 
   // Run basic register description checks and derive basic parameters
   // 1. Sort the attributes List by offset (i.e. put the registers into order)
@@ -237,9 +232,6 @@ class Apb2CSTrgt(
   val regMap = (names zip attributes).toMap
   val offNameMap = (offsets zip names).toMap
   val typeFieldMap = (types zip fields).toMap
-  // println(regMap)
-  // println(offNameMap)
-  // println(typeFieldMap)
 
 
   if (VERBOSE) {
@@ -259,7 +251,6 @@ class Apb2CSTrgt(
       )
     )
   }
-  // println(namesAndBits)
 
   // Build ordered maps of different register bit field categories
   var rwRegBits = ListMap[String, Int]()
@@ -284,10 +275,6 @@ class Apb2CSTrgt(
       }
     }
   }
-  // println(rwRegBits)
-  // println(roRegBits)
-  // println(woRegBits)
-  // println(wcRegBits)
 
   // NOTE suggestName doesn't actually work in IO Bundles. unclear whether it ever will, but if
   // it was possible we'd use it here, negating the requirement for the GEN_BUNDLE functionality
@@ -615,5 +602,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/test/json/8GoBitWoRegs.json", true, true))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/Example.json", true, true))))
 }

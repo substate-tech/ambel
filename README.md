@@ -5,10 +5,12 @@ A ![Chisel](https://github.com/chipsalliance/chisel3) library for generating ![A
 # Overview
 AMBEL aims to provide a collection of parameterizable ![Chisel](https://github.com/chipsalliance/chisel3) Modules compatible with ARM's widely adopted ![AMBA (Advanced Microcontroller Bus Architecture)](https://developer.arm.com/architectures/system-architectures/amba) protocols. The initial collection keeps it simple, focusing solely on ![APB2](https://developer.arm.com/documentation/ihi0011/a/AMBA-APB) protocol and offering Modules that may be connected to implement APB2 networks connecting APB2 initators and targets. The key Module in this small collection is [Apb2CSTrgt](src/main/scala/Apb2CSTrgt.scala) which is an APB2 target implementing control/status registers, defined using a simple JSON schema.
 
+The Modules are primarily intended for integration into other Chisel designs, but they could also be used to generate Verilog for integration into Verilog designs.
+
 # Modules
 
-## Apb2CSTrgt
-The Apb2CSTrgt Module implements a basic APB2 control/status register set with the registers and their address map supplied via a simple JSON description, passed as a parameter to the Module.
+## ![Apb2CSTrgt](src/main/scala/Apb2CSTrgt.scala)
+The Apb2CSTrgt Module implements a basic APB2 control/status register set with the registers and their address map supplied via a simple JSON description, passed as a parameter to the Module. The JSON register description is parsed using ![circe](https://github.com/circe/circe) and the resulting objects are used to generate the registers, read-write access to them via the APB2 interface, and any associated direct IO for the registers using Chisel's ![MixedVec](https://www.chisel-lang.org/api/latest/chisel3/util/MixedVec.html). Setting the GEN_BUNDLE parameter to true it is possible to generate a set of Bundles suitable for ordered connection to the MixedVec IO externally. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). An example of usage is given in ![ExampleApb2CSTrgt.scala](src/main/scala/examples/ExampleApb2CSTrgt.scala). The generated Verilog for this example design is also versioned in ![ExampleApb2CSTrgt.v](src/main/verilog/examples/ExampleApb2CSTrgt.v)
 
 ### Register bit field types
 
