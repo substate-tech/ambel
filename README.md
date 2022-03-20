@@ -33,7 +33,7 @@ The JSON schema consists of two top level objects: the register map `regMap` and
 
 Each register type object in `regTypes` consists of a `typeRef` (just a lable via which it may be referenced in the `regMap`), its `width`, a list of its bit-`fields` and an optional `comment` string which can be used to describe the register type.
 
-Each object in the `fields` list describes a bit-field, detailing the location of its `bits` in the register, its `name`, its ![`mode`](#Register bit field mode) and, optionally, its reset value `resetVal` and a `comment` string which can be used to describe the bit-field's functionality.
+Each object in the `fields` list describes a bit-field, detailing the location of its `bits` in the register, its `name`, its `mode` and, optionally, its reset value `resetVal` and a `comment` string which can be used to describe the bit-field's functionality.
 
 ## ![Apb2Net](src/main/scala/Apb2Net.scala)
 The Apb2Net Module implements an APB2 network connecting a parameterizable number of APB2 initiators and targets with further parameters defining address map for the  targets (base addresses and sizes). 
