@@ -7,7 +7,7 @@ AMBEL aims to provide a collection of parameterizable ![Chisel](https://github.c
 
 The Modules are primarily intended for integration into other Chisel designs, but they could also be used to generate Verilog for integration into Verilog designs.
 
-![ci push status](https://github.com/richmorj/ambel/actions/workflows/ci.yml/badge.svg?event=push)
+![ci push status](https://github.com/richmorj/ambel/actions/workflows/ci.yaml/badge.svg?event=push)
 
 # Modules
 
