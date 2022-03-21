@@ -97,7 +97,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   val DATA_W = 32
 
   it should "write then read consecutive addresses of register file APB target back to back" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")) { dut =>
+    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS
@@ -114,7 +114,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses of register file APB target in sequence then read all back" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")) { dut =>
+    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS
@@ -140,7 +140,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes of register file APB target" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")) { dut =>
+    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS
@@ -167,7 +167,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "test word, half word and byte access to 32 bit RW regs exhaustively" in {
-    test(new Apb2CSTrgt32BitRWRegsTestWrapper(_verbose)) { dut =>
+    test(new Apb2CSTrgt32BitRWRegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.t.NUM_REGS
@@ -245,7 +245,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "test WO go bits exhaustively" in {
-    test(new Apb2CSTrgt8GoBitWORegsTestWrapper(_verbose)) { dut =>
+    test(new Apb2CSTrgt8GoBitWORegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.t.NUM_REGS

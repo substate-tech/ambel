@@ -1,5 +1,5 @@
 ![AMBEL Logo](docs/AMBEL.png)
-A <a href="https://github.com/chipsalliance/chisel3">Chisel3</a> library for generating <a href="https://developer.arm.com/architectures/system-architectures/amba">AMBA</a> components
+A [Chisel3]("https://github.com/chipsalliance/chisel3") library for generating [AMBA]("https://developer.arm.com/architectures/system-architectures/amba") components
 
 # Overview
 AMBEL aims to provide a collection of parameterizable [Chisel3](https://github.com/chipsalliance/chisel3) Modules compatible with ARM's widely adopted [AMBA (Advanced Microcontroller Bus Architecture)](https://developer.arm.com/architectures/system-architectures/amba) protocols. The initial collection keeps it simple, focusing solely on [APB2](https://developer.arm.com/documentation/ihi0011/a/AMBA-APB) protocol and offering Modules that may be connected to implement APB2 networks connecting APB2 initators and targets. The key Module in this small collection is [Apb2CSTrgt](src/main/scala/Apb2CSTrgt.scala) which is an APB2 target implementing control/status registers, defined using a simple JSON schema.

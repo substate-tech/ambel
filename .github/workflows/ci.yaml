@@ -14,4 +14,8 @@ jobs:
         distribution: temurin
         java-version: 8
     - name: Build and Test
-      run: sbt -v +test
+      run: |
+        sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"

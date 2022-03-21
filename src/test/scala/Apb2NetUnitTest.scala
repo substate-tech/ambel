@@ -53,7 +53,7 @@ class Apb2NetUnitTester extends AmbelUnitTester {
     * Test cases
     */
   it should "test each initiator can write/read back each target" in {
-    test(new Apb2NetTestHarness(NUM_INIT=2, NUM_TARG=2, TARGET_SIZES=Array(1,1))) { dut =>
+    test(new Apb2NetTestHarness(NUM_INIT=2, NUM_TARG=2, TARGET_SIZES=Array(1,1))).withAnnotations(annos) { dut =>
 
       dut.clock.step(4)
 
@@ -91,7 +91,7 @@ class Apb2NetUnitTester extends AmbelUnitTester {
   }
 
   it should "arbitrate between from two initiators writing to one target" in {
-    test(new Apb2NetTestHarness(NUM_INIT=2, NUM_TARG=1, TARGET_SIZES=Array(1))) { dut =>
+    test(new Apb2NetTestHarness(NUM_INIT=2, NUM_TARG=1, TARGET_SIZES=Array(1))).withAnnotations(annos) { dut =>
 
       dut.clock.step(4)
 

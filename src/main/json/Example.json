@@ -80,7 +80,7 @@
    "fields": [
     {"bits": [15, 0], "name": "FOO", "mode": "RW", "resetVal": 123, "comment": "Foo"},
     {"bits": [31, 16], "name": "BAR", "mode": "RW", "resetVal": 456, "comment": "Bar"}
-   ],
+`   ],
    "comment": "Foo bar register"
   },
   {
