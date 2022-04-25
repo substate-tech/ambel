@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  setup:
+  test:
     runs-on: ubuntu-latest
     steps:
     - name: Setup Verilator Dependencies
@@ -26,7 +26,6 @@ jobs:
         ./configure
         make -j `nproc`
         sudo make install
-  test:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Setup JDK
