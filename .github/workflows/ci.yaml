@@ -6,6 +6,25 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - name: Setup Verilator Dependencies
+      run: |
+        sudo apt-get install git perl python3 make autoconf g++ flex bison ccache
+        sudo apt-get install libgoogle-perftools-dev numactl perl-doc
+        sudo apt-get install libfl2
+        sudo apt-get install libfl-dev
+        sudo apt-get install zlibc zlib1g zlib1g-dev
+    - name: Install Verilator
+      uses: actions/checkout@v2
+      with:
+        repository: verilator/verilator
+        ref: v4.218
+      run: |
+        unset VERILATOR_ROOT
+        cd verilator autoconf
+        ./configure
+        make -j `nproc`
+        sudo make install
+        cd ..
     - name: Checkout
       uses: actions/checkout@v2
     - name: Setup JDK
@@ -15,7 +34,7 @@ jobs:
         java-version: 8
     - name: Build and Test
       run: |
-        sbt -v +"testOnly ambel.Apb2NetUnitTester"
-        sbt -v +"testOnly ambel.Apb2SliceUnitTester"
-        sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester"
-        sbt -v +"testOnly ambel.Apb2RegFileUnitTester"
+        sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
