@@ -1,3 +1,8 @@
+<!--- 
+This is the README.md for the Chisel Lang Chisel3 RTL generator project called Ambel which is an AMBA APB APB2 AXI compnent module
+generator with an APB slave "APB slave" APB Control/Status APB Registers Register Map Verilog generator and other AMBA AP2 components 
+like an APB bridge network "network on chip" NoC bit field configurable register pipeline slice "register file" open source hardware
+--->
 ![AMBEL Logo](docs/AMBEL.png)
 
 A [Chisel3](https://github.com/chipsalliance/chisel3) library for generating [AMBA](https://developer.arm.com/architectures/system-architectures/amba) components
