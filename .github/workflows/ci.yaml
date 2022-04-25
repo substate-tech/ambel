@@ -19,9 +19,9 @@ jobs:
         repository: verilator/verilator
         ref: v4.218
     - name: Install Verilator
+      working-directory: ./verilator
       run: |
-        unset VERILATOR_ROOT
-        working-directory: ./verilator
+        # unset VERILATOR_ROOT        
         autoconf
         ./configure
         make -j `nproc`
