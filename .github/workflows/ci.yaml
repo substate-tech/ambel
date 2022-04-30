@@ -8,8 +8,8 @@ jobs:
     container:
       image: ghcr.io/richmorj/ambel:30apr22
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.github_token }}
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
