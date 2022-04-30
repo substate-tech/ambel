@@ -6,34 +6,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Setup Verilator Dependencies
-      run: |
-        sudo apt-get install git perl python3 make autoconf g++ flex bison ccache
-        sudo apt-get install libgoogle-perftools-dev numactl perl-doc
-        sudo apt-get install libfl2
-        sudo apt-get install libfl-dev
-        sudo apt-get install zlibc zlib1g zlib1g-dev
-    - name: Clone Verilator
-      uses: actions/checkout@v2
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
       with:
-        repository: verilator/verilator
-        path: verilator
-        ref: v4.218
-    - name: Install Verilator
-      working-directory: ./verilator
-      run: |
-        # unset VERILATOR_ROOT        
-        autoconf
-        ./configure
-        make -j `nproc`
-        sudo make install
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: temurin
-        java-version: 8
     - name: Build and Test
       run: |
         sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
