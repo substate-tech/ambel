@@ -22,7 +22,6 @@ jobs:
     - name: Install Verilator
       working-directory: ./verilator
       run: |
-        # unset VERILATOR_ROOT        
         autoconf
         ./configure
         make -j `nproc`
@@ -35,8 +34,17 @@ jobs:
         distribution: temurin
         java-version: 8
     - name: Build and Test
+      uses: actions/upload-artifact@v3
+      with:
+        name: Coverage
+        path: coverage/html
       run: |
         sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
+        mergeModuleCov.bash Apb2Net
+        mergeModuleCov.bash Apb2Slice
+        mergeModuleCov.bash Apb2CSTrgt
+        mergeModuleCov.bash Apb2RegFile
+        genCovReport.bash
