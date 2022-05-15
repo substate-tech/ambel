@@ -34,10 +34,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Build and Test
-      uses: actions/upload-artifact@v3
-      with:
-        name: Coverage
-        path: coverage/html
       run: |
         sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
@@ -49,3 +45,8 @@ jobs:
         mergeModuleCov.bash Apb2CSTrgt
         mergeModuleCov.bash Apb2RegFile
         genCovReport.bash
+    - name: Upload Coverage Reports
+      uses: actions/upload-artifact@v3
+      with:
+        path: coverage/html
+
