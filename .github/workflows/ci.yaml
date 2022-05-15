@@ -5,6 +5,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/richmorj/ambel:30apr22
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
     - name: Setup Verilator Dependencies
       run: |
@@ -28,11 +33,6 @@ jobs:
         sudo make install
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Setup JDK
-      uses: actions/setup-java@v2
-      with:
-        distribution: temurin
-        java-version: 8
     - name: Build and Test
       uses: actions/upload-artifact@v3
       with:
