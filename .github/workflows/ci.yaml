@@ -20,11 +20,11 @@ jobs:
         # sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
-        source mergeModuleCov.bash Apb2Net
+        ./mergeModuleCov.bash Apb2Net
         # mergeModuleCov.bash Apb2Slice
         # mergeModuleCov.bash Apb2CSTrgt
         # mergeModuleCov.bash Apb2RegFile
-        source genCovReport.bash
+        ./genCovReport.bash
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
       with:
