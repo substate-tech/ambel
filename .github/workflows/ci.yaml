@@ -43,6 +43,7 @@ jobs:
         sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
+        echo "Generating coverage reports..."
         mergeModuleCov.bash Apb2Net
         mergeModuleCov.bash Apb2Slice
         mergeModuleCov.bash Apb2CSTrgt
