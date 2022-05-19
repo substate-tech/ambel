@@ -29,11 +29,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
-    - name: Report code coverage
-      uses: zgosalvez/github-actions-report-lcov@v1
+    - name: Create Coverage Badges
+      uses: jaywcjlove/coverage-badges-cli@main
       with:
-        coverage-files: coverage/lcov.info
-        artifact-name: coverage
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ./
-
+        style: flat
+        source: coverage/lcov.info
+        output: coverage/badges.svg
