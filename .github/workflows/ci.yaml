@@ -20,13 +20,20 @@ jobs:
         # sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
-        ./mergeModuleCov.bash Apb2Net
-        # mergeModuleCov.bash Apb2Slice
-        # mergeModuleCov.bash Apb2CSTrgt
-        # mergeModuleCov.bash Apb2RegFile
-        ./genCovReport.bash
+        ./src/main/scripts/mergeModuleCov.bash Apb2Net
+        ./src/main/scripts/mergeModuleCov.bash Apb2Slice
+        ./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
+        ./src/main/scripts/mergeModuleCov.bash Apb2RegFile
+        ./src/main/scripts/genCovReport.bash
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
+    - name: Report code coverage
+      uses: zgosalvez/github-actions-report-lcov@v1
+      with:
+        coverage-files: coverage/lcov.info
+        artifact-name: coverage
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ./
 
