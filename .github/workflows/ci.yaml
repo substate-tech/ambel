@@ -31,7 +31,7 @@ jobs:
         path: coverage/html
     - name: Create Badges Directory
       run: mkdir -p .github/badges
-    -name: Generate Coverage Badge
+    - name: Generate Coverage Badge
       run: |
         node ./src/main/scripts/covbadge.js > .github/badges/covbadge.svg
     - name: Commit Badge
