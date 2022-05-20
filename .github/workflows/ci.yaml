@@ -29,4 +29,19 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
-
+    - name: Create Badges Directory
+      run: mkdir -p .github/badges
+    -name: Generate Coverage Badge
+      run: |
+        node ./src/main/scripts/covbadge.js > .github/badges/covbadge.svg
+    - name: Commit Badge
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .github/badges/covbadge.svg
+        git commit -m "Add/update coverage badge"
+    - name: Push Coverage Badge commit
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
