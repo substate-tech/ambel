@@ -29,9 +29,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
-    - name: Create Coverage Badges
-      uses: jaywcjlove/coverage-badges-cli@main
-      with:
-        style: flat
-        source: coverage/lcov.info
-        output: coverage/badges.svg
+
