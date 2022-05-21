@@ -41,11 +41,11 @@ jobs:
         name: richmorj/richmorj.github.io
         token: ${{ secrets.GITHUB_TOKEN }}
     - name: Now What
-        run: |
-          echo "Where am I?"
-          pwd
-          ls
-          ls badges/covbadge.svg 
+      run: |
+        echo "Where am I?"
+        pwd
+        ls
+        ls badges/covbadge.svg 
     # - name: Commit Badge
     #   run: |
     #     cd badges
