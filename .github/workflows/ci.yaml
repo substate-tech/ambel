@@ -15,32 +15,33 @@ jobs:
       uses: actions/checkout@v2
     - name: Build and Test
       run: |
-        sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
+        # sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
-        ./src/main/scripts/mergeModuleCov.bash Apb2Net
+        #./src/main/scripts/mergeModuleCov.bash Apb2Net
         #./src/main/scripts/mergeModuleCov.bash Apb2Slice
         #./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
         #./src/main/scripts/mergeModuleCov.bash Apb2RegFile
-        ./src/main/scripts/genCovReport.bash
-    - name: Upload Coverage Reports
-      uses: actions/upload-artifact@v3
-      with:
-        path: coverage/html
+        #./src/main/scripts/genCovReport.bash
+    # - name: Upload Coverage Reports
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     path: coverage/html
     - name: Create Badges Directory
       run: mkdir -p badges
     - name: Generate Coverage Badge
       run: |
-        node ./src/main/scripts/covbadge.js > badges/covbadge.svg
-
+        # node ./src/main/scripts/covbadge.js > badges/covbadge.svg
+        touch badges/covbadge.svg
     - name: Checkout GitHub.io
       uses: actions/checkout@v2
       with:
         name: richmorj/richmorj.github.io
-        ref: refs/heads/main
+        token: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "Where am I?"
           pwd
           ls
           ls badges/covbadge.svg 
