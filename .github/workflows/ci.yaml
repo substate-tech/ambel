@@ -38,6 +38,8 @@ jobs:
       run: |
         cd badges
         git init
+        git config user.email "action@github.com"
+        git config user.name "GitHub Action"
         git add -A
         git commit -m "Updating coverage badge"
         git push -f git@github.com:richmorj/richmorj.github.io.git main
