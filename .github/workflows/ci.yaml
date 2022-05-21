@@ -34,12 +34,37 @@ jobs:
     - name: Generate Coverage Badge
       run: |
         node ./src/main/scripts/covbadge.js > badges/covbadge.svg
-    - name: Commit Badge to GitHub IO
+
+    - name: Checkout GitHub.io
+     uses: actions/checkout@v2
+     with:
+      name: richmorj/richmorj.github.io
+      ref: refs/heads/main
       run: |
-        cd badges
-        git init
-        git config user.email "action@github.com"
-        git config user.name "GitHub Action"
-        git add -A
-        git commit -m "Updating coverage badge"
-        git push -f git@github.com:richmorj/richmorj.github.io.git main
+        pwd
+        ls
+        ls badges/covbadge.svg 
+    # - name: Commit Badge
+    #   run: |
+    #     cd badges
+    #     git init
+    #     git config --local user.email "action@github.com"
+    #     git config --local user.name "GitHub Action"
+    #     git add -A
+    #     git commit -m "Updating coverage badge"
+    # - name: Force Push Badge to GitHub IO
+    #   uses: ad-m/github-push-action@v0.5.0
+    #   with:
+    #         # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
+    #         github_token: ${{ secrets.GITHUB_TOKEN }}
+    #         # Destination branch to push changes
+    #         branch: gh-pages
+    #         # Use force push to fully overwrite the destination branch
+    #         force: true
+    #         # We have to push from the folder where files were generated.
+    #         # Same were the new repo was initialized in the previous step
+    #         directory: ./badges
+
+
+
+    #     git push -f git@github.com:richmorj/richmorj.github.io.git main
