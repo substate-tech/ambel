@@ -21,28 +21,23 @@ jobs:
         # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
         ./src/main/scripts/mergeModuleCov.bash Apb2Net
-        ./src/main/scripts/mergeModuleCov.bash Apb2Slice
-        ./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
-        ./src/main/scripts/mergeModuleCov.bash Apb2RegFile
+        #./src/main/scripts/mergeModuleCov.bash Apb2Slice
+        #./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
+        #./src/main/scripts/mergeModuleCov.bash Apb2RegFile
         ./src/main/scripts/genCovReport.bash
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
     - name: Create Badges Directory
-      run: mkdir -p .github/badges
+      run: mkdir -p badges
     - name: Generate Coverage Badge
       run: |
-        node ./src/main/scripts/covbadge.js > .github/badges/covbadge.svg
-    - name: Commit Badge
+        node ./src/main/scripts/covbadge.js > badges/covbadge.svg
+    - name: Commit Badge to GitHub IO
       run: |
-        pwd
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add .github/badges/covbadge.svg
-        git commit -m "Add/update coverage badge"
-    - name: Push Coverage Badge commit
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ steps.extract_branch.outputs.branch }}
+        cd badges
+        git init
+        git add -A
+        git commit -m "Updating coverage badge"
+        git push -f git@github.com:richmorj/richmorj.github.io.git main
