@@ -40,6 +40,7 @@ jobs:
       with:
         name: richmorj/richmorj.github.io
         token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Now What
         run: |
           echo "Where am I?"
           pwd
