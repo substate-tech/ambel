@@ -36,14 +36,14 @@ jobs:
         node ./src/main/scripts/covbadge.js > badges/covbadge.svg
 
     - name: Checkout GitHub.io
-     uses: actions/checkout@v2
-     with:
-      name: richmorj/richmorj.github.io
-      ref: refs/heads/main
-      run: |
-        pwd
-        ls
-        ls badges/covbadge.svg 
+      uses: actions/checkout@v2
+      with:
+        name: richmorj/richmorj.github.io
+        ref: refs/heads/main
+        run: |
+          pwd
+          ls
+          ls badges/covbadge.svg 
     # - name: Commit Badge
     #   run: |
     #     cd badges
