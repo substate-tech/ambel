@@ -35,6 +35,7 @@ jobs:
       run: |
         # node ./src/main/scripts/covbadge.js > badges/covbadge.svg
         touch badges/covbadge.svg
+        cd ..
     - name: Checkout GitHub.io
       uses: actions/checkout@v2
       with:
@@ -45,7 +46,6 @@ jobs:
         echo "Where am I?"
         pwd
         ls
-        ls badges/covbadge.svg 
     # - name: Commit Badge
     #   run: |
     #     cd badges
