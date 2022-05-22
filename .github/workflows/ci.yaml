@@ -2,6 +2,7 @@ name: CI
 on:
   pull_request:
   push:
+permissions: read-all|write-all
 jobs:
   test:
     runs-on: ubuntu-latest
