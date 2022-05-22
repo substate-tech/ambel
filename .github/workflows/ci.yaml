@@ -1,9 +1,9 @@
 name: CI
-permissions: read-all|write-all
 on:
   pull_request:
   push:
 jobs:
+  permissions: read|write
   test:
     runs-on: ubuntu-latest
     container:
