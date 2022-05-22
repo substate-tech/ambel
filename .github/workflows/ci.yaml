@@ -41,7 +41,7 @@ jobs:
         git add -A .github/badges/coverage.svg
         git commit -m "Updating coverage badge"
     - name: Push Updated Coverage Badge
-      uses: ad-m/github-push-action@vmaster
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
