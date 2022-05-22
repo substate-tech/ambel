@@ -3,8 +3,6 @@ on:
   pull_request:
   push:
 jobs:
-  permissions: 
-    actions: write
   test:
     runs-on: ubuntu-latest
     container:
@@ -12,6 +10,8 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    permissions: 
+      actions: write
     steps:
     - name: Checkout
       uses: actions/checkout@v2
