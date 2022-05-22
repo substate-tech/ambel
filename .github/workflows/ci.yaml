@@ -34,10 +34,16 @@ jobs:
     - name: Generate Coverage Badge
       run: |
         node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
-    - name: Commit Badge
+    - name: Commit Coverage Badge
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A .github/badges/coverage.svg
         git commit -m "Updating coverage badge"
+    - name: Push Updated Coverage Badge
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
+        force: true
         git push
