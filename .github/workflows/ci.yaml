@@ -24,7 +24,7 @@ jobs:
         #./src/main/scripts/mergeModuleCov.bash Apb2Slice
         #./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
         #./src/main/scripts/mergeModuleCov.bash Apb2RegFile
-        #./src/main/scripts/genCovReport.bash
+        ./src/main/scripts/genCovReport.bash
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
       with:
@@ -41,19 +41,3 @@ jobs:
         git add -A .github/badges/coverage.svg
         git commit -m "Updating coverage badge"
         git push
-    # - name: Force Push Badge to GitHub IO
-    #   uses: ad-m/github-push-action@v0.5.0
-    #   with:
-    #     # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     # Destination branch to push changes
-    #     branch: main
-    #     # Use force push to fully overwrite the destination branch
-    #     force: true
-    #         # We have to push from the folder where files were generated.
-    #         # Same were the new repo was initialized in the previous step
-    #         directory: ./badges
-
-
-
-    #     git push -f git@github.com:richmorj/richmorj.github.io.git main
