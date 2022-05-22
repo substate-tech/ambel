@@ -3,7 +3,7 @@ on:
   pull_request:
   push:
 jobs:
-  permissions: read|write
+  permissions: write-all
   test:
     runs-on: ubuntu-latest
     container:
