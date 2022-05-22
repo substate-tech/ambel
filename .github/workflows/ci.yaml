@@ -36,9 +36,9 @@ jobs:
         node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
     - name: Commit Coverage Badge
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git config --global --add safe.directory /__w/ambel/ambel
+        # git config --local user.email "action@github.com"
+        # git config --local user.name "GitHub Action"
+        # git config --global --add safe.directory /__w/ambel/ambel
         git add -A .github/badges/coverage.svg
         git commit -m "Updating coverage badge"
     - name: Push Updated Coverage Badge
