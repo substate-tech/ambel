@@ -15,54 +15,41 @@ jobs:
       uses: actions/checkout@v2
     - name: Build and Test
       run: |
-        # sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
-        #./src/main/scripts/mergeModuleCov.bash Apb2Net
+        ./src/main/scripts/mergeModuleCov.bash Apb2Net
         #./src/main/scripts/mergeModuleCov.bash Apb2Slice
         #./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
         #./src/main/scripts/mergeModuleCov.bash Apb2RegFile
         #./src/main/scripts/genCovReport.bash
-    # - name: Upload Coverage Reports
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     path: coverage/html
+    - name: Upload Coverage Reports
+      uses: actions/upload-artifact@v3
+      with:
+        path: coverage/html
     - name: Create Badges Directory
       run: mkdir -p badges
     - name: Generate Coverage Badge
       run: |
-        # node ./src/main/scripts/covbadge.js > badges/covbadge.svg
-        touch badges/covbadge.svg
-        cd ..
-    - name: Checkout GitHub.io
-      uses: actions/checkout@v2
-      with:
-        name: richmorj/richmorj.github.io
-        token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Now What
+        node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
+    - name: Commit Badge
       run: |
-        echo "Where am I?"
-        pwd
-        ls
-    # - name: Commit Badge
-    #   run: |
-    #     cd badges
-    #     git init
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git add -A
-    #     git commit -m "Updating coverage badge"
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A .github/badges/coverage.svg
+        git commit -m "Updating coverage badge"
+        git push
     # - name: Force Push Badge to GitHub IO
     #   uses: ad-m/github-push-action@v0.5.0
     #   with:
-    #         # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
-    #         github_token: ${{ secrets.GITHUB_TOKEN }}
-    #         # Destination branch to push changes
-    #         branch: gh-pages
-    #         # Use force push to fully overwrite the destination branch
-    #         force: true
+    #     # Token for the repo. Can be passed in using $\{{ secrets.GITHUB_TOKEN }}
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     # Destination branch to push changes
+    #     branch: main
+    #     # Use force push to fully overwrite the destination branch
+    #     force: true
     #         # We have to push from the folder where files were generated.
     #         # Same were the new repo was initialized in the previous step
     #         directory: ./badges

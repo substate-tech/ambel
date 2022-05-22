@@ -50,4 +50,12 @@ trait BaseUnitTester extends AnyFlatSpec
       annos = annos :+ VerilatorFlags(Seq("--coverage-line"))
     }
   }
+
+
+  override def afterAll(configMap: ConfigMap) = {
+    if (_backend == "verilator") {
+      // Line coverage post-processing
+
+    }
+  }
 }
