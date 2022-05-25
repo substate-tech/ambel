@@ -10,9 +10,11 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    permissions: 
-      actions: write
+    # permissions: 
+    #   actions: write
     steps:
+    - name: Work-around Permission Issue
+      run: git config --global --add safe.directory /__w/ambel/ambel
     - name: Checkout
       uses: actions/checkout@v2
     - name: Build and Test
