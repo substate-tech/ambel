@@ -45,7 +45,7 @@ jobs:
         author_name: GitHub Action
         author_email: action@github.com
         message: 'Updating coverage badge'
-        push: true 'origin main --force'
+    #   push: true 'origin main --force'
     #   run: |
     #     git config --local user.email "action@github.com"
     #     git config --local user.name "GitHub Action"
