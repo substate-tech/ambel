@@ -36,16 +36,23 @@ jobs:
     - name: Generate Coverage Badge
       run: |
         node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
-    - name: Commit Coverage Badge
-      run: |
-        # git config --local user.email "action@github.com"
-        # git config --local user.name "GitHub Action"
-        # git config --global --add safe.directory /__w/ambel/ambel
-        git add -A .github/badges/coverage.svg
-        git commit -m "Updating coverage badge"
-    - name: Push Updated Coverage Badge
-      uses: ad-m/github-push-action@master
+    - name: Commit and Push Coverage Badge
+      uses: EndBug/add-and-commit@v9 
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
-        force: true
+        add: '.github/badges/coverage.svg'
+        author_name: GitHub Action
+        author_email: action@github.com
+        message: 'Updating coverage badge'
+        push: true 'origin main --force'
+    #   run: |
+    #     git config --local user.email "action@github.com"
+    #     git config --local user.name "GitHub Action"
+    #     git config --global --add safe.directory /__w/ambel/ambel
+    #     git add -A .github/badges/coverage.svg
+    #     git commit -m "Updating coverage badge"
+    # - name: Push Updated Coverage Badge
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     branch: ${{ github.ref }}
+    #     force: true
