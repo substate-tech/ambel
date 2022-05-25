@@ -10,8 +10,6 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    # permissions: 
-    #   actions: write
     steps:
     - name: Work-around Permission Issue
       run: git config --global --add safe.directory /__w/ambel/ambel
@@ -20,14 +18,14 @@ jobs:
     - name: Build and Test
       run: |
         sbt -v +"testOnly ambel.Apb2NetUnitTester -- -Dbackend=verilator"
-        # sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
-        # sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
-        # sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
         ./src/main/scripts/mergeModuleCov.bash Apb2Net
-        #./src/main/scripts/mergeModuleCov.bash Apb2Slice
-        #./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
-        #./src/main/scripts/mergeModuleCov.bash Apb2RegFile
+        ./src/main/scripts/mergeModuleCov.bash Apb2Slice
+        ./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
+        ./src/main/scripts/mergeModuleCov.bash Apb2RegFile
         ./src/main/scripts/genCovReport.bash
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
@@ -45,16 +43,3 @@ jobs:
         author_name: GitHub Action
         author_email: action@github.com
         message: 'Updating coverage badge'
-    #   push: true 'origin main --force'
-    #   run: |
-    #     git config --local user.email "action@github.com"
-    #     git config --local user.name "GitHub Action"
-    #     git config --global --add safe.directory /__w/ambel/ambel
-    #     git add -A .github/badges/coverage.svg
-    #     git commit -m "Updating coverage badge"
-    # - name: Push Updated Coverage Badge
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-    #     branch: ${{ github.ref }}
-    #     force: true
