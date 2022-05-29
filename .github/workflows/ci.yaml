@@ -31,20 +31,26 @@ jobs:
         ./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
         ./src/main/scripts/mergeModuleCov.bash Apb2RegFile
         ./src/main/scripts/genCovReport.bash
+    # - name: Upload Coverage to codecov.io
+      # run: |
+      #   curl -Os https://uploader.codecov.io/latest/linux/codecov
+      #   chmod +x codecov
+      # Can't figure out how to get codecov working with lcov txt reports
+      # uses: codecov/codecov-action@v2
+      # with:
+      #   directory: ./coverage/
+      #   fail_ci_if_error: true
+      #   path_to_write_report: ./coverage/codecov_report.txt
+      #   verbose: true
+    - name: Publish HTML Coverage on GitHub Pages
+      uses: ftnext/action-push-ghpages@v1.0.0
+      with:
+        build_dir: coverage/html
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Coverage Reports
       uses: actions/upload-artifact@v3
       with:
         path: coverage/html
-    - name: Upload Coverage to codecov.io
-      # run: |
-      #   curl -Os https://uploader.codecov.io/latest/linux/codecov
-      #   chmod +x codecov
-      uses: codecov/codecov-action@v2
-      with:
-        directory: ./coverage/
-        fail_ci_if_error: true
-        path_to_write_report: ./coverage/codecov_report.txt
-        verbose: true
     - name: Create Badges Directory
       run: mkdir -p badges
     - name: Generate Coverage Badge
