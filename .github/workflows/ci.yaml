@@ -42,6 +42,9 @@ jobs:
       #   fail_ci_if_error: true
       #   path_to_write_report: ./coverage/codecov_report.txt
       #   verbose: true
+    - name: Install rsync for github-pages-deploy-action
+      run: |
+        apt-get update && apt-get install -y rsync
     - name: Publish HTML Coverage on GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
