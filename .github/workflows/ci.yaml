@@ -21,10 +21,6 @@ jobs:
         sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
-        find test_run_dir/ -name "Apb2Net*.sv" | xargs -I {} cp -u {} .
-        find test_run_dir/ -name "Apb2Slice*.sv" | xargs -I {} cp -u {} .
-        find test_run_dir/ -name "Apb2CSTrgt*.sv" | xargs -I {} cp -u {} .
-        find test_run_dir/ -name "Apb2RegFile*.sv" | xargs -I {} cp -u {} .
         echo "Generating coverage reports..."
         ./src/main/scripts/mergeModuleCov.bash
         ./src/main/scripts/genCovReport.bash
@@ -42,7 +38,7 @@ jobs:
     - name: Install rsync for github-pages-deploy-action
       run: |
         apt-get update && apt-get install -y rsync
-    - name: Publish HTML Coverage on GitHub Pages
+    - name: Publish HTML Coverage to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages
@@ -57,10 +53,10 @@ jobs:
     - name: Generate Coverage Badge
       run: |
         node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
-    - name: Commit and Push Coverage Badge
-      uses: EndBug/add-and-commit@v9 
+    - name: Publish Coverage Badge to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
-        add: '.github/badges/coverage.svg'
-        author_name: GitHub Action
-        author_email: action@github.com
-        message: 'Updating coverage badge'
+        branch: gh-pages
+        folder: .github/badges
+        target-folder: coverage
+
