@@ -26,10 +26,7 @@ jobs:
         find test_run_dir/ -name "Apb2CSTrgt*.sv" | xargs -I {} cp -u {} .
         find test_run_dir/ -name "Apb2RegFile*.sv" | xargs -I {} cp -u {} .
         echo "Generating coverage reports..."
-        ./src/main/scripts/mergeModuleCov.bash Apb2Net
-        ./src/main/scripts/mergeModuleCov.bash Apb2Slice
-        ./src/main/scripts/mergeModuleCov.bash Apb2CSTrgt
-        ./src/main/scripts/mergeModuleCov.bash Apb2RegFile
+        ./src/main/scripts/mergeModuleCov.bash
         ./src/main/scripts/genCovReport.bash
     # - name: Upload Coverage to codecov.io
       # run: |
