@@ -58,5 +58,5 @@ jobs:
       with:
         branch: gh-pages
         folder: .github/badges
-        target-folder: coverage
+        target-folder: badges
 
