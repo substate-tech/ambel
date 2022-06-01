@@ -52,11 +52,11 @@ jobs:
       run: mkdir -p badges
     - name: Generate Coverage Badge
       run: |
-        node ./src/main/scripts/covbadge.js > .github/badges/coverage.svg
+        node ./src/main/scripts/covbadge.js > badges/coverage.svg
     - name: Publish Coverage Badge to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.3.3
       with:
         branch: gh-pages
-        folder: .github/badges
+        folder: badges
         target-folder: badges
 
