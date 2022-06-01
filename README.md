@@ -6,7 +6,7 @@ VHDL CSR
 --->
 ![AMBEL Logo](docs/AMBEL.png)
 
-A [Chisel3](https://github.com/chipsalliance/chisel3) library for generating [AMBA](https://developer.arm.com/architectures/system-architectures/amba) components featuring a Verilog CSR (Control & Status Register) APB slave generator
+A [Chisel3](https://github.com/chipsalliance/chisel3) library for generating [AMBA](https://developer.arm.com/architectures/system-architectures/amba) components featuring a Verilog APB Control/Status Register (CSR) target (an APB slave) generator
 
 # Overview
 AMBEL aims to provide a collection of parameterizable [Chisel3](https://github.com/chipsalliance/chisel3) Modules compatible with ARM's widely adopted [AMBA (Advanced Microcontroller Bus Architecture)](https://developer.arm.com/architectures/system-architectures/amba) protocols. The initial collection keeps it simple, focusing solely on [APB2](https://developer.arm.com/documentation/ihi0011/a/AMBA-APB) protocol and offering Modules that may be connected to implement APB2 networks connecting APB2 initators and targets. The key Module in this small collection is [`Apb2CSTrgt`](src/main/scala/Apb2CSTrgt.scala) which is an APB2 target (an APB slave) implementing control/status registers, defined using a simple JSON schema.
@@ -14,8 +14,9 @@ AMBEL aims to provide a collection of parameterizable [Chisel3](https://github.c
 The Modules are primarily intended for integration into other Chisel designs, but they could also be used to generate Verilog for integration into Verilog designs.
 
 ![ci push status](https://github.com/richmorj/ambel/actions/workflows/ci.yaml/badge.svg?event=push)
-![coverage status](https://github.com/richmorj/ambel/blob/main/.github/badges/coverage.svg)
+![coverage status](https://richmorj.github.io/ambel/badges/coverage.svg) [coverage](https://richmorj.github.io/ambel/coverage/ambel/)
 
+Check out [the AMBEL GitHub Pages site](https://richmorj.github.io/ambel/)
 
 # Modules
 
