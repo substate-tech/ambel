@@ -1,5 +1,14 @@
 title: AMBEL
+tagline: AMBEL is a Chisel library for generating AMBA components
+description: AMBEL is a Chisel3 library for generating AMBA components featuring an APB Control/Status Register (CSR) target (an APB slave) generator driven by a simple JSON schema for capturing register descriptions and the register address map
 logo: assets/img/logo.png
+url: https://richmorj.github.io/ambel
+social:
+  name: Rick Richmond
+  links:
+    - https://github.com/richmorj
+    - https://twitter.com/richmorj
+    - https://www.linkedin.com/in/richmorj
 
 # Build settings
 #theme: minimal
