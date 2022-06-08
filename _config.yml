@@ -10,6 +10,11 @@ social:
     - https://twitter.com/richmorj
     - https://www.linkedin.com/in/richmorj
 
+github:
+  repository_name: AMBEL
+  repository_url: https://github.com/richmorj/ambel
+  project_tagline: AMBEL is a Chisel library for generating AMBA components
+
 # Build settings
 #theme: minimal
 plugins:
