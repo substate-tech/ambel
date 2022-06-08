@@ -1,5 +1,6 @@
 ---
 layout: default
+canonical_url: 'https://richmorj.github.io/ambel'
 ---
 # AMBEL - A Chisel Library for Generating AMBA Components
 
