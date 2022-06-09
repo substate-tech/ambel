@@ -8,8 +8,8 @@ ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "lz.tech"
 
 val circeVersion = "0.7.0"
-val chisel3Version = "3.5.0"
-val chiseltestVersion = "0.5.0"
+val chisel3Version = "3.5.3"
+val chiseltestVersion = "0.5.1"
 val chiselVerifyVersion = "0.2.0"
 
 libraryDependencies += "io.github.chiselverify" % "chiselverify" % "0.2.0"
