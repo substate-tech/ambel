@@ -25,13 +25,13 @@ Contributions and collaborators welcome! Please see the guide to [contributing](
 # Modules
 
 ## [Apb2CSTrgt](src/main/scala/Apb2CSTrgt.scala)
-The `Apb2CSTrgt` Module implements a basic APB2 control/status register set with the registers and their address map supplied via a simple JSON description, passed as a parameter to the Module. The JSON register description is parsed using [circe](https://github.com/circe/circe) and the resulting objects are used to generate the registers, read-write access to them via the APB2 interface, and any associated direct IO for the registers using Chisel's [`MixedVec`](https://www.chisel-lang.org/api/latest/chisel3/util/MixedVec.html). Setting the `GEN_BUNDLE` parameter to true it is possible to generate a set of Bundles suitable for ordered connection to the IO externally. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). 
+The `Apb2CSTrgt` Module implements a basic APB2 control/status register set with the registers and their address map supplied via a simple JSON description, passed as a parameter to the Module. The JSON register description is parsed using [circe](https://github.com/circe/circe) and the resulting objects are used to generate the registers, read-write access to them via the APB2 interface, and any associated direct IO for the registers using Chisel's [`MixedVec`](https://www.chisel-lang.org/api/latest/chisel3/util/MixedVec.html). Setting the parameter `GEN_BUNDLE = true` it is possible to generate a set of Bundles suitable for ordered connection to the IO externally. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). 
 
 ### [Apb2CSTrgt register bit field modes](docs/register_bit_field_modes.md)
 ### [Register description JSON schema](docs/register_description_JSON_schema.md)
 ### Simple Example
 
-The following JSON file can be used to parameterize Apb2CSTrgt to implement an extremely simple Module with a single 32-bit xregister, with a single 8-bit read-write bit-field (the rest of the bits are marked as RESERVED, will not be writable and will read zero). 
+The following JSON file [versioned here](src/main/json/Simple.json) can be used to parameterize Apb2CSTrgt to implement an extremely simple Module with a single 32-bit register which has a single 8-bit read-write bit-field (the rest of the bits are marked as RESERVED, will not be writable and will read zero). 
 ```JSON
 {
  "regMap": [
@@ -54,7 +54,55 @@ The following JSON file can be used to parameterize Apb2CSTrgt to implement an e
  ]
 }
 ```
+Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v))with the following interface.
+```Verilog
+module Apb2CSTrgt(
+  input         clock,
+  input         reset,
+  input         io_apb2T_req_pSel,
+  input         io_apb2T_req_pEnable,
+  input         io_apb2T_req_pWrite,
+  input  [31:0] io_apb2T_req_pWData,
+  input  [3:0]  io_apb2T_req_pStrb,
+  output        io_apb2T_rsp_pReady,
+  output [31:0] io_apb2T_rsp_pRData,
+  output        io_apb2T_rsp_pSlvErr,
+  output [7:0]  io_rwVec_0
+);
+```
+Running generation with the parameter `GEN_BUNDLE = true` will also generate a Chisel Bundle [versioned here](src/main/json/examples/Simple.scala).
+```scala
+/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")
+  *
+  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
+  */
+class _SimpleRwVec_ extends Bundle {
+  val SimpleRw0_RwBits = UInt(8.W)
+}
+```
+The Bundle can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec output to a named member of the generated Bundle. This is shown in [SimpleApb2CSTrgt.scala](src/main/json/examples/SimpleApb2CSTrgt.scala).
+```scala
+class SimpleApb2CSTrgt() extends Module {
+  val ADDR_W = 32
+  val DATA_W = 32
 
+  val t = Module(new Apb2CSTrgt(
+    DATA_W = DATA_W,
+    REG_DESC_JSON = "src/main/json/Simple.json",
+    VERBOSE = true,
+    GEN_BUNDLE = false))
+
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+    val rw = Output(new _SimpleRwVec_)
+  })
+
+  t.io.apb2T <> io.apb2T
+
+  // Connect RW register outputs
+  io.rw.SimpleRw0_RwBits := t.io.rwVec(0)
+}
+```
 
 ## [Apb2Net](src/main/scala/Apb2Net.scala)
 The `Apb2Net` Module implements an APB2 network connecting a parameterizable number of APB2 initiators and targets with further parameters defining address map for the  targets (base addresses and sizes). 
