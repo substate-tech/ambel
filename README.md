@@ -37,28 +37,45 @@ The following JSON file [versioned here](src/main/json/Simple.json) can be used 
  "regMap": [
   {
    "offset": 0,
-   "name": "SIMPLE_RW0", "typeRef": "SIMPLE_8B_RW",
-   "comment": "Simple read/write register 0"
+   "name": "SIMPLE_RW", "typeRef": "SIMPLE_RW8B",
+   "comment": "Simple read/write register"
+  },
+  {
+   "offset": 4,
+   "name": "SIMPLE_RO_WO", "typeRef": "SIMPLE_RO8B_WO8B",
+   "comment": "Simple multi-mode register (one read-only bit field, one write-only bit-field)"
   }
  ],
  "regTypes": [
   {
-   "typeRef": "SIMPLE_8B_RW",
+   "typeRef": "SIMPLE_RW8B",
    "width": 32,
    "fields": [
     {"bits": [ 7, 0], "name": "RW_BITS", "mode": "RW", "resetVal": 0, "comment": "Example RW bit-field"},
     {"bits": [31, 8], "name": "RESERVED"}
    ],
    "comment": "Simple read-write register with single 8-bit field"
+  },
+  {
+   "typeRef": "SIMPLE_RO8B_WO8B",
+   "width": 32,
+   "fields": [
+    {"bits": [ 7, 0], "name": "RO_BITS", "mode": "RO", "resetVal": 0, "comment": "Example RO bit-field"},
+    {"bits": [15, 8], "name": "WO_BITS", "mode": "WO", "resetVal": 0, "comment": "Example WO bit-field"},
+    {"bits": [31,16], "name": "RESERVED"}
+   ],
+   "comment": "Simple register with an 8-bit read-only field and an 8-bit write-only field"
   }
  ]
 }
 ```
+
 Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v))with the following interface.
 ```Verilog
 module Apb2CSTrgt(
   input         clock,
   input         reset,
+  input  [2:0]  io_apb2T_req_pAddr,
   input         io_apb2T_req_pSel,
   input         io_apb2T_req_pEnable,
   input         io_apb2T_req_pWrite,
@@ -67,7 +84,9 @@ module Apb2CSTrgt(
   output        io_apb2T_rsp_pReady,
   output [31:0] io_apb2T_rsp_pRData,
   output        io_apb2T_rsp_pSlvErr,
-  output [7:0]  io_rwVec_0
+  output [7:0]  io_rwVec_0,
+  input  [7:0]  io_roVec_0,
+  output [7:0]  io_woVec_0
 );
 ```
 Running generation with the parameter `GEN_BUNDLE = true` will also generate a Chisel Bundle [versioned here](src/main/json/examples/Simple.scala).
@@ -80,7 +99,7 @@ class _SimpleRwVec_ extends Bundle {
   val SimpleRw0_RwBits = UInt(8.W)
 }
 ```
-The Bundle can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec output to a named member of the generated Bundle. This is shown in [SimpleApb2CSTrgt.scala](src/main/json/examples/SimpleApb2CSTrgt.scala).
+The Bundle can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec output to a named member of the generated Bundle. This is shown in [SimpleApb2CSTrgt.scala](src/main/scala/examples/SimpleApb2CSTrgt.scala).
 ```scala
 class SimpleApb2CSTrgt() extends Module {
   val ADDR_W = 32
@@ -95,12 +114,20 @@ class SimpleApb2CSTrgt() extends Module {
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
     val rw = Output(new _SimpleRwVec_)
+    val ro = Input(new _SimpleRoVec_)
+    val wo = Output(new _SimpleWoVec_)
   })
 
   t.io.apb2T <> io.apb2T
 
-  // Connect RW register outputs
-  io.rw.SimpleRw0_RwBits := t.io.rwVec(0)
+  // Connect RW bit-field outputs
+  io.rw.SimpleRw_RwBits := t.io.rwVec(0)
+
+  // Connect RO bit-field outputs
+  t.io.roVec(0) := io.ro.SimpleRoWo_RoBits
+
+  // Connect WO bit-field outputs
+  io.wo.SimpleRoWo_WoBits := t.io.woVec(0)
 }
 ```
 

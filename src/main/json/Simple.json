@@ -1,0 +1,35 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "SIMPLE_RW", "typeRef": "SIMPLE_RW8B",
+   "comment": "Simple read/write register"
+  },
+  {
+   "offset": 4,
+   "name": "SIMPLE_RO_WO", "typeRef": "SIMPLE_RO8B_WO8B",
+   "comment": "Simple multi-mode register (one read-only bit field, one write-only bit-field)"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "SIMPLE_RW8B",
+   "width": 32,
+   "fields": [
+    {"bits": [ 7, 0], "name": "RW_BITS", "mode": "RW", "resetVal": 0, "comment": "Example RW bit-field"},
+    {"bits": [31, 8], "name": "RESERVED"}
+   ],
+   "comment": "Simple read-write register with single 8-bit field"
+  },
+  {
+   "typeRef": "SIMPLE_RO8B_WO8B",
+   "width": 32,
+   "fields": [
+    {"bits": [ 7, 0], "name": "RO_BITS", "mode": "RO", "resetVal": 0, "comment": "Example RO bit-field"},
+    {"bits": [15, 8], "name": "WO_BITS", "mode": "WO", "resetVal": 0, "comment": "Example WO bit-field"},
+    {"bits": [31,16], "name": "RESERVED"}
+   ],
+   "comment": "Simple register with an 8-bit read-only field and an 8-bit write-only field"
+  }
+ ]
+}
