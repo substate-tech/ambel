@@ -89,14 +89,20 @@ module Apb2CSTrgt(
   output [7:0]  io_woVec_0
 );
 ```
-Running generation with the parameter `GEN_BUNDLE = true` will also generate a Chisel Bundle [versioned here](src/main/json/examples/Simple.scala).
+Running generation with the parameter `GEN_BUNDLE = true` will also generate a Chisel Bundle [versioned here](src/main/scala/examples/Simple.scala).
 ```scala
 /** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")
   *
   * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
   */
 class _SimpleRwVec_ extends Bundle {
-  val SimpleRw0_RwBits = UInt(8.W)
+  val SimpleRw_RwBits = UInt(8.W)
+}
+class _SimpleRoVec_ extends Bundle {
+  val SimpleRoWo_RoBits = UInt(8.W)
+}
+class _SimpleWoVec_ extends Bundle {
+  val SimpleRoWo_WoBits = UInt(8.W)
 }
 ```
 The Bundle can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec output to a named member of the generated Bundle. This is shown in [SimpleApb2CSTrgt.scala](src/main/scala/examples/SimpleApb2CSTrgt.scala).
