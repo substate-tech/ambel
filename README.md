@@ -91,7 +91,7 @@ module Apb2CSTrgt(
 ```
 Running generation with the parameter `GEN_BUNDLE = true` will also generate a Chisel Bundle [versioned here](src/main/scala/examples/Simple.scala).
 ```scala
-/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")
+/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")=
   *
   * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
   */
