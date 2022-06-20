@@ -20,6 +20,7 @@ jobs:
         sbt -v +"testOnly ambel.Apb2SliceUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2CSTrgtUnitTester -- -Dbackend=verilator"
         sbt -v +"testOnly ambel.Apb2RegFileUnitTester -- -Dbackend=verilator"
+        sbt -v +"testOnly ambel.SimpleApb2CSTrgtUnitTester -- -Dbackend=verilator"
         echo "Generating coverage reports..."
         ./src/main/scripts/mergeModuleCov.bash
         ./src/main/scripts/genCovReport.bash
