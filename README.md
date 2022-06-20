@@ -33,7 +33,7 @@ The APB2 target (slave) interface on the Apb2CSTrgt Module has support for the s
 
 The screenshot below shows a few APB write-read-back cycles for the first register, which has a single 8-bit RW bit-field on its first byte, of the [Simple Example](src/main/scala/examples/SimpleApb2CSTrgt.scala) as well as the RW Output updating after each write.
 
-![Simple RW APB access](docs/Simple_APB_RW_access.png)
+![Simple RW APB access](docs/Simple_RW_APB_access.png)
 
 ### [Apb2CSTrgt register bit field modes](docs/register_bit_field_modes.md)
 ### [Register description JSON schema](docs/register_description_JSON_schema.md)
