@@ -567,7 +567,7 @@ class Apb2CSTrgt(
     pw.write("// See README.md for license details.\n")
     pw.write("package ambel\n\n")
     pw.write("import chisel3._\n\n")
-    pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")\n""")
+    pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")=\n""")
     pw.write("  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
 
     if (rwBundleBuffer.nonEmpty) {
