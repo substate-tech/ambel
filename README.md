@@ -8,11 +8,11 @@ VHDL CSR
 
 A [Chisel3](https://github.com/chipsalliance/chisel3) library for generating [AMBA](https://developer.arm.com/architectures/system-architectures/amba) components featuring a Verilog APB Control/Status Register (CSR) target (an APB slave) generator
 
-[AMBEL on GitHub Pages](https://richmorj.github.io/ambel/)
+[AMBEL on GitHub Pages](https://substate-tech.github.io/ambel/)
 
-![ci push status](https://github.com/richmorj/ambel/actions/workflows/ci.yaml/badge.svg?event=push)
+![ci push status](https://github.com/substate-tech/ambel/actions/workflows/ci.yaml/badge.svg?event=push)
 
-![coverage status](https://richmorj.github.io/ambel/badges/coverage.svg) **([Latest coverage report](https://richmorj.github.io/ambel/coverage/ambel/))**
+![coverage status](https://substate-tech.github.io/ambel/badges/coverage.svg) **([Latest coverage report](https://substate-tech.github.io/ambel/coverage/ambel/))**
 
 # Contents
 - [Overview](#overview)
@@ -48,7 +48,7 @@ The `Apb2CSTrgt` Module implements a basic APB2 control/status register set with
 
 Setting the parameter `GEN_BUNDLE = true` it is possible to generate a set of Bundles suitable for ordered connection to the generated, numbered IO externally. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). See the [Simple Example](docs/simple_example.md) to quickly get the gist of this.
 
-The APB2 target (slave) interface on the Apb2CSTrgt Module has support for the specification of the address width and data width via the `ADDR_W` and `DATA_W` parameters. Any number and variety of bit-field modes may be specified for a given register and `PSTRB` is supported such that writes may target only certain bit-fields (with some restrictions described in [the documentation](https://richmorj.github.io/ambel/latest/api/ambel/Apb2CSTrgt.html)). Support for `PPROT` is on the backlog, see [issue #10](https://github.com/richmorj/ambel/issues/10).
+The APB2 target (slave) interface on the Apb2CSTrgt Module has support for the specification of the address width and data width via the `ADDR_W` and `DATA_W` parameters. Any number and variety of bit-field modes may be specified for a given register and `PSTRB` is supported such that writes may target only certain bit-fields (with some restrictions described in [the documentation](https://substate-tech.github.io/ambel/latest/api/ambel/Apb2CSTrgt.html)). Support for `PPROT` is on the backlog, see [issue #10](https://github.com/substate-tech/ambel/issues/10).
 
 The screenshot below shows a few APB write-read-back cycles for the first register, which has a single 8-bit RW bit-field on its first byte, of the [Simple Example](src/main/scala/examples/SimpleApb2CSTrgt.scala) as well as the RW Output updating after each write.
 
