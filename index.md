@@ -1,6 +1,6 @@
 ---
 layout: default
-canonical_url: 'https://richmorj.github.io/ambel'
+canonical_url: 'https://substate-tech.github.io/ambel'
 ---
 # AMBEL - A Chisel Library for Generating AMBA Components
 
