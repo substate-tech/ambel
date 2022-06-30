@@ -85,6 +85,7 @@ import io.circe.generic.auto._
   * @todo implement check that there are no spaces in register or regType names in JSON
   */
 class Apb2CSTrgt(
+  ADDR_W: Int = 32,
   DATA_W: Int = 32,
   REG_DESC_JSON: String,
   VERBOSE: Boolean = false,
@@ -221,8 +222,8 @@ class Apb2CSTrgt(
   // 2. Determine number of (possible) DATA_W registers from maximum offset
   // used in the register description
   val NUM_REGS = bytes >> NUM_BITS_SHIFT
-  val ADDR_W = log2Ceil(NUM_REGS * NUM_BYTE)
-  val MAX_REGS = pow(2, ADDR_W).toInt >> NUM_BITS_SHIFT
+  val REQD_W = log2Ceil(NUM_REGS * NUM_BYTE)
+  val MAX_REGS = pow(2, REQD_W).toInt >> NUM_BITS_SHIFT
 
   // 3. Check that registers do not overlap
   for (i <- 0 until sorted.size - 1) {
@@ -235,7 +236,7 @@ class Apb2CSTrgt(
 
 
   if (VERBOSE) {
-    println(f"NUM_REGS = ${NUM_REGS}, ADDR_W = ${ADDR_W}, MAX_REGS = ${MAX_REGS}")
+    println(f"NUM_REGS = ${NUM_REGS}, REQD_W = ${REQD_W}, MAX_REGS = ${MAX_REGS}")
   }
 
   val namesAndBits: List[RegisterBits] = regDesc match {
@@ -427,24 +428,26 @@ class Apb2CSTrgt(
     }
   }
 
-  val pAddrFF   = RegInit(0.U(ADDR_W.W))
+  val pAddrFF   = RegInit(0.U)
   val pWriteFF  = RegInit(false.B)
   val pReadyFF  = RegInit(true.B)
   val pRDataFF  = RegInit(0.U(DATA_W.W))
   val pSlvErrFF = RegInit(false.B)
 
-  val regIndex  = Wire(Bits((ADDR_W - NUM_BITS_SHIFT).W))
+  val regIndex   = Wire(Bits((REQD_W - NUM_BITS_SHIFT).W))
+  val regAliasFF = RegInit(false.B)
 
   // Access detect
   when (io.apb2T.req.pSel & !io.apb2T.req.pEnable) {
-    pAddrFF  :=  io.apb2T.req.pAddr
+    // Capture address bits required to index defined registers
+    pAddrFF  :=  io.apb2T.req.pAddr(REQD_W, 0)
     pWriteFF :=  io.apb2T.req.pWrite
     pReadyFF :=  io.apb2T.req.pWrite // Always one wait state for reads
 
-    // Debug
-    //printf("Access detected:\n")
-    //printf("  pAddr = 0x%x, pWrite = %b, pStrb = %b, pWData = 0x%x\n", io.pAddr, io.pWrite, io.pStrb, io.pWData)
-  } .otherwise {
+    // Check for any address bits set above the required maximum offset of the
+    // defined register map which could alias down, prevent write, respond with pSlvErr
+    regAliasFF := (io.apb2T.req.pAddr >> REQD_W).orR
+  }.otherwise {
     pWriteFF := false.B
   }
 
@@ -456,55 +459,60 @@ class Apb2CSTrgt(
     pWriteFF  := false.B
     pSlvErrFF := false.B
 
-    for (i <- 0 until MAX_REGS) {
-      when (regIndex === i.U) {
-        // Write data to the individual writable bit fields of the
-        // register and signal error if the register is unmapped
-        for (f <- regArr(i)) {
-          if (f.mode == "RW" || f.mode == "WO" || f.mode == "W1C") {
-            // Write strobes: pStrb bits are used to mask or enable writes to individual
-            // bytes of bit fields. However, if a bit field straddles two or more byte lanes
-            // and not ALL the corresponding bits of pStrb are set then the bit field is not
-            // written (at all) and pSlvErr is signalled.
-            //
-            // Following logic extracts only the write strobes that cover the bit field
-            // then and ANDs them together
-            //
-            // b  | range | check
-            // ---|-------|---------------------------------
-            // 0  |  7:0  | pos < 8  && pos + width -  0 > 0
-            // 1  | 15:8  | pos < 16 && pos + width -  8 > 0
-            // 2  | 23:16 | pos < 24 && pos + width - 16 > 0
-            // 3  | 31:24 | pos < 32 && pos + width - 24 > 0
-            //
-            val fieldPStrbBits = for {
-              b <- 0 until NUM_BYTE if (f.pos < ((b + 1) * 8)) && ((f.pos + f.width - b * 8) > 0)
-            } yield io.apb2T.req.pStrb(b)
+    when (regAliasFF) {
+      pSlvErrFF := true.B
+    }.otherwise {
 
-            when (fieldPStrbBits.reduceLeft(_ & _)) {
-              // ALL bits of pStrb covering the bit field are set
-              if (f.mode == "W1C") {
-                // Write-1-to-clear: create a Bool Vec of the register bit field
-                // and zip it with a Bool Vec of the write data clear each bit
-                // of the bit field individually
-                val nxtBits = VecInit(f.reg.asBools)
-                val clrBits = VecInit((io.apb2T.req.pWData >> f.pos).asBools)
-                for ((nxt, clr) <- (nxtBits zip clrBits).toMap) {
-                  when (clr) {
-                    nxt := false.B
+      for (i <- 0 until MAX_REGS) {
+        when (regIndex === i.U) {
+          // Write data to the individual writable bit fields of the
+          // register and signal error if the register is unmapped
+          for (f <- regArr(i)) {
+            if (f.mode == "RW" || f.mode == "WO" || f.mode == "W1C") {
+              // Write strobes: pStrb bits are used to mask or enable writes to individual
+              // bytes of bit fields. However, if a bit field straddles two or more byte lanes
+              // and not ALL the corresponding bits of pStrb are set then the bit field is not
+              // written (at all) and pSlvErr is signalled.
+              //
+              // Following logic extracts only the write strobes that cover the bit field
+              // then and ANDs them together
+              //
+              // b  | range | check
+              // ---|-------|---------------------------------
+              // 0  |  7:0  | pos < 8  && pos + width -  0 > 0
+              // 1  | 15:8  | pos < 16 && pos + width -  8 > 0
+              // 2  | 23:16 | pos < 24 && pos + width - 16 > 0
+              // 3  | 31:24 | pos < 32 && pos + width - 24 > 0
+              //
+              val fieldPStrbBits = for {
+                b <- 0 until NUM_BYTE if (f.pos < ((b + 1) * 8)) && ((f.pos + f.width - b * 8) > 0)
+              } yield io.apb2T.req.pStrb(b)
+
+              when (fieldPStrbBits.reduceLeft(_ & _)) {
+                // ALL bits of pStrb covering the bit field are set
+                if (f.mode == "W1C") {
+                  // Write-1-to-clear: create a Bool Vec of the register bit field
+                  // and zip it with a Bool Vec of the write data clear each bit
+                  // of the bit field individually
+                  val nxtBits = VecInit(f.reg.asBools)
+                  val clrBits = VecInit((io.apb2T.req.pWData >> f.pos).asBools)
+                  for ((nxt, clr) <- (nxtBits zip clrBits).toMap) {
+                    when (clr) {
+                      nxt := false.B
+                    }
                   }
+                  f.reg := nxtBits.asUInt
+                } else {
+                  // f.mode == "RW" || f.mode == "WO"
+                  f.reg := io.apb2T.req.pWData >> f.pos
                 }
-                f.reg := nxtBits.asUInt
-              } else {
-                // f.mode == "RW" || f.mode == "WO"
-                f.reg := io.apb2T.req.pWData >> f.pos
+              }.elsewhen (fieldPStrbBits.reduceLeft(_ | _)) {
+                // SOME but not ALL bits of pStrb covering the bit field are set
+                pSlvErrFF := true.B
               }
-            }.elsewhen (fieldPStrbBits.reduceLeft(_ | _)) {
-              // SOME but not ALL bits of pStrb covering the bit field are set
+            } else if (f.mode == "N/A") {
               pSlvErrFF := true.B
             }
-          } else if (f.mode == "N/A") {
-            pSlvErrFF := true.B
           }
         }
       }
@@ -539,7 +547,12 @@ class Apb2CSTrgt(
     // Read process
     pRDataFF  := 0.U
     pReadyFF  := true.B
-    pSlvErrFF := false.B
+
+    when (regAliasFF) {
+      pSlvErrFF := true.B
+    }.otherwise {
+      pSlvErrFF := false.B
+    }
 
     for (i <- 0 until MAX_REGS) {
       when (regIndex === i.U) {
@@ -602,5 +615,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, "src/main/json/Example.json", true, true))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, 32, "src/main/json/Example.json", true, true))))
 }

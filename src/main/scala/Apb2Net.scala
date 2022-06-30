@@ -18,15 +18,15 @@ import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
   * used below in DecoupledIO where the pSel signal from Apb2Req Bundle is used
   * to drive valid.
   *
-  * @param DATA_WIDTH the width of the APB data bus in bits
-  * @param ADDR_WIDTH the width of the APB address bus in bits
+  * @param DATA_W the width of the APB data bus in bits
+  * @param ADDR_W the width of the APB address bus in bits
   */
-class Apb2ReqCtrl(ADDR_WIDTH: Int = 32, DATA_WIDTH: Int = 32) extends Apb2Bundle(ADDR_WIDTH, DATA_WIDTH) {
-  val pAddr   = UInt(ADDR_WIDTH.W)
+class Apb2ReqCtrl(ADDR_W: Int = 32, DATA_W: Int = 32) extends Apb2Bundle(ADDR_W, DATA_W) {
+  val pAddr   = UInt(ADDR_W.W)
   val pProt   = UInt(3.W)
   val pEnable = Bool()
   val pWrite  = Bool()
-  val pWData  = UInt(DATA_WIDTH.W)
+  val pWData  = UInt(DATA_W.W)
   val pStrb   = UInt((STRB_WIDTH).W)
 }
 
@@ -50,8 +50,8 @@ class Apb2ReqCtrl(ADDR_WIDTH: Int = 32, DATA_WIDTH: Int = 32) extends Apb2Bundle
   * @param TARGET_SIZES array of target sizes (multiples of GRANULE_SIZE_K)
   * @param NUM_INIT number of initiators
   * @param NUM_TARG number of targets
-  * @param DATA_WIDTH the width of the APB data buses in bits
-  * @param ADDR_WIDTH the width of the APB address buses in bits
+  * @param DATA_W the width of the APB data buses in bits
+  * @param ADDR_W the width of the APB address buses in bits
   * @param PIPE_CTRL adds pipeline register stages as follows 0: none, 1: after arbitration, 2: for each target
   * @todo implement PIPE_CTRL as described
   */
@@ -59,13 +59,13 @@ class Apb2Net(
   val BASE_ADDR: Int = 0, val GRANULE_SIZE_K: Int = 4,
   val NUM_INIT: Int = 1, val NUM_TARG: Int = 2,
   val TARGET_SIZES: Array[Int] = new Array[Int](2),
-  val DATA_WIDTH: Int = 32, val ADDR_WIDTH: Int = 32,
+  val DATA_W: Int = 32, val ADDR_W: Int = 32,
   val PIPE_CTRL: Int = 0) extends Module {
   require(isPow2(GRANULE_SIZE_K))
   require(TARGET_SIZES.length == NUM_TARG)
   require(GRANULE_SIZE_K >= 4)
-  require(DATA_WIDTH % 8 == 0)
-  val NUM_BYTE = DATA_WIDTH / 8
+  require(DATA_W % 8 == 0)
+  val NUM_BYTE = DATA_W / 8
   val APB_ALGN = log2Ceil(NUM_BYTE)
   val SEL_ALGN = log2Ceil(GRANULE_SIZE_K * 1024)
 
@@ -84,18 +84,18 @@ class Apb2Net(
     print(f"h${targetSpace(t)* GRANULE_SIZE_K * 1024}%08x")
     if (t == NUM_TARG-1) println(")") else print(", ")
   }
-  println(f"           DATA_WIDTH=${DATA_WIDTH}, ADDR_WIDTH=${ADDR_WIDTH}")
+  println(f"           DATA_W=${DATA_W}, ADDR_W=${ADDR_W}")
   println(f"           PIPE_CTRL=${PIPE_CTRL}")
 
   val io = IO(new Bundle {
-    val apb2i =         Vec(NUM_INIT, new Apb2IO(ADDR_WIDTH, DATA_WIDTH))
-    val apb2t = Flipped(Vec(NUM_TARG, new Apb2IO(ADDR_WIDTH, DATA_WIDTH)))
+    val apb2i =         Vec(NUM_INIT, new Apb2IO(ADDR_W, DATA_W))
+    val apb2t = Flipped(Vec(NUM_TARG, new Apb2IO(ADDR_W, DATA_W)))
   })
 
   // Create Vec of DecoupledIO of Apb2ReqCtrl for arbitration, connecting valid
   // to pSel
-  val apb2ReqVec = Wire(Flipped(Vec(NUM_INIT, new DecoupledIO(new Apb2ReqCtrl(ADDR_WIDTH, DATA_WIDTH)))))
-  val apb2Choice = Wire(new DecoupledIO(new Apb2ReqCtrl(ADDR_WIDTH, DATA_WIDTH)))
+  val apb2ReqVec = Wire(Flipped(Vec(NUM_INIT, new DecoupledIO(new Apb2ReqCtrl(ADDR_W, DATA_W)))))
+  val apb2Choice = Wire(new DecoupledIO(new Apb2ReqCtrl(ADDR_W, DATA_W)))
   val chosen = Wire(UInt(log2Ceil(NUM_INIT).W))
 
   val reqVec = Wire(Vec(NUM_INIT, Bool()))
@@ -111,7 +111,7 @@ class Apb2Net(
   }
 
   // ArbInst is combinatorial and unfair, favouring the lower order requests
-  val ArbInst = Module(new Arbiter(new Apb2ReqCtrl(ADDR_WIDTH, DATA_WIDTH), NUM_INIT))
+  val ArbInst = Module(new Arbiter(new Apb2ReqCtrl(ADDR_W, DATA_W), NUM_INIT))
   ArbInst.io.in <> apb2ReqVec
   ArbInst.io.out <> apb2Choice
   ArbInst.io.chosen <> chosen
@@ -127,7 +127,7 @@ class Apb2Net(
   val stateFF = RegInit(S_IDLE)
 
   // Registered request from chosen initiator
-  val apb2InitChoiceReqFF = RegInit(WireInit(new Apb2Req(ADDR_WIDTH, DATA_WIDTH).Lit()))
+  val apb2InitChoiceReqFF = RegInit(WireInit(new Apb2Req(ADDR_W, DATA_W).Lit()))
 
   // Detect active request
   val activeReq = WireDefault(reqVec.asUInt.orR)
@@ -136,13 +136,13 @@ class Apb2Net(
   val pReadyFF = RegInit(VecInit(Seq.fill(NUM_INIT)(false.B)))
 
   // Registered response from selected target
-  val apb2TargetSelRspFF = RegInit(WireInit(new Apb2Rsp(ADDR_WIDTH, DATA_WIDTH).Lit()))
+  val apb2TargetSelRspFF = RegInit(WireInit(new Apb2Rsp(ADDR_W, DATA_W).Lit()))
 
   // Decode target selection for the chosen initiator
-  val apb2TargetSel = WireDefault(apb2InitChoiceReqFF.pAddr(ADDR_WIDTH-1, SEL_ALGN) )
+  val apb2TargetSel = WireDefault(apb2InitChoiceReqFF.pAddr(ADDR_W-1, SEL_ALGN) )
 
   // Connect selected target response to chosen initiator (defaulting to target zero)
-  val apb2ChoiceRsp = WireDefault(new Apb2Rsp(ADDR_WIDTH, DATA_WIDTH), io.apb2t(0).rsp)
+  val apb2ChoiceRsp = WireDefault(new Apb2Rsp(ADDR_W, DATA_W), io.apb2t(0).rsp)
 
   for (t <- 0 until NUM_TARG) {
     when (targetMatch(apb2TargetSel, targetSpace(t), targetSpace(t+1))) {
@@ -220,7 +220,7 @@ class Apb2Net(
   // NOTE only propagating controls to selected target to avoid unecessary
   // downstream toggles
   for (t <- 0 until NUM_TARG) {
-    // TODO - try WireInit(new Apb2Req(ADDR_WIDTH, DATA_WIDTH).Lit())
+    // TODO - try WireInit(new Apb2Req(ADDR_W, DATA_W).Lit())
     io.apb2t(t).req.pAddr   := 0.U
     io.apb2t(t).req.pProt   := 0.U
     io.apb2t(t).req.pSel    := false.B

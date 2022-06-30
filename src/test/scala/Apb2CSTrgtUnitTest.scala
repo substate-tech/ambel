@@ -16,7 +16,7 @@ class Apb2CSTrgt32BitRWRegsTestWrapper(val VERBOSE: Boolean = false) extends Mod
   val ADDR_W = 32
   val DATA_W = 32
 
-  val t = Module(new Apb2CSTrgt(32, "src/test/json/32BitRwRegs.json", VERBOSE))
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/32BitRwRegs.json", VERBOSE))
 
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
@@ -48,7 +48,7 @@ class Apb2CSTrgt8GoBitWORegsTestWrapper(val VERBOSE: Boolean = false) extends Mo
   val ADDR_W = 32
   val DATA_W = 32
 
-  val t = Module(new Apb2CSTrgt(32, "src/test/json/8GoBitWoRegs.json", VERBOSE))
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/8GoBitWoRegs.json", VERBOSE))
 
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
@@ -94,10 +94,11 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
     * versioned, by elaboration of the parameterized Apb2CSTrgt Module with the
     * corresponding JSON file and GEN_BUNDLE=true.
     */
+  val ADDR_W = 32
   val DATA_W = 32
 
   it should "write then read consecutive addresses of register file APB target back to back" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
+    test(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS
@@ -114,7 +115,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "write all addresses of register file APB target in sequence then read all back" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
+    test(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS
@@ -140,7 +141,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "test write strobes of register file APB target" in {
-    test(new Apb2CSTrgt(DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
+    test(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/RegFile.json")).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       val NUM_REGS = dut.NUM_REGS

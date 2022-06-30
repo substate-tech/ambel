@@ -16,6 +16,7 @@ class ExampleApb2CSTrgt() extends Module {
   val DATA_W = 32
 
   val t = Module(new Apb2CSTrgt(
+    ADDR_W = ADDR_W,
     DATA_W = DATA_W,
     REG_DESC_JSON = "src/main/json/Example.json",
     VERBOSE = true,
