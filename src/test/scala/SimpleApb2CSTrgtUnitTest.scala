@@ -49,4 +49,27 @@ class SimpleApb2CSTrgtUnitTester extends AmbelUnitTester {
     }
   }
 
+  it should "respond with PSLVERR on access to unmapped address" in {
+    test(new SimpleApb2CSTrgt()).withAnnotations(annos) { dut =>
+      dut.clock.step(4)
+
+      // Following address is out of range - only 2 registers mapped to lowest offsets (i.e. 0x0 and 0x4)
+      val addr = 0x8
+      val data = rand.nextInt & 0xff
+
+      // Attempt write out of range - expect PSLVERR
+      ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0xf)
+      ApbExpectSlvErr(dut.io.apb2T)
+
+      // Read and check reset value of RW register
+      ApbReadExpect(dut.io.apb2T, dut.clock, 0x0, 0x0)
+
+      // Attempt read out of range - expect PSLVERR
+      ApbRead(dut.io.apb2T, dut.clock, addr)
+      ApbExpectSlvErr(dut.io.apb2T)
+
+      dut.clock.step(4)
+    }
+  }
+
 }

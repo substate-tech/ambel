@@ -14,15 +14,15 @@ class Apb2NetTestHarness(
   val NUM_INIT: Int = 1, val NUM_TARG: Int = 2,
   val TARGET_SIZES: Array[Int] = Array(1,1)) extends Module {
 
-  val DATA_WIDTH = 32
+  val DATA_W = 32
   val NUM_REGS = 16
-  val ADDR_WIDTH = 32
+  val ADDR_W = 32
   val io = IO(new Bundle {
-    val apb2i = Vec(NUM_INIT, new Apb2IO(ADDR_WIDTH, DATA_WIDTH))
+    val apb2i = Vec(NUM_INIT, new Apb2IO(ADDR_W, DATA_W))
   })
 
   val Apb2Net_i = Module(new Apb2Net(NUM_INIT=NUM_INIT, NUM_TARG=NUM_TARG, TARGET_SIZES=TARGET_SIZES))
-  val Apb2TrgtArr_i = Seq.fill(NUM_TARG)(Module(new Apb2RegFile(NUM_REGS, DATA_WIDTH)))
+  val Apb2TrgtArr_i = Seq.fill(NUM_TARG)(Module(new Apb2RegFile(NUM_REGS, DATA_W)))
 
   Apb2Net_i.io.apb2i <> io.apb2i
 
@@ -58,7 +58,7 @@ class Apb2NetUnitTester extends AmbelUnitTester {
       dut.clock.step(4)
 
       // Discover APB network topology
-      val DATA_WIDTH = dut.DATA_WIDTH
+      val DATA_W = dut.DATA_W
       val NUM_REGS = dut.NUM_REGS
       val NUM_INIT = dut.NUM_INIT
       val NUM_TARG = dut.NUM_TARG
@@ -79,7 +79,7 @@ class Apb2NetUnitTester extends AmbelUnitTester {
         for (t <- 0 until NUM_TARG) {
           for (r <- 0 until NUM_REGS) {
             val data = rand.nextInt
-            val addr = targetBases(t) + r * DATA_WIDTH / 8
+            val addr = targetBases(t) + r * DATA_W / 8
             ApbWriteStrb(dut.io.apb2i(i), dut.clock, addr, data, 0xf)
             ApbReadExpect(dut.io.apb2i(i), dut.clock, addr, data)
           }
@@ -96,7 +96,7 @@ class Apb2NetUnitTester extends AmbelUnitTester {
       dut.clock.step(4)
 
       // Discover APB network topology
-      val DATA_WIDTH = dut.DATA_WIDTH
+      val DATA_W = dut.DATA_W
       val NUM_REGS = dut.NUM_REGS
       val NUM_INIT = dut.NUM_INIT
       val NUM_TARG = dut.NUM_TARG
@@ -108,14 +108,14 @@ class Apb2NetUnitTester extends AmbelUnitTester {
       fork {
         for (r <- 0 until NUM_REGS by 2) {
           val data = rand.nextInt
-          val addr = BASE_ADDR + r * DATA_WIDTH / 8
+          val addr = BASE_ADDR + r * DATA_W / 8
           evenDataSeq += data
           ApbWriteStrb(dut.io.apb2i(0), dut.clock, addr, data, 0xf)
         }
       }.fork {
         for (r <- 1 until NUM_REGS by 2) {
           val data = rand.nextInt
-          val addr = BASE_ADDR + r * DATA_WIDTH / 8
+          val addr = BASE_ADDR + r * DATA_W / 8
           oddDataSeq += data
           ApbWriteStrb(dut.io.apb2i(1), dut.clock, addr, data, 0xf)
         }
@@ -130,11 +130,11 @@ class Apb2NetUnitTester extends AmbelUnitTester {
 
       // Read all registers back in order via each initiator in turn
       for (r <- 0 until NUM_REGS) {
-        val addr = BASE_ADDR + r * DATA_WIDTH / 8
+        val addr = BASE_ADDR + r * DATA_W / 8
         ApbReadExpect(dut.io.apb2i(0), dut.clock, addr, dataSeq(r))
       }
       for (r <- 0 until NUM_REGS) {
-        val addr = BASE_ADDR + r * DATA_WIDTH / 8
+        val addr = BASE_ADDR + r * DATA_W / 8
         ApbReadExpect(dut.io.apb2i(1), dut.clock, addr, dataSeq(r))
       }
 
