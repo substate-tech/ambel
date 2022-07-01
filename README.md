@@ -73,7 +73,7 @@ If you want to run one particular test suite you can do so as follows
 ```sbt
 testOnly ambel.SimpleApb2CSTrgtUnitTester
 ```
-To dump waves (VCD) which you can add `-- -DwriteVcd=1`. Some other useful command line options have also been implemented:
+To dump waves (VCD) you can add `-- -DwriteVcd=1`. Some other useful command line options have also been implemented:
 - `-Dbackend=verilator` : select Verilator as the simulator instead of Treadle (the default)
 - `-Dseed=123` : specify 123 as the randomization seed (some tests generate and use random data)
 - `-Ddebug=1` : pass the DEBUG flag into the unit tester (e.g. to enable very verbose debug messages)
@@ -84,7 +84,7 @@ E.g. to use all of the above options for the Simple Example tests and dump a VCD
 testOnly ambel.SimpleApb2CSTrgtUnitTester -- -Dbackend=verilator -Dseed=123 -Ddebug=1 -Dverbose=1 -DwriteVcd=1
 ```
 # Generating Verilog
-If you would like to get a feel for the Verilog emitted by the AMBEL Apb2CSTrgt Module at the moment the most direct wayis to manualy edit the `Apb2CSTrgtDriver()` source code to point to your own JSON register description, then run
+If you would like to get a feel for the Verilog emitted by the AMBEL Apb2CSTrgt Module at the moment the most direct way is to manualy edit the `Apb2CSTrgtDriver()` source code to point to your own JSON register description, then run
 ```sbt
 runMain ambel.Apb2CSTrgtDriver --target-dir src/main/verilog --log-level info --log-file Apb2CSTrgtDriver.log
 ```
