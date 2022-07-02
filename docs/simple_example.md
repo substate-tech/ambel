@@ -1,4 +1,4 @@
-The following JSON file [versioned here](src/main/json/Simple.json) can be used to parameterize Apb2CSTrgt to implement an extremely simple Module with a single 32-bit register which has a single 8-bit read-write bit-field (the rest of the bits are marked as RESERVED, will not be writable and will read zero). 
+The following JSON file [versioned here](src/main/json/Simple.json) can be used to parameterize Apb2CSTrgt to implement an extremely simple Module with two 32-bit registers. The first has a single 8-bit read-write bit-field (the rest of the bits are marked as RESERVED, will not be writable and will read zero). The second register has two 8 bit fields, one is read-only, one is write-only. 
 ```JSON
 {
  "regMap": [
@@ -37,7 +37,9 @@ The following JSON file [versioned here](src/main/json/Simple.json) can be used 
 }
 ```
 
-Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v))with the following interface.
+Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v)) with the following interface.
+
+Below the clock and reset, and the standard APB2 IOs we see three extra IOs, one output which will reflect the value the read-write register, one input which is readable via the read-only register, and one output which will propagate any non-zero value written to the write-only register for one clock cycle before returning to zero again. Simple!
 ```Verilog
 module Apb2CSTrgt(
   input         clock,
