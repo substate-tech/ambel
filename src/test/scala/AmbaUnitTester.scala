@@ -48,7 +48,6 @@ abstract class AmbelUnitTester(DATA_W: Int = 32) extends BaseUnitTester {
     t.req.pStrb.poke(0.U)
     ApbXfer(t, pclk)
     t.rsp.pRData.peek()
-    t.rsp.pSlvErr.peek()
   }
 
   def ApbReadExpect(t: Apb2IO, pclk: Clock, pAddr: Int, pRData: Int) = {
