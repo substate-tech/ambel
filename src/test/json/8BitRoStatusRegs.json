@@ -1,0 +1,30 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_RO_8_STATUS"
+  },
+  {
+   "offset": 4,
+   "name": "REG_ONE", "typeRef": "REG_RO_8_STATUS"
+  },
+  {
+   "offset": 8,
+   "name": "REG_TWO", "typeRef": "REG_RO_8_STATUS"
+  },
+  {
+   "offset": 12,
+   "name": "REG_THREE", "typeRef": "REG_RO_8_STATUS"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_RO_8_STATUS",
+   "width": 32,
+   "fields": [
+    {"bits": [7, 0], "name": "STATUS_BITS", "mode": "RO"}
+   ],
+   "comment": "8 status bits, read only, writing has no effect."
+  }
+ ]
+}

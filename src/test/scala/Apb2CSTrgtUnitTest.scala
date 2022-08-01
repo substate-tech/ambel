@@ -63,6 +63,31 @@ class Apb2CSTrgt8GoBitWORegsTestWrapper(val VERBOSE: Boolean = false) extends Mo
   io.wo.RegThree_GoBits := t.io.woVec(3)
 }
 
+/** =Apb2CSTrgt8BitROStatusORegsTestWrapper=
+  *
+  * Wraps instance of Apb2CSTrgt parameterized with 8BitRoStatusRegs.json with
+  * register RO Input Vec connected to auto-generated Bundle matching specified
+  * bitfield names
+  */
+class Apb2CSTrgt8BitROStatusORegsTestWrapper(val VERBOSE: Boolean = false) extends Module {
+  val ADDR_W = 32
+  val DATA_W = 32
+
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/8BitRoStatusRegs.json", VERBOSE))
+
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+    val ro = Input(new _8BitRoStatusRegsRoVec_)
+  })
+
+  t.io.apb2T <> io.apb2T
+
+  t.io.roVec(0) := io.ro.RegZero_StatusBits
+  t.io.roVec(1) := io.ro.RegOne_StatusBits
+  t.io.roVec(2) := io.ro.RegTwo_StatusBits
+  t.io.roVec(3) := io.ro.RegThree_StatusBits
+}
+
 /** =Apb2CSTrgt Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
@@ -283,6 +308,67 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
             ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
           }.join
         }
+      }
+
+      dut.clock.step(4)
+    }
+  }
+
+
+  it should "test RO bits exhasutively" in {
+    test(new Apb2CSTrgt8BitROStatusORegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
+      dut.clock.step(4)
+
+      val NUM_REGS = dut.t.NUM_REGS
+
+      // Initialize status to zeros
+      dut.io.ro.RegZero_StatusBits.poke(0.U)
+      dut.io.ro.RegOne_StatusBits.poke(0.U)
+      dut.io.ro.RegTwo_StatusBits.poke(0.U)
+      dut.io.ro.RegThree_StatusBits.poke(0.U)
+
+      // For each register...
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+
+        // Check initial status values
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
+
+        // Set status to random 8 bit values, read back and check
+        for (i <- 0 until 10) {
+          val data = rand.nextInt & 0xff
+
+          r match {
+            case 0 => dut.io.ro.RegZero_StatusBits.poke(data.U(8.W))
+            case 1 => dut.io.ro.RegOne_StatusBits.poke(data.U(8.W))
+            case 2 => dut.io.ro.RegTwo_StatusBits.poke(data.U(8.W))
+            case 3 => dut.io.ro.RegThree_StatusBits.poke(data.U(8.W))
+          }
+
+          val rdData = data & 0xff
+          ApbReadExpect(dut.io.apb2T, dut.clock, addr, rdData)
+        }
+      }
+
+      // Read back final values (set above), then write 0s to RO registers and check
+      // read values have not changed
+      val dataSeq = new ListBuffer[UInt]
+
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+        dataSeq += ApbRead(dut.io.apb2T, dut.clock, addr)
+      }
+
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+        ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0, 0x1)
+      }
+
+      val dataExp = dataSeq.toList
+
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp(r).litValue.toInt)
       }
 
       dut.clock.step(4)
