@@ -32,7 +32,7 @@ Please follow the general instructions for getting setup to run Chisel locally f
 
 ## Dependencies
 AMBEL has the following dependencies
-- [Chisel3 v3.5.3](https://github.com/chipsalliance/chisel3/releases/tag/v3.5.3)
+- [Chisel3 v3.5.4](https://github.com/chipsalliance/chisel3/releases/tag/v3.5.4)
 - [circe v0.7.0](https://github.com/circe/circe/releases/tag/v0.7.0)
 - [ChiselTest v0.5.1](https://github.com/ucb-bar/chiseltest/releases/tag/v0.5.1)
 
