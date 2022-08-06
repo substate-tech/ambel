@@ -74,7 +74,7 @@ class _SimpleWoVec_ extends Bundle {
   val SimpleRoWo_WoBits = UInt(8.W)
 }
 ```
-The Bundles can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec output to a named member of the generated Bundle. This is shown in [SimpleApb2CSTrgt.scala](src/main/scala/examples/SimpleApb2CSTrgt.scala).
+The Bundles can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec IOs to named members of the generated Bundles. This is shown in [SimpleApb2CSTrgt.scala](src/main/scala/examples/SimpleApb2CSTrgt.scala).
 ```scala
 class SimpleApb2CSTrgt() extends Module {
   val ADDR_W = 32
