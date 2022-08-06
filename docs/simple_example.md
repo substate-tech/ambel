@@ -39,7 +39,7 @@ The following JSON file [versioned here](src/main/json/Simple.json) can be used 
 
 Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v)) with the following interface.
 
-Below the clock and reset, and the standard APB2 IOs we see three extra IOs, one output which will reflect the value the read-write register, one input which is readable via the read-only register, and one output which will propagate any non-zero value written to the write-only register for one clock cycle before returning to zero again. Simple!
+Below the clock and reset, and the standard APB2 IOs we see three extra IOs, one output which will reflect the value of the read-write register, one input which is readable via the read-only register, and one output which will propagate any non-zero value written to the write-only register for one clock cycle before returning to zero again. Simple!
 ```Verilog
 module Apb2CSTrgt(
   input         clock,
