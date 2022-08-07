@@ -1,0 +1,30 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_W1C_8_STATUS"
+  },
+  {
+   "offset": 4,
+   "name": "REG_ONE", "typeRef": "REG_W1C_8_STATUS"
+  },
+  {
+   "offset": 8,
+   "name": "REG_TWO", "typeRef": "REG_W1C_8_STATUS"
+  },
+  {
+   "offset": 12,
+   "name": "REG_THREE", "typeRef": "REG_W1C_8_STATUS"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_W1C_8_STATUS",
+   "width": 32,
+   "fields": [
+    {"bits": [7, 0], "name": "W1C_BITS", "mode": "W1C"}
+   ],
+   "comment": "8 active HIGH write-1-to-clear status bits, '0' out of reset, set to '1' via Module inputs pulsing HIGH, cleared by writing '1' to same bits via corresponding register."
+  }
+ ]
+}

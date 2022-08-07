@@ -88,6 +88,31 @@ class Apb2CSTrgt8BitROStatusORegsTestWrapper(val VERBOSE: Boolean = false) exten
   t.io.roVec(3) := io.ro.RegThree_StatusBits
 }
 
+/** =Apb2CSTrgt8BitW1CRegsTestWrapper=
+  *
+  * Wraps instance of Apb2CSTrgt parameterized with 8BitW1CRegs.json with
+  * register W1C Input Vec connected to auto-generated Bundle matching specified
+  * bitfield names
+  */
+class Apb2CSTrgt8BitW1CRegsTestWrapper(val VERBOSE: Boolean = false) extends Module {
+  val ADDR_W = 32
+  val DATA_W = 32
+
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/8BitW1CRegs.json", VERBOSE))
+
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+    val wc = Input(new _8BitW1CRegsWcVec_)
+  })
+
+  t.io.apb2T <> io.apb2T
+
+  t.io.wcVec(0) := io.wc.RegZero_StatusBits
+  t.io.wcVec(1) := io.wc.RegOne_StatusBits
+  t.io.wcVec(2) := io.wc.RegTwo_StatusBits
+  t.io.wcVec(3) := io.wc.RegThree_StatusBits
+}
+
 /** =Apb2CSTrgt Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
