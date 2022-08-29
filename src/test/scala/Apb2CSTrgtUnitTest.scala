@@ -340,7 +340,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
 
-  it should "test RO bits exhasutively" in {
+  it should "test RO bits exhaustively" in {
     test(new Apb2CSTrgt8BitROStatusORegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
@@ -394,6 +394,75 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
       for (r <- 0 until NUM_REGS) {
         val addr = r << 2
         ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp(r).litValue.toInt)
+      }
+
+      dut.clock.step(4)
+    }
+  }
+
+  it should "test W1C bits exhaustively" in {
+    test(new Apb2CSTrgt8BitW1CRegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
+      dut.clock.step(4)
+
+      val NUM_REGS = dut.t.NUM_REGS
+
+      // For each register...
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+
+        // Check initial status values
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
+
+        // Set status to all ones and check
+        val data = 0xff
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(data.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(data.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(data.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(data.U(8.W))
+        }
+
+        dut.clock.step()
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(0.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(0.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(0.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(0.U(8.W))
+        }
+
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0xff)
+
+        // Clear each bit individually, checking as we go
+        var dataExp = 0xff
+        for (i <- 0 to 7) {
+          ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0x1 << i, 0x1)
+          dataExp &= ~(0x1 << i)
+          ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
+        }
+
+        // Set status to all ones and check writing zeros has no effect
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(data.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(data.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(data.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(data.U(8.W))
+        }
+
+        dut.clock.step()
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(0.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(0.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(0.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(0.U(8.W))
+        }
+
+        dataExp = data
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
+        ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0x00, 0x1)
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
       }
 
       dut.clock.step(4)
