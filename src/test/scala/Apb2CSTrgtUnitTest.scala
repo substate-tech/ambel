@@ -88,6 +88,31 @@ class Apb2CSTrgt8BitROStatusORegsTestWrapper(val VERBOSE: Boolean = false) exten
   t.io.roVec(3) := io.ro.RegThree_StatusBits
 }
 
+/** =Apb2CSTrgt8BitW1CRegsTestWrapper=
+  *
+  * Wraps instance of Apb2CSTrgt parameterized with 8BitW1CRegs.json with
+  * register W1C Input Vec connected to auto-generated Bundle matching specified
+  * bitfield names
+  */
+class Apb2CSTrgt8BitW1CRegsTestWrapper(val VERBOSE: Boolean = false) extends Module {
+  val ADDR_W = 32
+  val DATA_W = 32
+
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/8BitW1CRegs.json", VERBOSE))
+
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+    val wc = Input(new _8BitW1CRegsWcVec_)
+  })
+
+  t.io.apb2T <> io.apb2T
+
+  t.io.wcVec(0) := io.wc.RegZero_StatusBits
+  t.io.wcVec(1) := io.wc.RegOne_StatusBits
+  t.io.wcVec(2) := io.wc.RegTwo_StatusBits
+  t.io.wcVec(3) := io.wc.RegThree_StatusBits
+}
+
 /** =Apb2CSTrgt Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
@@ -315,7 +340,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
 
-  it should "test RO bits exhasutively" in {
+  it should "test RO bits exhaustively" in {
     test(new Apb2CSTrgt8BitROStatusORegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
@@ -369,6 +394,75 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
       for (r <- 0 until NUM_REGS) {
         val addr = r << 2
         ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp(r).litValue.toInt)
+      }
+
+      dut.clock.step(4)
+    }
+  }
+
+  it should "test W1C bits exhaustively" in {
+    test(new Apb2CSTrgt8BitW1CRegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
+      dut.clock.step(4)
+
+      val NUM_REGS = dut.t.NUM_REGS
+
+      // For each register...
+      for (r <- 0 until NUM_REGS) {
+        val addr = r << 2
+
+        // Check initial status values
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
+
+        // Set status to all ones and check
+        val data = 0xff
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(data.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(data.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(data.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(data.U(8.W))
+        }
+
+        dut.clock.step()
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(0.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(0.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(0.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(0.U(8.W))
+        }
+
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0xff)
+
+        // Clear each bit individually, checking as we go
+        var dataExp = 0xff
+        for (i <- 0 to 7) {
+          ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0x1 << i, 0x1)
+          dataExp &= ~(0x1 << i)
+          ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
+        }
+
+        // Set status to all ones and check writing zeros has no effect
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(data.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(data.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(data.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(data.U(8.W))
+        }
+
+        dut.clock.step()
+
+        r match {
+          case 0 => dut.io.wc.RegZero_StatusBits.poke(0.U(8.W))
+          case 1 => dut.io.wc.RegOne_StatusBits.poke(0.U(8.W))
+          case 2 => dut.io.wc.RegTwo_StatusBits.poke(0.U(8.W))
+          case 3 => dut.io.wc.RegThree_StatusBits.poke(0.U(8.W))
+        }
+
+        dataExp = data
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
+        ApbWriteStrb(dut.io.apb2T, dut.clock, addr, 0x00, 0x1)
+        ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
       }
 
       dut.clock.step(4)
