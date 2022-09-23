@@ -1,0 +1,46 @@
+{
+ "regMap": [
+  {
+   "offset": 0,
+   "name": "REG_ZERO", "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_0",
+   "comment": "32 bit register with RW bitfields straddling byte boundaries"
+  },
+  {
+   "offset": 4,
+   "name": "REG_TWO", "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_1",
+   "comment": "Another 32 bit register with RW bitfields straddling byte boundaries"
+  },
+  {
+   "offset": 8,
+   "name": "REG_THREE", "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_0",
+   "comment": "32 bit register with RW bitfields straddling byte boundaries"
+  },
+  {
+   "offset": 12,
+   "name": "REG_FOUR", "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_1",
+   "comment": "Another 32 bit register with RW bitfields straddling byte boundaries"
+  }
+ ],
+ "regTypes": [
+  {
+   "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_0",
+   "width": 32,
+   "fields": [
+    {"bits": [3, 0], "name": "NIBBLE", "mode": "RW", "resetVal": 0},
+    {"bits": [11, 4], "name": "MISALIGNED_BYTE_0", "mode": "RW", "resetVal": 0},
+    {"bits": [19, 12], "name": "MISALIGNED_BYTE_1", "mode": "RW", "resetVal": 0},
+    {"bits": [31, 20], "name": "REST_OF_BITS", "mode": "RW", "resetVal": 0}
+   ],
+   "comment": "32 bit register with misaligned nibbles and bytes"
+  },
+  {
+   "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_1",
+   "width": 32,
+   "fields": [
+    {"bits": [23, 0], "name": "THREE_BYTE_BITFIELD", "mode": "RW", "resetVal": 0},
+    {"bits": [31, 24], "name": "TOP_BYTE", "mode": "RW", "resetVal": 0}
+   ],
+   "comment": "32 bit register with a three byte bitfield and a single byte"
+  }
+ ]
+}
