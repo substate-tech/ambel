@@ -67,6 +67,10 @@ abstract class AmbelUnitTester(DATA_W: Int = 32) extends BaseUnitTester {
     t.rsp.pSlvErr.expect(true.B)
   }
 
+  def ApbExpectNoSlvErr(t: Apb2IO) = {
+    t.rsp.pSlvErr.expect(false.B)
+  }
+
   def ApbWriteStrb(t: Apb2IO, pclk: Clock, pAddr: Int, pWData: Int, pStrb: Int) = {
     val pAddrStr: String = f"h${pAddr}%08x"
     val pWDataStr: String = f"h${pWData}%08x"

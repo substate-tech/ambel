@@ -113,6 +113,39 @@ class Apb2CSTrgt8BitW1CRegsTestWrapper(val VERBOSE: Boolean = false) extends Mod
   t.io.wcVec(3) := io.wc.RegThree_StatusBits
 }
 
+/** =Apb2CSTrgtMisalignedRWRegsTestWrapper=
+  *
+  * Wraps instance of Apb2CSTrgt parameterized with MisalignedRWRegs.json with
+  * register W1C Input Vec connected to auto-generated Bundle matching specified
+  * bitfield names
+  */
+class Apb2CSTrgtMisalignedRWRegsTestWrapper(val VERBOSE: Boolean = false) extends Module {
+  val ADDR_W = 32
+  val DATA_W = 32
+
+  val t = Module(new Apb2CSTrgt(ADDR_W, DATA_W, "src/test/json/MisalignedRWRegs.json", VERBOSE))
+
+  val io = IO(new Bundle {
+    val apb2T = new Apb2IO(ADDR_W, DATA_W)
+    val rw = Output(new _MisalignedRWRegsRwVec_)
+  })
+
+  t.io.apb2T <> io.apb2T
+
+  io.rw.RegZero_Nibble            := t.io.rwVec(0)
+  io.rw.RegZero_MisalignedByte0   := t.io.rwVec(1)
+  io.rw.RegZero_MisalignedByte1   := t.io.rwVec(2)
+  io.rw.RegZero_RestOfBits        := t.io.rwVec(3)
+  io.rw.RegTwo_ThreeByteBitfield  := t.io.rwVec(4)
+  io.rw.RegTwo_TopByte            := t.io.rwVec(5)
+  io.rw.RegThree_Nibble           := t.io.rwVec(6)
+  io.rw.RegThree_MisalignedByte0  := t.io.rwVec(7)
+  io.rw.RegThree_MisalignedByte1  := t.io.rwVec(8)
+  io.rw.RegThree_RestOfBits       := t.io.rwVec(9)
+  io.rw.RegFour_ThreeByteBitfield := t.io.rwVec(10)
+  io.rw.RegFour_TopByte           := t.io.rwVec(11)
+}
+
 /** =Apb2CSTrgt Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
@@ -465,6 +498,146 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
         ApbReadExpect(dut.io.apb2T, dut.clock, addr, dataExp)
       }
 
+      dut.clock.step(4)
+    }
+  }
+
+  it should "test pStrb functionality" in {
+    test(new Apb2CSTrgtMisalignedRWRegsTestWrapper(_verbose)).withAnnotations(annos) { dut =>
+      dut.clock.step(4)
+
+      // pStrb is implemented as follows: pStrb bits are used to mask or enable
+      // writes to individual bytes of bit fields. However, if a bit field straddles
+      // two or more byte lanes and not ALL the corresponding bits of pStrb are set
+      // then the bit field is not written (at all) and pSlvErr is signalled.
+
+
+      // REG_ZERO and REG_THREE are:
+      // "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_0",
+      // "fields": [
+      //   {"bits": [3, 0], "name": "NIBBLE", "mode": "RW", "resetVal": 0},
+      //   {"bits": [11, 4], "name": "MISALIGNED_BYTE_0", "mode": "RW", "resetVal": 0},
+      //   {"bits": [19, 12], "name": "MISALIGNED_BYTE_1", "mode": "RW", "resetVal": 0},
+      //   {"bits": [31, 20], "name": "REST_OF_BITS", "mode": "RW", "resetVal": 0}
+      val even_regs = 0 :: 8 :: Nil
+
+      for (r <- even_regs) {
+        // Write to first byte hitting NIBBLE and bottom of MISALIGNED_BYTE_0 which
+        // straddles bytes 0 and 1. Expect NIBBLE to be written but not MISALIGNED_BYTE_0.
+        // Expect pSlvErr to be signalled due to the attempted partial write.
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, 0xff, 0x1)
+        ApbExpectSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, 0xf)
+
+        r match {
+          case 0 => {
+            dut.io.rw.RegZero_Nibble.expect(0xf.U)
+            dut.io.rw.RegZero_MisalignedByte0.expect(0x00.U)
+          }
+          case 8 => {
+            dut.io.rw.RegThree_Nibble.expect(0xf.U)
+            dut.io.rw.RegThree_MisalignedByte0.expect(0x00.U)
+          }
+        }
+
+        // Write to first two bytes hitting NIBBLE and MISALIGNED_BYTE_0 which
+        // straddles bytes 0 and 1 and also MISALIGNED_BYTE_1 which straddles bytes 1
+        // and 2. Expect NIBBLE and MISALIGNED_BYTE_0 to be written but not
+        // MISALIGNED_BYTE_1.
+        // Expect pSlvErr to be signalled due to the attempted partial write.
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, 0xfff0, 0x3)
+        ApbExpectSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, 0x0ff0)
+
+        r match {
+          case 0 => {
+            dut.io.rw.RegZero_Nibble.expect(0x0.U)
+            dut.io.rw.RegZero_MisalignedByte0.expect(0xff.U)
+            dut.io.rw.RegZero_MisalignedByte1.expect(0x00.U)
+          }
+          case 8 => {
+            dut.io.rw.RegThree_Nibble.expect(0x0.U)
+            dut.io.rw.RegThree_MisalignedByte0.expect(0xff.U)
+            dut.io.rw.RegThree_MisalignedByte1.expect(0x00.U)
+          }
+        }
+
+        // Write to top two bytes hitting MISALIGNED_BYTE_1 which
+        // straddles bytes 1 and 2, and REST_OF_BITS. Expect REST_OF_BITS
+        // to be written but not MISALIGNED_BYTE_1.
+        // Expect pSlvErr to be signalled due to the attempted partial write.
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, 0xffffffff, 0xc)
+        ApbExpectSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, 0xfff00ff0)
+
+        r match {
+          case 0 => {
+            dut.io.rw.RegZero_Nibble.expect(0x0.U)
+            dut.io.rw.RegZero_MisalignedByte0.expect(0xff.U)
+            dut.io.rw.RegZero_MisalignedByte1.expect(0x00.U)
+            dut.io.rw.RegZero_RestOfBits.expect(0xfff.U)
+          }
+          case 8 => {
+            dut.io.rw.RegThree_Nibble.expect(0x0.U)
+            dut.io.rw.RegThree_MisalignedByte0.expect(0xff.U)
+            dut.io.rw.RegThree_MisalignedByte1.expect(0x00.U)
+            dut.io.rw.RegZero_RestOfBits.expect(0xfff.U)
+          }
+        }
+
+      }
+
+      // REG_TWO and REG_FOUR are:
+      // "typeRef": "REG_RW_WITH_BITFIELDS_STRADDLING_BYTE_BOUNDARIES_1",
+      // "width": 32,
+      // "fields": [
+      //  {"bits": [23, 0], "name": "THREE_BYTE_BITFIELD", "mode": "RW", "resetVal": 0},
+      //  {"bits": [31, 24], "name": "TOP_BYTE", "mode": "RW", "resetVal": 0}
+      val odd_regs = 4 :: 12 :: Nil
+
+      for (r <- odd_regs) {
+        // Write to top two bytes and bottom two bytes expect only TOP_BYTE to be written
+        // and never THREE_BYTE_BITFIELD
+        // Expect pSlvErr to be signalled due to the attempted partial write.
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, 0xffff, 0x3)
+        ApbExpectSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, 0x00000000)
+
+        r match {
+          case 4 => {
+            dut.io.rw.RegTwo_ThreeByteBitfield.expect(0x000000.U)
+            dut.io.rw.RegTwo_TopByte.expect(0x00.U)
+          }
+          case 12 => {
+            dut.io.rw.RegFour_ThreeByteBitfield.expect(0x000000.U)
+            dut.io.rw.RegFour_TopByte.expect(0x00.U)
+          }
+        }
+
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, 0xffff0000, 0xc)
+        ApbExpectSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, 0xff000000)
+
+        r match {
+          case 4 => {
+            dut.io.rw.RegTwo_ThreeByteBitfield.expect(0x000000.U)
+            dut.io.rw.RegTwo_TopByte.expect(0xff.U)
+          }
+          case 12 => {
+            dut.io.rw.RegFour_ThreeByteBitfield.expect(0x000000.U)
+            dut.io.rw.RegFour_TopByte.expect(0xff.U)
+          }
+        }
+      }
+
+      // Test access with all pStrb bits set
+      val all_regs = 0 :: 4 :: 8 :: 12 :: Nil
+      for (r <- all_regs) {
+        val data = rand.nextInt
+        ApbWriteStrb(dut.io.apb2T, dut.clock, r, data, 0xf)
+        ApbExpectNoSlvErr(dut.io.apb2T)
+        ApbReadExpect(dut.io.apb2T, dut.clock, r, data)
+      }
       dut.clock.step(4)
     }
   }
