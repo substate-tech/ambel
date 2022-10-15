@@ -1,4 +1,17 @@
-// See README.md for license details.
+// Copyright 2022 Richard James Richmond
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package ambel
 
 import java.io._
@@ -75,12 +88,11 @@ import io.circe.generic.auto._
   * @param REG_DESC_JSON a string giving the path to the register description JSON
   * to be generated
   * @param VERBOSE enables verbose output during generation
-  * @param GEN_BUNDLE enables generation of Scala Bundles suitable for connection
-  * to the generated MixedVec IOs. The signal names used in the Bundles match their
-  * corresponding register and bit field names, as specified in the JSON. They are
-  * declared in the same order as the entries of the corresponding MixedVecs and
-  * are therefore very simple to connect to create wrapper Modules with named IO
-  * for specific (JSON) parameterizations of Apb2CSTrgt
+  * @param GEN_MODULE enables generation of a wrapper Module which uses generated
+  * Bundles suitable for connection to the generated MixedVec IOs. The signal names
+  * used in the Bundles match their corresponding register and bit field names, as
+  * specified in the JSON. They are declared in the same order as the entries of
+  * the corresponding MixedVecs and connected in order
   * @todo implement pProt
   * @todo implement check that there are no spaces in register or regType names in JSON
   */
@@ -89,7 +101,7 @@ class Apb2CSTrgt(
   DATA_W: Int = 32,
   REG_DESC_JSON: String,
   VERBOSE: Boolean = false,
-  GEN_BUNDLE: Boolean = false) extends Module {
+  GEN_MODULE: Boolean = false) extends Module {
   val NUM_BYTE = DATA_W/8
   val NUM_BITS_SHIFT = log2Ceil(NUM_BYTE) // Number of bits to shift right address to index registers
 
@@ -278,7 +290,7 @@ class Apb2CSTrgt(
   }
 
   // NOTE suggestName doesn't actually work in IO Bundles. unclear whether it ever will, but if
-  // it was possible we'd use it here, negating the requirement for the GEN_BUNDLE functionality
+  // it was possible we'd use it here, negating the requirement for the GEN_MODULE functionality
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
     val rwVec = Output(MixedVec((rwRegBits map { case (k, v) => UInt(v.W).suggestName(k) }).toList))
@@ -365,32 +377,43 @@ class Apb2CSTrgt(
   // in JSON description therefore iterate over names and index regArr with
   // corresponding offset. Simultaneously we generate Chisel Bundles with
   // signal names suitable for connection to the MixedVecs. These are
-  // written to file if (GEN_BUNDLE)
+  // written to file if (GEN_MODULE)
   val rwBundleBuffer = new ListBuffer[String]()
   val roBundleBuffer = new ListBuffer[String]()
   val woBundleBuffer = new ListBuffer[String]()
   val wcBundleBuffer = new ListBuffer[String]()
+
+  val rwConnectBuffer = new ListBuffer[String]()
+  val roConnectBuffer = new ListBuffer[String]()
+  val woConnectBuffer = new ListBuffer[String]()
+  val wcConnectBuffer = new ListBuffer[String]()
 
   val rwIt = io.rwVec.iterator
   val roIt = io.roVec.iterator
   val woIt = io.woVec.iterator
   val wcIt = io.wcVec.iterator
 
-  val chisel3BundleFilePath = REG_DESC_JSON.replaceAll("json", "scala")
-  val chisel3BundleFileName = chisel3BundleFilePath.split('/').last
-  val bundlePrefix = chisel3BundleFileName.split('.').head.capitalize
+  val chisel3ModuleFilePath = REG_DESC_JSON.replaceAll("json", "scala").replaceAll("\\.scala", "Apb2T.scala")
+  val chisel3ModuleFileName = chisel3ModuleFilePath.split('/').last
+  val chisel3ModuleName = chisel3ModuleFileName.split('.').head
+
+  val bundlePrefix = chisel3ModuleFileName.split('.').head.capitalize
 
   if (rwIt.nonEmpty) {
     rwBundleBuffer += f"class _${bundlePrefix}RwVec_ extends Bundle {\n"
+    rwConnectBuffer += f"\n  // Connect RW bit-field outputs\n"
   }
   if (roIt.nonEmpty) {
     roBundleBuffer += f"class _${bundlePrefix}RoVec_ extends Bundle {\n"
+    roConnectBuffer += f"\n  // Connect RO bit-field inputs\n"
   }
   if (woIt.nonEmpty) {
     woBundleBuffer += f"class _${bundlePrefix}WoVec_ extends Bundle {\n"
+    woConnectBuffer += f"\n  // Connect WO bit-field Outputs\n"
   }
   if (wcIt.nonEmpty) {
     wcBundleBuffer += f"class _${bundlePrefix}WcVec_ extends Bundle {\n"
+    wcConnectBuffer += f"\n  // Connect W1C bit-field Inputs\n"
   }
 
   def writeBundleMember(f: BitFieldDetails): String = {
@@ -402,26 +425,42 @@ class Apb2CSTrgt(
     return s
   }
 
+  def writeBundleConnect(f: BitFieldDetails, index: Int): String = {
+    var s: String = ""
+    if (f.mode == "RW")
+      s = f"  io.rw.${f.name} := t.io.rwVec(${index})\n"
+    else if (f.mode == "RO")
+      s = f"  t.io.roVec(${index}) := io.ro.${f.name}\n"
+    else if (f.mode == "WO")
+      s = f"  io.wo.${f.name} := t.io.woVec(${index})\n"
+    else if (f.mode == "W1C")
+      s = f"  t.io.wcVec(${index}) := io.wc.${f.name}\n"
+
+    if (VERBOSE) {
+      println(f"Connecting ${f.mode} bit field ${f.name} to IO Bundle")
+    }
+
+    return s
+  }
+
+  var rwIdx, roIdx, woIdx, wcIdx: Int = 0
   for (r <- names) {
     for (f <- regArr(regMap(r).offset >> NUM_BITS_SHIFT).iterator) {
       if (f.mode == "RW") {
-        if (VERBOSE) {
-          println(f"Connecting RW bit field ${f.name} to IO Bundle rwVec Output")
-        }
+        rwConnectBuffer += writeBundleConnect(f, rwIdx)
+        rwIdx = rwIdx + 1
         rwBundleBuffer += writeBundleMember(f)
         rwIt.next := f.reg
       }
       if (f.mode == "RO") {
-        if (VERBOSE) {
-          println(f"Connecting RO bit field ${f.name} to IO Bundle roVec Input")
-        }
+        roConnectBuffer += writeBundleConnect(f, roIdx)
+        roIdx = roIdx + 1
         roBundleBuffer += writeBundleMember(f)
         f.reg := roIt.next
       }
       if (f.mode == "WO") {
-        if (VERBOSE) {
-          println(f"Connecting WO bit field ${f.name} to IO Bundle woVec Output")
-        }
+        woConnectBuffer += writeBundleConnect(f, woIdx)
+        woIdx = woIdx + 1
         woBundleBuffer += writeBundleMember(f)
         woIt.next := f.reg
       }
@@ -525,9 +564,8 @@ class Apb2CSTrgt(
     regArr.foreach(r => {
       r.foreach(f => {
         if (f.mode == "W1C") {
-          if (VERBOSE) {
-            println(f"Connecting W1C bit field ${f.name} to IO Bundle")
-          }
+          wcConnectBuffer += writeBundleConnect(f, wcIdx)
+          wcIdx = wcIdx + 1
           wcBundleBuffer += writeBundleMember(f)
 
           val nxtBits = VecInit(f.reg.asBools)
@@ -571,17 +609,27 @@ class Apb2CSTrgt(
   io.apb2T.rsp.pRData  := pRDataFF
   io.apb2T.rsp.pSlvErr := pSlvErrFF
 
-  // Optional write of generated Bundles to file
-  if (GEN_BUNDLE) {
-    val pw = new PrintWriter(new File(f"${chisel3BundleFilePath}"))
+  // Optional write of generated Bundles and wrapper Module to file
+  if (GEN_MODULE) {
+    val pw = new PrintWriter(new File(f"${chisel3ModuleFilePath}"))
+    println(f"Writing Bundles to ${chisel3ModuleFilePath}")
 
-    println(f"Writing ${chisel3BundleFilePath}")
+    pw.write( "//\n// Copyright 2022 Richard James Richmond\n//\n")
+    pw.write(f"""// Licensed under the Apache License, Version 2.0 (the "License");\n""")
+    pw.write( "// you may not use this file except in compliance with the License.\n")
+    pw.write( "// You may obtain a copy of the License at\n//\n")
+    pw.write( "//     http://www.apache.org/licenses/LICENSE-2.0\n//\n")
+    pw.write( "// Unless required by applicable law or agreed to in writing, software\n")
+    pw.write(f"""// distributed under the License is distributed on an "AS IS" BASIS,\n""")
+    pw.write( "// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n")
+    pw.write( "// See the License for the specific language governing permissions and\n")
+    pw.write( "// limitations under the License.\n\n")
 
-    pw.write("// See README.md for license details.\n")
-    pw.write("package ambel\n\n")
-    pw.write("import chisel3._\n\n")
+    pw.write( "package ambel\n\n")
+    pw.write( "import chisel3._\n")
+    pw.write( "import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}\n\n")
     pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")=\n""")
-    pw.write("  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
+    pw.write( "  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
 
     if (rwBundleBuffer.nonEmpty) {
       rwBundleBuffer += "}\n"
@@ -601,8 +649,54 @@ class Apb2CSTrgt(
     woBundleBuffer.foreach(pw.write)
     wcBundleBuffer.foreach(pw.write)
 
+    println(f"Writing wrapper Module to ${chisel3ModuleFilePath}")
+
+    pw.append(f"""\n/** =Wrapper Module for Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")=\n""")
+    pw.append( "  * Uses Bundles above on IO and makes ordered connection to MixedVec IO on\n")
+    pw.append( "  * Apb2CSTrgt instance\n")
+    pw.append( "  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
+
+    pw.append(f"class ${chisel3ModuleName}() extends Module {\n")
+    pw.append(f"  val ADDR_W = ${ADDR_W}\n")
+    pw.append(f"  val DATA_W = ${DATA_W}\n\n")
+    pw.append(f"  val t = Module(new Apb2CSTrgt(\n")
+    pw.append(f"    ADDR_W = ADDR_W,\n")
+    pw.append(f"    DATA_W = DATA_W,\n")
+    pw.append(f"""    REG_DESC_JSON = "${REG_DESC_JSON}"))\n\n""")
+
+    pw.append( "  val io = IO(new Bundle {\n")
+    pw.append( "    val apb2T = new Apb2IO(ADDR_W, DATA_W)\n")
+    if (rwBundleBuffer.nonEmpty) {
+      pw.append(f"    val rw = Output(new _${bundlePrefix}RwVec_)\n")
+    }
+    if (roBundleBuffer.nonEmpty) {
+      pw.append(f"    val ro = Input(new _${bundlePrefix}RoVec_)\n")
+    }
+    if (woBundleBuffer.nonEmpty) {
+      pw.append(f"    val wo = Output(new _${bundlePrefix}WoVec_)\n")
+    }
+    if (wcBundleBuffer.nonEmpty) {
+      pw.append(f"    val wc = Input(new _${bundlePrefix}WcVec_)\n")
+    }
+    pw.append( "  })\n\n")
+
+    pw.append( "  // Connect APB2 target interface\n")
+    pw.append( "  t.io.apb2T <> io.apb2T\n")
+
+    rwConnectBuffer.foreach(pw.write)
+    roConnectBuffer.foreach(pw.write)
+    woConnectBuffer.foreach(pw.write)
+    wcConnectBuffer.foreach(pw.write)
+
+    pw.append( "}\n")
+
+    pw.append(f"\nobject ${chisel3ModuleName}Driver extends App {\n")
+    pw.append(f"  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new ${chisel3ModuleName}())))\n")
+    pw.append( "}\n")
+
     pw.close
   }
+
 }
 
 /** =Verilog generation boiler plate=
@@ -615,5 +709,5 @@ class Apb2CSTrgt(
   */
 // $COVERAGE-OFF$
 object Apb2CSTrgtDriver extends App {
-  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, 32, "src/main/json/Example.json", true, true))))
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new Apb2CSTrgt(32, 32, "src/main/json/Simple.json", true, true))))
 }

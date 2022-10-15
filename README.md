@@ -46,11 +46,11 @@ Contributions and collaborators welcome! Please see the guide to [contributing](
 ## [Apb2CSTrgt](src/main/scala/Apb2CSTrgt.scala)
 The `Apb2CSTrgt` Module implements a basic APB2 control/status register set with the registers and their address map supplied via a simple JSON description, passed as a parameter to the Module. The JSON register description is parsed using [circe](https://github.com/circe/circe) and the resulting objects are used to generate the registers, read-write access to them via the APB2 interface, and also *any associated direct IO for the registers* using Chisel's [`MixedVec`](https://www.chisel-lang.org/api/latest/chisel3/util/MixedVec.html).
 
-Setting the parameter `GEN_BUNDLE = true` it is possible to generate a set of Bundles suitable for ordered connection to the generated, numbered IO externally. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). See the [Simple Example](docs/simple_example.md) to quickly get the gist of this.
+Setting the parameter `GEN_MODULE = true` will generate a set of Bundles and a wrapper Module which uses the Bundles and makes an ordered connection between the generated, numbered IO and the named members of the Bundles. There's an auto-generated Bundle for each register bit field type with a member for each bit field named after its register name and bit field name (as specified in the JSON). See the [Simple Example](docs/simple_example.md) to quickly get the gist of this.
 
 The APB2 target (slave) interface on the Apb2CSTrgt Module has support for the specification of the address width and data width via the `ADDR_W` and `DATA_W` parameters. Any number and variety of bit-field modes may be specified for a given register and `PSTRB` is supported such that writes may target only certain bit-fields (with some restrictions described in [the documentation](https://substate-tech.github.io/ambel/latest/api/ambel/Apb2CSTrgt.html)). Support for `PPROT` is on the backlog, see [issue #10](https://github.com/substate-tech/ambel/issues/10).
 
-The screenshot below shows a few APB write-read-back cycles for the first register, which has a single 8-bit RW bit-field on its first byte, of the [Simple Example](src/main/scala/examples/SimpleApb2CSTrgt.scala) as well as the RW Output updating after each write.
+The screenshot below shows a few APB write-read-back cycles for the first register, which has a single 8-bit RW bit-field on its first byte, of the [Simple Example](src/main/scala/examples/SimpleApb2T.scala) as well as the RW Output updating after each write.
 
 ![Simple RW APB access](docs/Simple_RW_APB_access.png)
 
@@ -71,7 +71,7 @@ test
 ```
 If you want to run one particular test suite you can do so as follows
 ```sbt
-testOnly ambel.SimpleApb2CSTrgtUnitTester
+testOnly ambel.SimpleApb2TUnitTester
 ```
 To dump waves (VCD) you can add `-- -DwriteVcd=1`. Some other useful command line options have also been implemented:
 - `-Dbackend=verilator` : select Verilator as the simulator instead of Treadle (the default)
@@ -79,12 +79,17 @@ To dump waves (VCD) you can add `-- -DwriteVcd=1`. Some other useful command lin
 - `-Ddebug=1` : pass the DEBUG flag into the unit tester (e.g. to enable very verbose debug messages)
 - `-Dverbose=1` : pass the VERBOSE flag into the unit tester to enable verbose messages, by default the tests run quite quietly
 
-E.g. to use all of the above options for the Simple Example tests and dump a VCD file
+E.g. to use all of the above options for the [Simple Example](docs/simple_example.md) tests and dump a VCD file
 ```sbt
-testOnly ambel.SimpleApb2CSTrgtUnitTester -- -Dbackend=verilator -Dseed=123 -Ddebug=1 -Dverbose=1 -DwriteVcd=1
+testOnly ambel.SimpleApb2TUnitTester -- -Dbackend=verilator -Dseed=123 -Ddebug=1 -Dverbose=1 -DwriteVcd=1
 ```
 # Generating Verilog
-If you would like to get a feel for the Verilog emitted by the AMBEL Apb2CSTrgt Module at the moment the most direct way is to manualy edit the `Apb2CSTrgtDriver()` source code to point to your own JSON register description, then run
+If you would like to get a feel for the Verilog emitted directly by the AMBEL Apb2CSTrgt Module at the moment the most direct way is to manualy edit the `Apb2CSTrgtDriver()` source code to point to your own JSON register description, then run
 ```sbt
 runMain ambel.Apb2CSTrgtDriver --target-dir src/main/verilog --log-level info --log-file Apb2CSTrgtDriver.log
+```
+Alternatively, for a look at the Verilog emitted for the wrapper Module of the [Simple Example](docs/simple_example.md) just run
+```sbt
+runMain ambel.SimpleApb2TDriver --target-dir src/main/verilog/examples --log-level info --log-file SimpleApb2TDriver.log
+
 ```
