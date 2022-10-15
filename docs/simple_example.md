@@ -37,7 +37,7 @@ The following JSON file [versioned here](src/main/json/Simple.json) can be used 
 }
 ```
 
-Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2CSTrgt.v)) with the following interface.
+Generating the Verilog for this parameterization will produce a module ([versioned here](src/main/verilog/examples/SimpleApb2T.v)) with the following interface.
 
 Below the clock and reset, and the standard APB2 IOs we see three extra IOs, one output which will reflect the value of the read-write register, one input which is readable via the read-only register, and one output which will propagate any non-zero value written to the write-only register for one clock cycle before returning to zero again. Simple!
 ```Verilog
@@ -58,50 +58,63 @@ module Apb2CSTrgt(
   output [7:0]  io_woVec_0
 );
 ```
-Running generation with the parameter `GEN_BUNDLE = true` will also generate Chisel Bundles [versioned here](src/main/scala/examples/Simple.scala).
+Running generation with the parameter `GEN_MODULE = true` will also generate Chisel Bundles and a wrapper Module [versioned here](src/main/scala/examples/SimpleApb2T.scala), which looks like this:
 ```scala
-/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")
+package ambel
+
+import chisel3._
+import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+
+/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")=
   *
   * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
   */
-class _SimpleRwVec_ extends Bundle {
+class _SimpleApb2TRwVec_ extends Bundle {
   val SimpleRw_RwBits = UInt(8.W)
 }
-class _SimpleRoVec_ extends Bundle {
+class _SimpleApb2TRoVec_ extends Bundle {
   val SimpleRoWo_RoBits = UInt(8.W)
 }
-class _SimpleWoVec_ extends Bundle {
+class _SimpleApb2TWoVec_ extends Bundle {
   val SimpleRoWo_WoBits = UInt(8.W)
 }
-```
-The Bundles can then be used to wrap the paramterized Apb2CSTrgt Module and connect its MixedVec IOs to named members of the generated Bundles. This is shown in [SimpleApb2CSTrgt.scala](src/main/scala/examples/SimpleApb2CSTrgt.scala).
-```scala
-class SimpleApb2CSTrgt() extends Module {
+
+/** =Wrapper Module for Apb2CSTrgt(REG_DESC_JSON="src/main/json/Simple.json")=
+  * Uses Bundles above on IO and makes ordered connection to MixedVec IO on
+  * Apb2CSTrgt instance
+  *
+  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
+  */
+class SimpleApb2T() extends Module {
   val ADDR_W = 32
   val DATA_W = 32
 
   val t = Module(new Apb2CSTrgt(
+    ADDR_W = ADDR_W,
     DATA_W = DATA_W,
-    REG_DESC_JSON = "src/main/json/Simple.json",
-    VERBOSE = true,
-    GEN_BUNDLE = false))
+    REG_DESC_JSON = "src/main/json/Simple.json"))
 
   val io = IO(new Bundle {
     val apb2T = new Apb2IO(ADDR_W, DATA_W)
-    val rw = Output(new _SimpleRwVec_)
-    val ro = Input(new _SimpleRoVec_)
-    val wo = Output(new _SimpleWoVec_)
+    val rw = Output(new _SimpleApb2TRwVec_)
+    val ro = Input(new _SimpleApb2TRoVec_)
+    val wo = Output(new _SimpleApb2TWoVec_)
   })
 
+  // Connect APB2 target interface
   t.io.apb2T <> io.apb2T
 
   // Connect RW bit-field outputs
   io.rw.SimpleRw_RwBits := t.io.rwVec(0)
 
-  // Connect RO bit-field outputs
+  // Connect RO bit-field inputs
   t.io.roVec(0) := io.ro.SimpleRoWo_RoBits
 
-  // Connect WO bit-field outputs
+  // Connect WO bit-field Outputs
   io.wo.SimpleRoWo_WoBits := t.io.woVec(0)
+}
+
+object SimpleApb2TDriver extends App {
+  (new ChiselStage).execute(args, Seq(ChiselGeneratorAnnotation(() => new SimpleApb2T())))
 }
 ```

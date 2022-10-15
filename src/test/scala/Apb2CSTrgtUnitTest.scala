@@ -173,9 +173,7 @@ class Apb2CSTrgtUnitTester extends AmbelUnitTester {
     *
     * Tests using other JSON register descriptions use the *TestWrapper Modules above
     * which wrap a Module with IOs using the generated Bundles for the parameterized
-    * Apb2CSTrgt instance DUT. These have been pre-generated in a separate step, and
-    * versioned, by elaboration of the parameterized Apb2CSTrgt Module with the
-    * corresponding JSON file and GEN_BUNDLE=true.
+    * Apb2CSTrgt instance DUT. These have been pre-generated in a separate step
     */
   val ADDR_W = 32
   val DATA_W = 32

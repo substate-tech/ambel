@@ -6,23 +6,23 @@ import chisel3._
 import chisel3.util._
 import chiseltest._
 
-/** =SimpleApb2CSTrgt Unit Tester=
+/** =SimpleApb2T Unit Tester=
   * Run this Specification as follows...
   * From within sbt use:
   * {{{
-  * testOnly ambel.SimpleApb2CSTrgtUnitTester
+  * testOnly ambel.SimpleApb2TUnitTester
   * }}}
   * From a terminal shell use:
   * {{{
-  * sbt 'testOnly ambel.SimpleApb2CSTrgtUnitTester'
+  * sbt 'testOnly ambel.SimpleApb2TUnitTester'
   * }}}
   * For VCD dump use:
   * {{{
-  * testOnly ambel.SimpleApb2CSTrgtUnitTester -- -DwriteVcd=1
+  * testOnly ambel.SimpleApb2TUnitTester -- -DwriteVcd=1
   * }}}
   */
-class SimpleApb2CSTrgtUnitTester extends AmbelUnitTester {
-  behavior of "SimpleApb2CSTrgt"
+class SimpleApb2TUnitTester extends AmbelUnitTester {
+  behavior of "SimpleApb2T"
 
   /**
     * Test cases
@@ -31,7 +31,7 @@ class SimpleApb2CSTrgtUnitTester extends AmbelUnitTester {
   val DATA_W = 32
 
   it should "write then read back SIMPLE_RW and check IO updates OK" in {
-    test(new SimpleApb2CSTrgt()).withAnnotations(annos) { dut =>
+    test(new SimpleApb2T()).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       for (i <- 0 until 10) {
@@ -50,7 +50,7 @@ class SimpleApb2CSTrgtUnitTester extends AmbelUnitTester {
   }
 
   it should "respond with PSLVERR on access to unmapped address" in {
-    test(new SimpleApb2CSTrgt()).withAnnotations(annos) { dut =>
+    test(new SimpleApb2T()).withAnnotations(annos) { dut =>
       dut.clock.step(4)
 
       // Following address is out of range - only 2 registers mapped to lowest offsets (i.e. 0x0 and 0x4)
