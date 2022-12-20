@@ -27,7 +27,7 @@ class Apb2Req(ADDR_WIDTH: Int = 32, DATA_WIDTH: Int = 32) extends Apb2Bundle(ADD
   val pEnable = Bool()
   val pWrite  = Bool()
   val pWData  = UInt(DATA_WIDTH.W)
-  val pStrb   = UInt((STRB_WIDTH).W)
+  val pStrb   = UInt(STRB_WIDTH.W)
 }
 
 class Apb2Rsp(ADDR_WIDTH: Int = 32, DATA_WIDTH: Int = 32) extends Apb2Bundle(ADDR_WIDTH, DATA_WIDTH) {

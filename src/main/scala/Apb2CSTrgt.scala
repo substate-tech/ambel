@@ -301,9 +301,8 @@ class Apb2CSTrgt(
 
   // Build a 2D array of all registers and their RegInit() bit fields with
   // JSON specified reset values and widths. No RegInit() for RESERVED
-  // bit fields which are read-only zeros. Each RegInit() is part of a tuple
-  // which also holds its position and its mode
-  case class BitFieldDetails(reg: UInt, pos: Int, width: Int, mode: String, name: String)
+  // bit fields which are read-only zeros. Each RegInit() is part of a
+  // class which also holds its position and its mode
   val regArr = Array.ofDim[ArrayBuffer[BitFieldDetails]](MAX_REGS)
 
   // Takes a snake_case or SNAKE_CASE string name and converts to CamelCase
