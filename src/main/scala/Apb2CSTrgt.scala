@@ -74,14 +74,12 @@ class Apb2CSTrgt(
     GEN_MODULE,
     VERBOSE))
 
-  val indexFF   = RegInit(0.U)
+  val pAddrFF   = RegInit(0.U)
   val pWriteFF  = RegInit(false.B)
   val pStrbFF   = RegInit(0.U)
   val pReadyFF  = RegInit(true.B)
   val pRDataFF  = RegInit(0.U)
   val pSlvErrFF = RegInit(false.B)
-
-  val regAliasFF = RegInit(false.B)
 
   val NUM_BYTE = t.NUM_BYTE
   val NUM_BITS_SHIFT = t.NUM_BITS_SHIFT
@@ -91,24 +89,21 @@ class Apb2CSTrgt(
   // APB protocol: access detect
   when (io.apb2T.req.pSel & !io.apb2T.req.pEnable) {
     // Capture address bits required to index defined registers
-    indexFF  := io.apb2T.req.pAddr(REQD_W, 0) >> NUM_BITS_SHIFT
+    pAddrFF  := io.apb2T.req.pAddr
     pWriteFF := io.apb2T.req.pWrite
     pStrbFF  := io.apb2T.req.pStrb
     pReadyFF := io.apb2T.req.pWrite // Always one wait state for reads
-
-    // Check for any address bits set above the required maximum offset of the
-    // defined register map which could alias down, prevent write, respond with pSlvErr
-    regAliasFF := (io.apb2T.req.pAddr >> REQD_W).orR
   }.otherwise {
+    //pAddrFF  := 0.U
     pReadyFF := true.B
     pWriteFF := false.B
   }
 
   // Decode address to index registers
-  t.io.index := indexFF
+  t.io.addr := pAddrFF
 
   // Write
-  t.io.write     := pWriteFF & !regAliasFF
+  t.io.write     := pWriteFF
   t.io.writeStrb := pStrbFF
   t.io.writeData := io.apb2T.req.pWData
 
@@ -118,7 +113,7 @@ class Apb2CSTrgt(
   // Respond
   io.apb2T.rsp.pReady  := pReadyFF
   io.apb2T.rsp.pRData  := t.io.readData
-  io.apb2T.rsp.pSlvErr := t.io.error | regAliasFF
+  io.apb2T.rsp.pSlvErr := t.io.error
 
   io.rwVec   := t.io.rwVec
   t.io.roVec := io.roVec
