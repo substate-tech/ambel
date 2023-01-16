@@ -69,7 +69,8 @@ class Apb2CSTrgt(
 
   // Instantiate and parameterize generic control and status register target
   val t = Module(new GenCSTrgt(
-    ADDR_W, DATA_W,
+    ADDR_W,
+    DATA_W,
     REG_DESC_JSON,
     GEN_MODULE,
     VERBOSE))
@@ -81,20 +82,18 @@ class Apb2CSTrgt(
   val pRDataFF  = RegInit(0.U)
   val pSlvErrFF = RegInit(false.B)
 
+  val NUM_REGS = t.NUM_REGS
   val NUM_BYTE = t.NUM_BYTE
   val NUM_BITS_SHIFT = t.NUM_BITS_SHIFT
-  val NUM_REGS = t.NUM_REGS
   val REQD_W = t.REQD_W
 
   // APB protocol: access detect
   when (io.apb2T.req.pSel & !io.apb2T.req.pEnable) {
-    // Capture address bits required to index defined registers
     pAddrFF  := io.apb2T.req.pAddr
     pWriteFF := io.apb2T.req.pWrite
     pStrbFF  := io.apb2T.req.pStrb
     pReadyFF := io.apb2T.req.pWrite // Always one wait state for reads
   }.otherwise {
-    //pAddrFF  := 0.U
     pReadyFF := true.B
     pWriteFF := false.B
   }
