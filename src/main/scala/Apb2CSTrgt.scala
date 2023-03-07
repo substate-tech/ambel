@@ -22,9 +22,10 @@ import scala.collection.mutable.ListBuffer
 import scala.collection.mutable.Map
 import scala.collection.immutable.ListMap
 import chisel3._
-import chisel3.util._
+import chisel3.util.{log2Ceil, MixedVec}
 import chisel3.experimental.BundleLiterals._
-import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+import chisel3.stage.ChiselGeneratorAnnotation
+import circt.stage.ChiselStage
 import io.circe._, io.circe.parser._
 import io.circe.generic.semiauto.deriveDecoder
 import io.circe.generic.auto._
@@ -627,7 +628,8 @@ class Apb2CSTrgt(
 
     pw.write( "package ambel\n\n")
     pw.write( "import chisel3._\n")
-    pw.write( "import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}\n\n")
+    pw.write( "import chisel3.stage.ChiselGeneratorAnnotation\n")
+    pw.write( "import circt.stage.ChiselStage\n\n")
     pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")=\n""")
     pw.write( "  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
 

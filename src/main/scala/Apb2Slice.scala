@@ -5,7 +5,8 @@ import chisel3._
 import chisel3.util.isPow2
 import chisel3.util.log2Ceil
 import chisel3.experimental.BundleLiterals._
-import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+import chisel3.stage.ChiselGeneratorAnnotation
+import circt.stage.ChiselStage
 
 /** =APB2 Slice=
   *
