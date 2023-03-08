@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-01-16 23:22:15</td>
+            <td class="headerValue">2023-03-08 22:10:44</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -63,24 +63,24 @@
 <a name="1"><span class="lineNum">       1 </span>            : module GenCSTrgt(</a>
 <a name="2"><span class="lineNum">       2 </span>            :   input         clock,</a>
 <a name="3"><span class="lineNum">       3 </span>            :   input         reset,</a>
-<a name="4"><span class="lineNum">       4 </span>            :   input  [29:0] io_addr,</a>
-<a name="5"><span class="lineNum">       5 </span>            :   input         io_write,</a>
-<a name="6"><span class="lineNum">       6 </span>            :   input  [3:0]  io_writeStrb,</a>
-<a name="7"><span class="lineNum">       7 </span>            :   input  [31:0] io_writeData,</a>
-<a name="8"><span class="lineNum">       8 </span>            :   input         io_read,</a>
-<a name="9"><span class="lineNum">       9 </span>            :   output [31:0] io_readData,</a>
-<a name="10"><span class="lineNum">      10 </span>            :   output        io_error,</a>
-<a name="11"><span class="lineNum">      11 </span>            :   output [7:0]  io_rwVec_10,</a>
-<a name="12"><span class="lineNum">      12 </span>            :   output [7:0]  io_rwVec_9,</a>
-<a name="13"><span class="lineNum">      13 </span>            :   output [7:0]  io_rwVec_8,</a>
-<a name="14"><span class="lineNum">      14 </span>            :   output [7:0]  io_rwVec_7,</a>
-<a name="15"><span class="lineNum">      15 </span>            :   output [7:0]  io_rwVec_6,</a>
-<a name="16"><span class="lineNum">      16 </span>            :   output [7:0]  io_rwVec_5,</a>
-<a name="17"><span class="lineNum">      17 </span>            :   output [7:0]  io_rwVec_4,</a>
-<a name="18"><span class="lineNum">      18 </span>            :   output [7:0]  io_rwVec_3,</a>
-<a name="19"><span class="lineNum">      19 </span>            :   output [15:0] io_rwVec_2,</a>
-<a name="20"><span class="lineNum">      20 </span>            :   output [15:0] io_rwVec_1,</a>
-<a name="21"><span class="lineNum">      21 </span>            :   output [31:0] io_rwVec_0</a>
+<a name="4"><span class="lineNum">       4 </span>            :   input  [29:0] io_addr, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="5"><span class="lineNum">       5 </span>            :   input         io_write, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="6"><span class="lineNum">       6 </span>            :   input  [3:0]  io_writeStrb, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="7"><span class="lineNum">       7 </span>            :   input  [31:0] io_writeData, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="8"><span class="lineNum">       8 </span>            :   input         io_read, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="9"><span class="lineNum">       9 </span>            :   output [31:0] io_readData, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="10"><span class="lineNum">      10 </span>            :   output        io_error, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="11"><span class="lineNum">      11 </span>            :   output [7:0]  io_rwVec_10, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="12"><span class="lineNum">      12 </span>            :   output [7:0]  io_rwVec_9, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="13"><span class="lineNum">      13 </span>            :   output [7:0]  io_rwVec_8, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="14"><span class="lineNum">      14 </span>            :   output [7:0]  io_rwVec_7, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="15"><span class="lineNum">      15 </span>            :   output [7:0]  io_rwVec_6, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="16"><span class="lineNum">      16 </span>            :   output [7:0]  io_rwVec_5, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="17"><span class="lineNum">      17 </span>            :   output [7:0]  io_rwVec_4, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="18"><span class="lineNum">      18 </span>            :   output [7:0]  io_rwVec_3, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="19"><span class="lineNum">      19 </span>            :   output [15:0] io_rwVec_2, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="20"><span class="lineNum">      20 </span>            :   output [15:0] io_rwVec_1, // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
+<a name="21"><span class="lineNum">      21 </span>            :   output [31:0] io_rwVec_0 // @[src/main/scala/GenCSTrgt.scala 67:14]</a>
 <a name="22"><span class="lineNum">      22 </span>            : );</a>
 <a name="23"><span class="lineNum">      23 </span>            : `ifdef RANDOMIZE_REG_INIT</a>
 <a name="24"><span class="lineNum">      24 </span>            :   reg [31:0] _RAND_0;</a>
@@ -98,192 +98,192 @@
 <a name="36"><span class="lineNum">      36 </span>            :   reg [31:0] _RAND_12;</a>
 <a name="37"><span class="lineNum">      37 </span>            :   reg [31:0] _RAND_13;</a>
 <a name="38"><span class="lineNum">      38 </span>            : `endif // RANDOMIZE_REG_INIT</a>
-<a name="39"><span class="lineNum">      39 </span>            :   reg [31:0] RegZero_Word; // @[Registers.scala 302:62]</a>
-<a name="40"><span class="lineNum">      40 </span>            :   reg [15:0] RegOne_LowerHalf; // @[Registers.scala 302:62]</a>
-<a name="41"><span class="lineNum">      41 </span>            :   reg [15:0] RegOne_UpperHalf; // @[Registers.scala 302:62]</a>
-<a name="42"><span class="lineNum">      42 </span>            :   reg [7:0] RegTwo_ByteZero; // @[Registers.scala 302:62]</a>
-<a name="43"><span class="lineNum">      43 </span>            :   reg [7:0] RegTwo_ByteOne; // @[Registers.scala 302:62]</a>
-<a name="44"><span class="lineNum">      44 </span>            :   reg [7:0] RegTwo_ByteTwo; // @[Registers.scala 302:62]</a>
-<a name="45"><span class="lineNum">      45 </span>            :   reg [7:0] RegTwo_ByteThree; // @[Registers.scala 302:62]</a>
-<a name="46"><span class="lineNum">      46 </span>            :   reg [7:0] RegThree_ByteZero; // @[Registers.scala 302:62]</a>
-<a name="47"><span class="lineNum">      47 </span>            :   reg [7:0] RegThree_ByteOne; // @[Registers.scala 302:62]</a>
-<a name="48"><span class="lineNum">      48 </span>            :   reg [7:0] RegThree_ByteTwo; // @[Registers.scala 302:62]</a>
-<a name="49"><span class="lineNum">      49 </span>            :   reg [7:0] RegThree_ByteThree; // @[Registers.scala 302:62]</a>
-<a name="50"><span class="lineNum">      50 </span>            :   wire  regAlias = |io_addr[29:4]; // @[GenCSTrgt.scala 190:50]</a>
-<a name="51"><span class="lineNum">      51 </span>            :   wire [1:0] regIndex = io_addr[3:2]; // @[GenCSTrgt.scala 191:51]</a>
-<a name="52"><span class="lineNum">      52 </span>            :   reg  writeErrorFF; // @[GenCSTrgt.scala 194:29]</a>
-<a name="53"><span class="lineNum">      53 </span>            :   wire  _T_2 = regIndex == 2'h0; // @[GenCSTrgt.scala 201:22]</a>
-<a name="54"><span class="lineNum">      54 </span>            :   wire  fieldStrbBits_0 = io_writeStrb[0]; // @[GenCSTrgt.scala 223:33]</a>
-<a name="55"><span class="lineNum">      55 </span>            :   wire  fieldStrbBits_1 = io_writeStrb[1]; // @[GenCSTrgt.scala 223:33]</a>
-<a name="56"><span class="lineNum">      56 </span>            :   wire  fieldStrbBits_2 = io_writeStrb[2]; // @[GenCSTrgt.scala 223:33]</a>
-<a name="57"><span class="lineNum">      57 </span>            :   wire  fieldStrbBits_3 = io_writeStrb[3]; // @[GenCSTrgt.scala 223:33]</a>
-<a name="58"><span class="lineNum">      58 </span>            :   wire  _T_8 = fieldStrbBits_0 | fieldStrbBits_1 | fieldStrbBits_2 | fieldStrbBits_3; // @[GenCSTrgt.scala 243:52]</a>
-<a name="59"><span class="lineNum">      59 </span>            :   wire  _GEN_2 = fieldStrbBits_0 &amp; fieldStrbBits_1 &amp; fieldStrbBits_2 &amp; fieldStrbBits_3 ? 1'h0 : _T_8; // @[GenCSTrgt.scala 198:18 225:52]</a>
-<a name="60"><span class="lineNum">      60 </span>            :   wire  _GEN_4 = regIndex == 2'h0 &amp; _GEN_2; // @[GenCSTrgt.scala 198:18 201:31]</a>
-<a name="61"><span class="lineNum">      61 </span>            :   wire  _T_9 = regIndex == 2'h1; // @[GenCSTrgt.scala 201:22]</a>
-<a name="62"><span class="lineNum">      62 </span>            :   wire  _GEN_5 = fieldStrbBits_0 | fieldStrbBits_1 | _GEN_4; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="63"><span class="lineNum">      63 </span>            :   wire [31:0] _GEN_6 = fieldStrbBits_0 &amp; fieldStrbBits_1 ? io_writeData : {{16'd0}, RegOne_LowerHalf}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="64"><span class="lineNum">      64 </span>            :   wire  _GEN_7 = fieldStrbBits_0 &amp; fieldStrbBits_1 ? _GEN_4 : _GEN_5; // @[GenCSTrgt.scala 225:52]</a>
-<a name="65"><span class="lineNum">      65 </span>            :   wire  _GEN_8 = fieldStrbBits_2 | fieldStrbBits_3 | _GEN_7; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="66"><span class="lineNum">      66 </span>            :   wire  _GEN_10 = fieldStrbBits_2 &amp; fieldStrbBits_3 ? _GEN_7 : _GEN_8; // @[GenCSTrgt.scala 225:52]</a>
-<a name="67"><span class="lineNum">      67 </span>            :   wire [31:0] _GEN_11 = regIndex == 2'h1 ? _GEN_6 : {{16'd0}, RegOne_LowerHalf}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="68"><span class="lineNum">      68 </span>            :   wire  _GEN_12 = regIndex == 2'h1 ? _GEN_10 : _GEN_4; // @[GenCSTrgt.scala 201:31]</a>
-<a name="69"><span class="lineNum">      69 </span>            :   wire  _T_14 = regIndex == 2'h2; // @[GenCSTrgt.scala 201:22]</a>
-<a name="70"><span class="lineNum">      70 </span>            :   wire  _GEN_14 = fieldStrbBits_0 | _GEN_12; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="71"><span class="lineNum">      71 </span>            :   wire [31:0] _GEN_15 = fieldStrbBits_0 ? io_writeData : {{24'd0}, RegTwo_ByteZero}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="72"><span class="lineNum">      72 </span>            :   wire  _GEN_16 = fieldStrbBits_0 ? _GEN_12 : _GEN_14; // @[GenCSTrgt.scala 225:52]</a>
-<a name="73"><span class="lineNum">      73 </span>            :   wire  _GEN_17 = fieldStrbBits_1 | _GEN_16; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="74"><span class="lineNum">      74 </span>            :   wire [23:0] _GEN_18 = fieldStrbBits_1 ? io_writeData[31:8] : {{16'd0}, RegTwo_ByteOne}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="75"><span class="lineNum">      75 </span>            :   wire  _GEN_19 = fieldStrbBits_1 ? _GEN_16 : _GEN_17; // @[GenCSTrgt.scala 225:52]</a>
-<a name="76"><span class="lineNum">      76 </span>            :   wire  _GEN_20 = fieldStrbBits_2 | _GEN_19; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="77"><span class="lineNum">      77 </span>            :   wire [15:0] _GEN_21 = fieldStrbBits_2 ? io_writeData[31:16] : {{8'd0}, RegTwo_ByteTwo}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="78"><span class="lineNum">      78 </span>            :   wire  _GEN_22 = fieldStrbBits_2 ? _GEN_19 : _GEN_20; // @[GenCSTrgt.scala 225:52]</a>
-<a name="79"><span class="lineNum">      79 </span>            :   wire  _GEN_23 = fieldStrbBits_3 | _GEN_22; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="80"><span class="lineNum">      80 </span>            :   wire  _GEN_25 = fieldStrbBits_3 ? _GEN_22 : _GEN_23; // @[GenCSTrgt.scala 225:52]</a>
-<a name="81"><span class="lineNum">      81 </span>            :   wire [31:0] _GEN_26 = regIndex == 2'h2 ? _GEN_15 : {{24'd0}, RegTwo_ByteZero}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="82"><span class="lineNum">      82 </span>            :   wire  _GEN_27 = regIndex == 2'h2 ? _GEN_25 : _GEN_12; // @[GenCSTrgt.scala 201:31]</a>
-<a name="83"><span class="lineNum">      83 </span>            :   wire [23:0] _GEN_28 = regIndex == 2'h2 ? _GEN_18 : {{16'd0}, RegTwo_ByteOne}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="84"><span class="lineNum">      84 </span>            :   wire [15:0] _GEN_29 = regIndex == 2'h2 ? _GEN_21 : {{8'd0}, RegTwo_ByteTwo}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="85"><span class="lineNum">      85 </span>            :   wire  _T_15 = regIndex == 2'h3; // @[GenCSTrgt.scala 201:22]</a>
-<a name="86"><span class="lineNum">      86 </span>            :   wire  _GEN_31 = fieldStrbBits_0 | _GEN_27; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="87"><span class="lineNum">      87 </span>            :   wire [31:0] _GEN_32 = fieldStrbBits_0 ? io_writeData : {{24'd0}, RegThree_ByteZero}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="88"><span class="lineNum">      88 </span>            :   wire  _GEN_33 = fieldStrbBits_0 ? _GEN_27 : _GEN_31; // @[GenCSTrgt.scala 225:52]</a>
-<a name="89"><span class="lineNum">      89 </span>            :   wire  _GEN_34 = fieldStrbBits_1 | _GEN_33; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="90"><span class="lineNum">      90 </span>            :   wire [23:0] _GEN_35 = fieldStrbBits_1 ? io_writeData[31:8] : {{16'd0}, RegThree_ByteOne}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="91"><span class="lineNum">      91 </span>            :   wire  _GEN_36 = fieldStrbBits_1 ? _GEN_33 : _GEN_34; // @[GenCSTrgt.scala 225:52]</a>
-<a name="92"><span class="lineNum">      92 </span>            :   wire  _GEN_37 = fieldStrbBits_2 | _GEN_36; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="93"><span class="lineNum">      93 </span>            :   wire [15:0] _GEN_38 = fieldStrbBits_2 ? io_writeData[31:16] : {{8'd0}, RegThree_ByteTwo}; // @[GenCSTrgt.scala 225:52 241:23 Registers.scala 302:62]</a>
-<a name="94"><span class="lineNum">      94 </span>            :   wire  _GEN_39 = fieldStrbBits_2 ? _GEN_36 : _GEN_37; // @[GenCSTrgt.scala 225:52]</a>
-<a name="95"><span class="lineNum">      95 </span>            :   wire  _GEN_40 = fieldStrbBits_3 | _GEN_39; // @[GenCSTrgt.scala 243:58 245:28]</a>
-<a name="96"><span class="lineNum">      96 </span>            :   wire [31:0] _GEN_43 = regIndex == 2'h3 ? _GEN_32 : {{24'd0}, RegThree_ByteZero}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="97"><span class="lineNum">      97 </span>            :   wire [23:0] _GEN_45 = regIndex == 2'h3 ? _GEN_35 : {{16'd0}, RegThree_ByteOne}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="98"><span class="lineNum">      98 </span>            :   wire [15:0] _GEN_46 = regIndex == 2'h3 ? _GEN_38 : {{8'd0}, RegThree_ByteTwo}; // @[GenCSTrgt.scala 201:31 Registers.scala 302:62]</a>
-<a name="99"><span class="lineNum">      99 </span>            :   wire [31:0] _GEN_50 = io_write &amp; ~regAlias ? _GEN_11 : {{16'd0}, RegOne_LowerHalf}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="100"><span class="lineNum">     100 </span>            :   wire [31:0] _GEN_52 = io_write &amp; ~regAlias ? _GEN_26 : {{24'd0}, RegTwo_ByteZero}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="101"><span class="lineNum">     101 </span>            :   wire [23:0] _GEN_53 = io_write &amp; ~regAlias ? _GEN_28 : {{16'd0}, RegTwo_ByteOne}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="102"><span class="lineNum">     102 </span>            :   wire [15:0] _GEN_54 = io_write &amp; ~regAlias ? _GEN_29 : {{8'd0}, RegTwo_ByteTwo}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="103"><span class="lineNum">     103 </span>            :   wire [31:0] _GEN_56 = io_write &amp; ~regAlias ? _GEN_43 : {{24'd0}, RegThree_ByteZero}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="104"><span class="lineNum">     104 </span>            :   wire [23:0] _GEN_57 = io_write &amp; ~regAlias ? _GEN_45 : {{16'd0}, RegThree_ByteOne}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="105"><span class="lineNum">     105 </span>            :   wire [15:0] _GEN_58 = io_write &amp; ~regAlias ? _GEN_46 : {{8'd0}, RegThree_ByteTwo}; // @[GenCSTrgt.scala 196:31 Registers.scala 302:62]</a>
-<a name="106"><span class="lineNum">     106 </span>            :   reg [31:0] readDataFF; // @[GenCSTrgt.scala 281:27]</a>
-<a name="107"><span class="lineNum">     107 </span>            :   reg  readErrorFF; // @[GenCSTrgt.scala 282:28]</a>
-<a name="108"><span class="lineNum">     108 </span>            :   wire [31:0] _GEN_60 = _T_2 ? RegZero_Word : 32'h0; // @[GenCSTrgt.scala 286:16 289:31 293:20]</a>
-<a name="109"><span class="lineNum">     109 </span>            :   wire [31:0] shiftedBits_1 = {RegOne_UpperHalf, 16'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="110"><span class="lineNum">     110 </span>            :   wire [31:0] _GEN_65 = {{16'd0}, RegOne_LowerHalf}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="111"><span class="lineNum">     111 </span>            :   wire [31:0] _readDataFF_T = _GEN_65 | shiftedBits_1; // @[GenCSTrgt.scala 293:48]</a>
-<a name="112"><span class="lineNum">     112 </span>            :   wire [31:0] _GEN_61 = _T_9 ? _readDataFF_T : _GEN_60; // @[GenCSTrgt.scala 289:31 293:20]</a>
-<a name="113"><span class="lineNum">     113 </span>            :   wire [15:0] shiftedBits_1_1 = {RegTwo_ByteOne, 8'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="114"><span class="lineNum">     114 </span>            :   wire [23:0] shiftedBits_2 = {RegTwo_ByteTwo, 16'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="115"><span class="lineNum">     115 </span>            :   wire [31:0] shiftedBits_3 = {RegTwo_ByteThree, 24'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="116"><span class="lineNum">     116 </span>            :   wire [15:0] _GEN_66 = {{8'd0}, RegTwo_ByteZero}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="117"><span class="lineNum">     117 </span>            :   wire [15:0] _readDataFF_T_1 = _GEN_66 | shiftedBits_1_1; // @[GenCSTrgt.scala 293:48]</a>
-<a name="118"><span class="lineNum">     118 </span>            :   wire [23:0] _GEN_67 = {{8'd0}, _readDataFF_T_1}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="119"><span class="lineNum">     119 </span>            :   wire [23:0] _readDataFF_T_2 = _GEN_67 | shiftedBits_2; // @[GenCSTrgt.scala 293:48]</a>
-<a name="120"><span class="lineNum">     120 </span>            :   wire [31:0] _GEN_68 = {{8'd0}, _readDataFF_T_2}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="121"><span class="lineNum">     121 </span>            :   wire [31:0] _readDataFF_T_3 = _GEN_68 | shiftedBits_3; // @[GenCSTrgt.scala 293:48]</a>
-<a name="122"><span class="lineNum">     122 </span>            :   wire [15:0] shiftedBits_1_2 = {RegThree_ByteOne, 8'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="123"><span class="lineNum">     123 </span>            :   wire [23:0] shiftedBits_2_1 = {RegThree_ByteTwo, 16'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="124"><span class="lineNum">     124 </span>            :   wire [31:0] shiftedBits_3_1 = {RegThree_ByteThree, 24'h0}; // @[GenCSTrgt.scala 292:94]</a>
-<a name="125"><span class="lineNum">     125 </span>            :   wire [15:0] _GEN_69 = {{8'd0}, RegThree_ByteZero}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="126"><span class="lineNum">     126 </span>            :   wire [15:0] _readDataFF_T_4 = _GEN_69 | shiftedBits_1_2; // @[GenCSTrgt.scala 293:48]</a>
-<a name="127"><span class="lineNum">     127 </span>            :   wire [23:0] _GEN_70 = {{8'd0}, _readDataFF_T_4}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="128"><span class="lineNum">     128 </span>            :   wire [23:0] _readDataFF_T_5 = _GEN_70 | shiftedBits_2_1; // @[GenCSTrgt.scala 293:48]</a>
-<a name="129"><span class="lineNum">     129 </span>            :   wire [31:0] _GEN_71 = {{8'd0}, _readDataFF_T_5}; // @[GenCSTrgt.scala 293:48]</a>
-<a name="130"><span class="lineNum">     130 </span>            :   wire [31:0] _readDataFF_T_6 = _GEN_71 | shiftedBits_3_1; // @[GenCSTrgt.scala 293:48]</a>
-<a name="131"><span class="lineNum">     131 </span>            :   wire [31:0] _GEN_72 = reset ? 32'h0 : _GEN_50; // @[Registers.scala 302:{62,62}]</a>
-<a name="132"><span class="lineNum">     132 </span>            :   wire [31:0] _GEN_73 = reset ? 32'h0 : _GEN_52; // @[Registers.scala 302:{62,62}]</a>
-<a name="133"><span class="lineNum">     133 </span>            :   wire [23:0] _GEN_74 = reset ? 24'h0 : _GEN_53; // @[Registers.scala 302:{62,62}]</a>
-<a name="134"><span class="lineNum">     134 </span>            :   wire [15:0] _GEN_75 = reset ? 16'h0 : _GEN_54; // @[Registers.scala 302:{62,62}]</a>
-<a name="135"><span class="lineNum">     135 </span>            :   wire [31:0] _GEN_76 = reset ? 32'h0 : _GEN_56; // @[Registers.scala 302:{62,62}]</a>
-<a name="136"><span class="lineNum">     136 </span>            :   wire [23:0] _GEN_77 = reset ? 24'h0 : _GEN_57; // @[Registers.scala 302:{62,62}]</a>
-<a name="137"><span class="lineNum">     137 </span>            :   wire [15:0] _GEN_78 = reset ? 16'h0 : _GEN_58; // @[Registers.scala 302:{62,62}]</a>
-<a name="138"><span class="lineNum">     138 </span>            :   assign io_readData = readDataFF; // @[GenCSTrgt.scala 301:15]</a>
-<a name="139"><span class="lineNum">     139 </span>            :   assign io_error = writeErrorFF | readErrorFF; // @[GenCSTrgt.scala 302:28]</a>
-<a name="140"><span class="lineNum">     140 </span>            :   assign io_rwVec_10 = RegThree_ByteThree; // @[GenCSTrgt.scala 94:19]</a>
-<a name="141"><span class="lineNum">     141 </span>            :   assign io_rwVec_9 = RegThree_ByteTwo; // @[GenCSTrgt.scala 94:19]</a>
-<a name="142"><span class="lineNum">     142 </span>            :   assign io_rwVec_8 = RegThree_ByteOne; // @[GenCSTrgt.scala 94:19]</a>
-<a name="143"><span class="lineNum">     143 </span>            :   assign io_rwVec_7 = RegThree_ByteZero; // @[GenCSTrgt.scala 94:19]</a>
-<a name="144"><span class="lineNum">     144 </span>            :   assign io_rwVec_6 = RegTwo_ByteThree; // @[GenCSTrgt.scala 94:19]</a>
-<a name="145"><span class="lineNum">     145 </span>            :   assign io_rwVec_5 = RegTwo_ByteTwo; // @[GenCSTrgt.scala 94:19]</a>
-<a name="146"><span class="lineNum">     146 </span>            :   assign io_rwVec_4 = RegTwo_ByteOne; // @[GenCSTrgt.scala 94:19]</a>
-<a name="147"><span class="lineNum">     147 </span>            :   assign io_rwVec_3 = RegTwo_ByteZero; // @[GenCSTrgt.scala 94:19]</a>
-<a name="148"><span class="lineNum">     148 </span>            :   assign io_rwVec_2 = RegOne_UpperHalf; // @[GenCSTrgt.scala 94:19]</a>
-<a name="149"><span class="lineNum">     149 </span>            :   assign io_rwVec_1 = RegOne_LowerHalf; // @[GenCSTrgt.scala 94:19]</a>
-<a name="150"><span class="lineNum">     150 </span>            :   assign io_rwVec_0 = RegZero_Word; // @[GenCSTrgt.scala 94:19]</a>
+<a name="39"><span class="lineNum">      39 </span>            :   reg [31:0] RegZero_Word; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="40"><span class="lineNum">      40 </span>            :   reg [15:0] RegOne_LowerHalf; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="41"><span class="lineNum">      41 </span>            :   reg [15:0] RegOne_UpperHalf; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="42"><span class="lineNum">      42 </span>            :   reg [7:0] RegTwo_ByteZero; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="43"><span class="lineNum">      43 </span>            :   reg [7:0] RegTwo_ByteOne; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="44"><span class="lineNum">      44 </span>            :   reg [7:0] RegTwo_ByteTwo; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="45"><span class="lineNum">      45 </span>            :   reg [7:0] RegTwo_ByteThree; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="46"><span class="lineNum">      46 </span>            :   reg [7:0] RegThree_ByteZero; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="47"><span class="lineNum">      47 </span>            :   reg [7:0] RegThree_ByteOne; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="48"><span class="lineNum">      48 </span>            :   reg [7:0] RegThree_ByteTwo; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="49"><span class="lineNum">      49 </span>            :   reg [7:0] RegThree_ByteThree; // @[src/main/scala/Registers.scala 302:62]</a>
+<a name="50"><span class="lineNum">      50 </span>            :   wire  regAlias = |io_addr[29:4]; // @[src/main/scala/GenCSTrgt.scala 190:50]</a>
+<a name="51"><span class="lineNum">      51 </span>            :   wire [1:0] regIndex = io_addr[3:2]; // @[src/main/scala/GenCSTrgt.scala 191:51]</a>
+<a name="52"><span class="lineNum">      52 </span>            :   reg  writeErrorFF; // @[src/main/scala/GenCSTrgt.scala 194:29]</a>
+<a name="53"><span class="lineNum">      53 </span>            :   wire  _T_2 = regIndex == 2'h0; // @[src/main/scala/GenCSTrgt.scala 201:22]</a>
+<a name="54"><span class="lineNum">      54 </span>            :   wire  fieldStrbBits_0 = io_writeStrb[0]; // @[src/main/scala/GenCSTrgt.scala 223:33]</a>
+<a name="55"><span class="lineNum">      55 </span>            :   wire  fieldStrbBits_1 = io_writeStrb[1]; // @[src/main/scala/GenCSTrgt.scala 223:33]</a>
+<a name="56"><span class="lineNum">      56 </span>            :   wire  fieldStrbBits_2 = io_writeStrb[2]; // @[src/main/scala/GenCSTrgt.scala 223:33]</a>
+<a name="57"><span class="lineNum">      57 </span>            :   wire  fieldStrbBits_3 = io_writeStrb[3]; // @[src/main/scala/GenCSTrgt.scala 223:33]</a>
+<a name="58"><span class="lineNum">      58 </span>            :   wire  _T_8 = fieldStrbBits_0 | fieldStrbBits_1 | fieldStrbBits_2 | fieldStrbBits_3; // @[src/main/scala/GenCSTrgt.scala 243:52]</a>
+<a name="59"><span class="lineNum">      59 </span>            :   wire  _GEN_2 = fieldStrbBits_0 &amp; fieldStrbBits_1 &amp; fieldStrbBits_2 &amp; fieldStrbBits_3 ? 1'h0 : _T_8; // @[src/main/scala/GenCSTrgt.scala 198:18 225:52]</a>
+<a name="60"><span class="lineNum">      60 </span>            :   wire  _GEN_4 = regIndex == 2'h0 &amp; _GEN_2; // @[src/main/scala/GenCSTrgt.scala 198:18 201:31]</a>
+<a name="61"><span class="lineNum">      61 </span>            :   wire  _T_9 = regIndex == 2'h1; // @[src/main/scala/GenCSTrgt.scala 201:22]</a>
+<a name="62"><span class="lineNum">      62 </span>            :   wire  _GEN_5 = fieldStrbBits_0 | fieldStrbBits_1 | _GEN_4; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="63"><span class="lineNum">      63 </span>            :   wire [31:0] _GEN_6 = fieldStrbBits_0 &amp; fieldStrbBits_1 ? io_writeData : {{16'd0}, RegOne_LowerHalf}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="64"><span class="lineNum">      64 </span>            :   wire  _GEN_7 = fieldStrbBits_0 &amp; fieldStrbBits_1 ? _GEN_4 : _GEN_5; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="65"><span class="lineNum">      65 </span>            :   wire  _GEN_8 = fieldStrbBits_2 | fieldStrbBits_3 | _GEN_7; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="66"><span class="lineNum">      66 </span>            :   wire  _GEN_10 = fieldStrbBits_2 &amp; fieldStrbBits_3 ? _GEN_7 : _GEN_8; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="67"><span class="lineNum">      67 </span>            :   wire [31:0] _GEN_11 = regIndex == 2'h1 ? _GEN_6 : {{16'd0}, RegOne_LowerHalf}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="68"><span class="lineNum">      68 </span>            :   wire  _GEN_12 = regIndex == 2'h1 ? _GEN_10 : _GEN_4; // @[src/main/scala/GenCSTrgt.scala 201:31]</a>
+<a name="69"><span class="lineNum">      69 </span>            :   wire  _T_14 = regIndex == 2'h2; // @[src/main/scala/GenCSTrgt.scala 201:22]</a>
+<a name="70"><span class="lineNum">      70 </span>            :   wire  _GEN_14 = fieldStrbBits_0 | _GEN_12; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="71"><span class="lineNum">      71 </span>            :   wire [31:0] _GEN_15 = fieldStrbBits_0 ? io_writeData : {{24'd0}, RegTwo_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="72"><span class="lineNum">      72 </span>            :   wire  _GEN_16 = fieldStrbBits_0 ? _GEN_12 : _GEN_14; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="73"><span class="lineNum">      73 </span>            :   wire  _GEN_17 = fieldStrbBits_1 | _GEN_16; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="74"><span class="lineNum">      74 </span>            :   wire [23:0] _GEN_18 = fieldStrbBits_1 ? io_writeData[31:8] : {{16'd0}, RegTwo_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="75"><span class="lineNum">      75 </span>            :   wire  _GEN_19 = fieldStrbBits_1 ? _GEN_16 : _GEN_17; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="76"><span class="lineNum">      76 </span>            :   wire  _GEN_20 = fieldStrbBits_2 | _GEN_19; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="77"><span class="lineNum">      77 </span>            :   wire [15:0] _GEN_21 = fieldStrbBits_2 ? io_writeData[31:16] : {{8'd0}, RegTwo_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="78"><span class="lineNum">      78 </span>            :   wire  _GEN_22 = fieldStrbBits_2 ? _GEN_19 : _GEN_20; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="79"><span class="lineNum">      79 </span>            :   wire  _GEN_23 = fieldStrbBits_3 | _GEN_22; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="80"><span class="lineNum">      80 </span>            :   wire  _GEN_25 = fieldStrbBits_3 ? _GEN_22 : _GEN_23; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="81"><span class="lineNum">      81 </span>            :   wire [31:0] _GEN_26 = regIndex == 2'h2 ? _GEN_15 : {{24'd0}, RegTwo_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="82"><span class="lineNum">      82 </span>            :   wire  _GEN_27 = regIndex == 2'h2 ? _GEN_25 : _GEN_12; // @[src/main/scala/GenCSTrgt.scala 201:31]</a>
+<a name="83"><span class="lineNum">      83 </span>            :   wire [23:0] _GEN_28 = regIndex == 2'h2 ? _GEN_18 : {{16'd0}, RegTwo_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="84"><span class="lineNum">      84 </span>            :   wire [15:0] _GEN_29 = regIndex == 2'h2 ? _GEN_21 : {{8'd0}, RegTwo_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="85"><span class="lineNum">      85 </span>            :   wire  _T_15 = regIndex == 2'h3; // @[src/main/scala/GenCSTrgt.scala 201:22]</a>
+<a name="86"><span class="lineNum">      86 </span>            :   wire  _GEN_31 = fieldStrbBits_0 | _GEN_27; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="87"><span class="lineNum">      87 </span>            :   wire [31:0] _GEN_32 = fieldStrbBits_0 ? io_writeData : {{24'd0}, RegThree_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="88"><span class="lineNum">      88 </span>            :   wire  _GEN_33 = fieldStrbBits_0 ? _GEN_27 : _GEN_31; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="89"><span class="lineNum">      89 </span>            :   wire  _GEN_34 = fieldStrbBits_1 | _GEN_33; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="90"><span class="lineNum">      90 </span>            :   wire [23:0] _GEN_35 = fieldStrbBits_1 ? io_writeData[31:8] : {{16'd0}, RegThree_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="91"><span class="lineNum">      91 </span>            :   wire  _GEN_36 = fieldStrbBits_1 ? _GEN_33 : _GEN_34; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="92"><span class="lineNum">      92 </span>            :   wire  _GEN_37 = fieldStrbBits_2 | _GEN_36; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="93"><span class="lineNum">      93 </span>            :   wire [15:0] _GEN_38 = fieldStrbBits_2 ? io_writeData[31:16] : {{8'd0}, RegThree_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 225:52 241:23 src/main/scala/Registers.scala 302:62]</a>
+<a name="94"><span class="lineNum">      94 </span>            :   wire  _GEN_39 = fieldStrbBits_2 ? _GEN_36 : _GEN_37; // @[src/main/scala/GenCSTrgt.scala 225:52]</a>
+<a name="95"><span class="lineNum">      95 </span>            :   wire  _GEN_40 = fieldStrbBits_3 | _GEN_39; // @[src/main/scala/GenCSTrgt.scala 243:58 245:28]</a>
+<a name="96"><span class="lineNum">      96 </span>            :   wire [31:0] _GEN_43 = regIndex == 2'h3 ? _GEN_32 : {{24'd0}, RegThree_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="97"><span class="lineNum">      97 </span>            :   wire [23:0] _GEN_45 = regIndex == 2'h3 ? _GEN_35 : {{16'd0}, RegThree_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="98"><span class="lineNum">      98 </span>            :   wire [15:0] _GEN_46 = regIndex == 2'h3 ? _GEN_38 : {{8'd0}, RegThree_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 201:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="99"><span class="lineNum">      99 </span>            :   wire [31:0] _GEN_50 = io_write &amp; ~regAlias ? _GEN_11 : {{16'd0}, RegOne_LowerHalf}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="100"><span class="lineNum">     100 </span>            :   wire [31:0] _GEN_52 = io_write &amp; ~regAlias ? _GEN_26 : {{24'd0}, RegTwo_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="101"><span class="lineNum">     101 </span>            :   wire [23:0] _GEN_53 = io_write &amp; ~regAlias ? _GEN_28 : {{16'd0}, RegTwo_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="102"><span class="lineNum">     102 </span>            :   wire [15:0] _GEN_54 = io_write &amp; ~regAlias ? _GEN_29 : {{8'd0}, RegTwo_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="103"><span class="lineNum">     103 </span>            :   wire [31:0] _GEN_56 = io_write &amp; ~regAlias ? _GEN_43 : {{24'd0}, RegThree_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="104"><span class="lineNum">     104 </span>            :   wire [23:0] _GEN_57 = io_write &amp; ~regAlias ? _GEN_45 : {{16'd0}, RegThree_ByteOne}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="105"><span class="lineNum">     105 </span>            :   wire [15:0] _GEN_58 = io_write &amp; ~regAlias ? _GEN_46 : {{8'd0}, RegThree_ByteTwo}; // @[src/main/scala/GenCSTrgt.scala 196:31 src/main/scala/Registers.scala 302:62]</a>
+<a name="106"><span class="lineNum">     106 </span>            :   reg [31:0] readDataFF; // @[src/main/scala/GenCSTrgt.scala 281:27]</a>
+<a name="107"><span class="lineNum">     107 </span>            :   reg  readErrorFF; // @[src/main/scala/GenCSTrgt.scala 282:28]</a>
+<a name="108"><span class="lineNum">     108 </span>            :   wire [31:0] _GEN_60 = _T_2 ? RegZero_Word : 32'h0; // @[src/main/scala/GenCSTrgt.scala 286:16 289:31 293:20]</a>
+<a name="109"><span class="lineNum">     109 </span>            :   wire [31:0] shiftedBits_1 = {RegOne_UpperHalf, 16'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="110"><span class="lineNum">     110 </span>            :   wire [31:0] _GEN_65 = {{16'd0}, RegOne_LowerHalf}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="111"><span class="lineNum">     111 </span>            :   wire [31:0] _readDataFF_T = _GEN_65 | shiftedBits_1; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="112"><span class="lineNum">     112 </span>            :   wire [31:0] _GEN_61 = _T_9 ? _readDataFF_T : _GEN_60; // @[src/main/scala/GenCSTrgt.scala 289:31 293:20]</a>
+<a name="113"><span class="lineNum">     113 </span>            :   wire [15:0] shiftedBits_1_1 = {RegTwo_ByteOne, 8'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="114"><span class="lineNum">     114 </span>            :   wire [23:0] shiftedBits_2 = {RegTwo_ByteTwo, 16'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="115"><span class="lineNum">     115 </span>            :   wire [31:0] shiftedBits_3 = {RegTwo_ByteThree, 24'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="116"><span class="lineNum">     116 </span>            :   wire [15:0] _GEN_66 = {{8'd0}, RegTwo_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="117"><span class="lineNum">     117 </span>            :   wire [15:0] _readDataFF_T_1 = _GEN_66 | shiftedBits_1_1; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="118"><span class="lineNum">     118 </span>            :   wire [23:0] _GEN_67 = {{8'd0}, _readDataFF_T_1}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="119"><span class="lineNum">     119 </span>            :   wire [23:0] _readDataFF_T_2 = _GEN_67 | shiftedBits_2; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="120"><span class="lineNum">     120 </span>            :   wire [31:0] _GEN_68 = {{8'd0}, _readDataFF_T_2}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="121"><span class="lineNum">     121 </span>            :   wire [31:0] _readDataFF_T_3 = _GEN_68 | shiftedBits_3; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="122"><span class="lineNum">     122 </span>            :   wire [15:0] shiftedBits_1_2 = {RegThree_ByteOne, 8'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="123"><span class="lineNum">     123 </span>            :   wire [23:0] shiftedBits_2_1 = {RegThree_ByteTwo, 16'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="124"><span class="lineNum">     124 </span>            :   wire [31:0] shiftedBits_3_1 = {RegThree_ByteThree, 24'h0}; // @[src/main/scala/GenCSTrgt.scala 292:94]</a>
+<a name="125"><span class="lineNum">     125 </span>            :   wire [15:0] _GEN_69 = {{8'd0}, RegThree_ByteZero}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="126"><span class="lineNum">     126 </span>            :   wire [15:0] _readDataFF_T_4 = _GEN_69 | shiftedBits_1_2; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="127"><span class="lineNum">     127 </span>            :   wire [23:0] _GEN_70 = {{8'd0}, _readDataFF_T_4}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="128"><span class="lineNum">     128 </span>            :   wire [23:0] _readDataFF_T_5 = _GEN_70 | shiftedBits_2_1; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="129"><span class="lineNum">     129 </span>            :   wire [31:0] _GEN_71 = {{8'd0}, _readDataFF_T_5}; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="130"><span class="lineNum">     130 </span>            :   wire [31:0] _readDataFF_T_6 = _GEN_71 | shiftedBits_3_1; // @[src/main/scala/GenCSTrgt.scala 293:48]</a>
+<a name="131"><span class="lineNum">     131 </span>            :   wire [31:0] _GEN_72 = reset ? 32'h0 : _GEN_50; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="132"><span class="lineNum">     132 </span>            :   wire [31:0] _GEN_73 = reset ? 32'h0 : _GEN_52; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="133"><span class="lineNum">     133 </span>            :   wire [23:0] _GEN_74 = reset ? 24'h0 : _GEN_53; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="134"><span class="lineNum">     134 </span>            :   wire [15:0] _GEN_75 = reset ? 16'h0 : _GEN_54; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="135"><span class="lineNum">     135 </span>            :   wire [31:0] _GEN_76 = reset ? 32'h0 : _GEN_56; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="136"><span class="lineNum">     136 </span>            :   wire [23:0] _GEN_77 = reset ? 24'h0 : _GEN_57; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="137"><span class="lineNum">     137 </span>            :   wire [15:0] _GEN_78 = reset ? 16'h0 : _GEN_58; // @[src/main/scala/Registers.scala 302:{62,62}]</a>
+<a name="138"><span class="lineNum">     138 </span>            :   assign io_readData = readDataFF; // @[src/main/scala/GenCSTrgt.scala 301:15]</a>
+<a name="139"><span class="lineNum">     139 </span>            :   assign io_error = writeErrorFF | readErrorFF; // @[src/main/scala/GenCSTrgt.scala 302:28]</a>
+<a name="140"><span class="lineNum">     140 </span>            :   assign io_rwVec_10 = RegThree_ByteThree; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="141"><span class="lineNum">     141 </span>            :   assign io_rwVec_9 = RegThree_ByteTwo; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="142"><span class="lineNum">     142 </span>            :   assign io_rwVec_8 = RegThree_ByteOne; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="143"><span class="lineNum">     143 </span>            :   assign io_rwVec_7 = RegThree_ByteZero; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="144"><span class="lineNum">     144 </span>            :   assign io_rwVec_6 = RegTwo_ByteThree; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="145"><span class="lineNum">     145 </span>            :   assign io_rwVec_5 = RegTwo_ByteTwo; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="146"><span class="lineNum">     146 </span>            :   assign io_rwVec_4 = RegTwo_ByteOne; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="147"><span class="lineNum">     147 </span>            :   assign io_rwVec_3 = RegTwo_ByteZero; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="148"><span class="lineNum">     148 </span>            :   assign io_rwVec_2 = RegOne_UpperHalf; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="149"><span class="lineNum">     149 </span>            :   assign io_rwVec_1 = RegOne_LowerHalf; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
+<a name="150"><span class="lineNum">     150 </span>            :   assign io_rwVec_0 = RegZero_Word; // @[src/main/scala/GenCSTrgt.scala 94:19]</a>
 <a name="151"><span class="lineNum">     151 </span><span class="lineCov">        106 :   always @(posedge clock) begin</span></a>
-<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          2 :     if (reset) begin // @[Registers.scala 302:62]</span></a>
-<a name="153"><span class="lineNum">     153 </span><span class="lineCov">          1 :       RegZero_Word &lt;= 32'h0; // @[Registers.scala 302:62]</span></a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[GenCSTrgt.scala 196:31]</span></a>
-<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          2 :       if (regIndex == 2'h0) begin // @[GenCSTrgt.scala 201:31]</span></a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :         if (fieldStrbBits_0 &amp; fieldStrbBits_1 &amp; fieldStrbBits_2 &amp; fieldStrbBits_3) begin // @[GenCSTrgt.scala 225:52]</span></a>
-<a name="157"><span class="lineNum">     157 </span><span class="lineCov">          1 :           RegZero_Word &lt;= io_writeData; // @[GenCSTrgt.scala 241:23]</span></a>
+<a name="152"><span class="lineNum">     152 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="153"><span class="lineNum">     153 </span><span class="lineCov">          1 :       RegZero_Word &lt;= 32'h0; // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="154"><span class="lineNum">     154 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[src/main/scala/GenCSTrgt.scala 196:31]</span></a>
+<a name="155"><span class="lineNum">     155 </span><span class="lineCov">          2 :       if (regIndex == 2'h0) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
+<a name="156"><span class="lineNum">     156 </span><span class="lineNoCov">          0 :         if (fieldStrbBits_0 &amp; fieldStrbBits_1 &amp; fieldStrbBits_2 &amp; fieldStrbBits_3) begin // @[src/main/scala/GenCSTrgt.scala 225:52]</span></a>
+<a name="157"><span class="lineNum">     157 </span><span class="lineCov">          1 :           RegZero_Word &lt;= io_writeData; // @[src/main/scala/GenCSTrgt.scala 241:23]</span></a>
 <a name="158"><span class="lineNum">     158 </span>            :         end</a>
 <a name="159"><span class="lineNum">     159 </span>            :       end</a>
 <a name="160"><span class="lineNum">     160 </span>            :     end</a>
-<a name="161"><span class="lineNum">     161 </span><span class="lineCov">         53 :     RegOne_LowerHalf &lt;= _GEN_72[15:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="162"><span class="lineNum">     162 </span><span class="lineCov">          2 :     if (reset) begin // @[Registers.scala 302:62]</span></a>
-<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          1 :       RegOne_UpperHalf &lt;= 16'h0; // @[Registers.scala 302:62]</span></a>
-<a name="164"><span class="lineNum">     164 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[GenCSTrgt.scala 196:31]</span></a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          4 :       if (regIndex == 2'h1) begin // @[GenCSTrgt.scala 201:31]</span></a>
-<a name="166"><span class="lineNum">     166 </span><span class="lineCov">          1 :         if (fieldStrbBits_2 &amp; fieldStrbBits_3) begin // @[GenCSTrgt.scala 225:52]</span></a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 :           RegOne_UpperHalf &lt;= io_writeData[31:16]; // @[GenCSTrgt.scala 241:23]</span></a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">         53 :     RegOne_LowerHalf &lt;= _GEN_72[15:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="162"><span class="lineNum">     162 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="163"><span class="lineNum">     163 </span><span class="lineCov">          1 :       RegOne_UpperHalf &lt;= 16'h0; // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="164"><span class="lineNum">     164 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[src/main/scala/GenCSTrgt.scala 196:31]</span></a>
+<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          4 :       if (regIndex == 2'h1) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
+<a name="166"><span class="lineNum">     166 </span><span class="lineCov">          1 :         if (fieldStrbBits_2 &amp; fieldStrbBits_3) begin // @[src/main/scala/GenCSTrgt.scala 225:52]</span></a>
+<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 :           RegOne_UpperHalf &lt;= io_writeData[31:16]; // @[src/main/scala/GenCSTrgt.scala 241:23]</span></a>
 <a name="168"><span class="lineNum">     168 </span>            :         end</a>
 <a name="169"><span class="lineNum">     169 </span>            :       end</a>
 <a name="170"><span class="lineNum">     170 </span>            :     end</a>
-<a name="171"><span class="lineNum">     171 </span><span class="lineCov">         53 :     RegTwo_ByteZero &lt;= _GEN_73[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="172"><span class="lineNum">     172 </span><span class="lineCov">         53 :     RegTwo_ByteOne &lt;= _GEN_74[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="173"><span class="lineNum">     173 </span><span class="lineCov">         53 :     RegTwo_ByteTwo &lt;= _GEN_75[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          2 :     if (reset) begin // @[Registers.scala 302:62]</span></a>
-<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          1 :       RegTwo_ByteThree &lt;= 8'h0; // @[Registers.scala 302:62]</span></a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[GenCSTrgt.scala 196:31]</span></a>
-<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          7 :       if (regIndex == 2'h2) begin // @[GenCSTrgt.scala 201:31]</span></a>
-<a name="178"><span class="lineNum">     178 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[GenCSTrgt.scala 225:52]</span></a>
-<a name="179"><span class="lineNum">     179 </span><span class="lineCov">          1 :           RegTwo_ByteThree &lt;= io_writeData[31:24]; // @[GenCSTrgt.scala 241:23]</span></a>
+<a name="171"><span class="lineNum">     171 </span><span class="lineCov">         53 :     RegTwo_ByteZero &lt;= _GEN_73[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">         53 :     RegTwo_ByteOne &lt;= _GEN_74[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="173"><span class="lineNum">     173 </span><span class="lineCov">         53 :     RegTwo_ByteTwo &lt;= _GEN_75[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="175"><span class="lineNum">     175 </span><span class="lineCov">          1 :       RegTwo_ByteThree &lt;= 8'h0; // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="176"><span class="lineNum">     176 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[src/main/scala/GenCSTrgt.scala 196:31]</span></a>
+<a name="177"><span class="lineNum">     177 </span><span class="lineCov">          7 :       if (regIndex == 2'h2) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
+<a name="178"><span class="lineNum">     178 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[src/main/scala/GenCSTrgt.scala 225:52]</span></a>
+<a name="179"><span class="lineNum">     179 </span><span class="lineCov">          1 :           RegTwo_ByteThree &lt;= io_writeData[31:24]; // @[src/main/scala/GenCSTrgt.scala 241:23]</span></a>
 <a name="180"><span class="lineNum">     180 </span>            :         end</a>
 <a name="181"><span class="lineNum">     181 </span>            :       end</a>
 <a name="182"><span class="lineNum">     182 </span>            :     end</a>
-<a name="183"><span class="lineNum">     183 </span><span class="lineCov">         53 :     RegThree_ByteZero &lt;= _GEN_76[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="184"><span class="lineNum">     184 </span><span class="lineCov">         53 :     RegThree_ByteOne &lt;= _GEN_77[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="185"><span class="lineNum">     185 </span><span class="lineCov">         53 :     RegThree_ByteTwo &lt;= _GEN_78[7:0]; // @[Registers.scala 302:{62,62}]</span></a>
-<a name="186"><span class="lineNum">     186 </span><span class="lineCov">          2 :     if (reset) begin // @[Registers.scala 302:62]</span></a>
-<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          1 :       RegThree_ByteThree &lt;= 8'h0; // @[Registers.scala 302:62]</span></a>
-<a name="188"><span class="lineNum">     188 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[GenCSTrgt.scala 196:31]</span></a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          7 :       if (regIndex == 2'h3) begin // @[GenCSTrgt.scala 201:31]</span></a>
-<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[GenCSTrgt.scala 225:52]</span></a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          1 :           RegThree_ByteThree &lt;= io_writeData[31:24]; // @[GenCSTrgt.scala 241:23]</span></a>
+<a name="183"><span class="lineNum">     183 </span><span class="lineCov">         53 :     RegThree_ByteZero &lt;= _GEN_76[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="184"><span class="lineNum">     184 </span><span class="lineCov">         53 :     RegThree_ByteOne &lt;= _GEN_77[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">         53 :     RegThree_ByteTwo &lt;= _GEN_78[7:0]; // @[src/main/scala/Registers.scala 302:{62,62}]</span></a>
+<a name="186"><span class="lineNum">     186 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          1 :       RegThree_ByteThree &lt;= 8'h0; // @[src/main/scala/Registers.scala 302:62]</span></a>
+<a name="188"><span class="lineNum">     188 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[src/main/scala/GenCSTrgt.scala 196:31]</span></a>
+<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          7 :       if (regIndex == 2'h3) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
+<a name="190"><span class="lineNum">     190 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[src/main/scala/GenCSTrgt.scala 225:52]</span></a>
+<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          1 :           RegThree_ByteThree &lt;= io_writeData[31:24]; // @[src/main/scala/GenCSTrgt.scala 241:23]</span></a>
 <a name="192"><span class="lineNum">     192 </span>            :         end</a>
 <a name="193"><span class="lineNum">     193 </span>            :       end</a>
 <a name="194"><span class="lineNum">     194 </span>            :     end</a>
-<a name="195"><span class="lineNum">     195 </span><span class="lineCov">          2 :     if (reset) begin // @[GenCSTrgt.scala 194:29]</span></a>
-<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          1 :       writeErrorFF &lt;= 1'h0; // @[GenCSTrgt.scala 194:29]</span></a>
-<a name="197"><span class="lineNum">     197 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[GenCSTrgt.scala 196:31]</span></a>
-<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          8 :       if (regIndex == 2'h3) begin // @[GenCSTrgt.scala 201:31]</span></a>
-<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[GenCSTrgt.scala 225:52]</span></a>
+<a name="195"><span class="lineNum">     195 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/GenCSTrgt.scala 194:29]</span></a>
+<a name="196"><span class="lineNum">     196 </span><span class="lineCov">          1 :       writeErrorFF &lt;= 1'h0; // @[src/main/scala/GenCSTrgt.scala 194:29]</span></a>
+<a name="197"><span class="lineNum">     197 </span><span class="lineCov">         22 :     end else if (io_write &amp; ~regAlias) begin // @[src/main/scala/GenCSTrgt.scala 196:31]</span></a>
+<a name="198"><span class="lineNum">     198 </span><span class="lineCov">          8 :       if (regIndex == 2'h3) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
+<a name="199"><span class="lineNum">     199 </span><span class="lineCov">          2 :         if (fieldStrbBits_3) begin // @[src/main/scala/GenCSTrgt.scala 225:52]</span></a>
 <a name="200"><span class="lineNum">     200 </span><span class="lineCov">          1 :           writeErrorFF &lt;= _GEN_39;</span></a>
 <a name="201"><span class="lineNum">     201 </span><span class="lineCov">          3 :         end else begin</span></a>
 <a name="202"><span class="lineNum">     202 </span><span class="lineCov">          3 :           writeErrorFF &lt;= _GEN_40;</span></a>
 <a name="203"><span class="lineNum">     203 </span>            :         end</a>
-<a name="204"><span class="lineNum">     204 </span><span class="lineCov">          3 :       end else if (regIndex == 2'h2) begin // @[GenCSTrgt.scala 201:31]</span></a>
+<a name="204"><span class="lineNum">     204 </span><span class="lineCov">          3 :       end else if (regIndex == 2'h2) begin // @[src/main/scala/GenCSTrgt.scala 201:31]</span></a>
 <a name="205"><span class="lineNum">     205 </span><span class="lineCov">          4 :         writeErrorFF &lt;= _GEN_25;</span></a>
 <a name="206"><span class="lineNum">     206 </span><span class="lineCov">          3 :       end else begin</span></a>
 <a name="207"><span class="lineNum">     207 </span><span class="lineCov">          3 :         writeErrorFF &lt;= _GEN_12;</span></a>
 <a name="208"><span class="lineNum">     208 </span>            :       end</a>
 <a name="209"><span class="lineNum">     209 </span><span class="lineCov">         41 :     end else begin</span></a>
-<a name="210"><span class="lineNum">     210 </span><span class="lineCov">         41 :       writeErrorFF &lt;= regAlias; // @[GenCSTrgt.scala 278:18]</span></a>
+<a name="210"><span class="lineNum">     210 </span><span class="lineCov">         41 :       writeErrorFF &lt;= regAlias; // @[src/main/scala/GenCSTrgt.scala 278:18]</span></a>
 <a name="211"><span class="lineNum">     211 </span>            :     end</a>
-<a name="212"><span class="lineNum">     212 </span><span class="lineCov">          2 :     if (reset) begin // @[GenCSTrgt.scala 281:27]</span></a>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          1 :       readDataFF &lt;= 32'h0; // @[GenCSTrgt.scala 281:27]</span></a>
-<a name="214"><span class="lineNum">     214 </span><span class="lineCov">         22 :     end else if (io_read) begin // @[GenCSTrgt.scala 284:18]</span></a>
-<a name="215"><span class="lineNum">     215 </span><span class="lineCov">          8 :       if (_T_15) begin // @[GenCSTrgt.scala 289:31]</span></a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">          4 :         readDataFF &lt;= _readDataFF_T_6; // @[GenCSTrgt.scala 293:20]</span></a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          3 :       end else if (_T_14) begin // @[GenCSTrgt.scala 289:31]</span></a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          4 :         readDataFF &lt;= _readDataFF_T_3; // @[GenCSTrgt.scala 293:20]</span></a>
+<a name="212"><span class="lineNum">     212 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/GenCSTrgt.scala 281:27]</span></a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          1 :       readDataFF &lt;= 32'h0; // @[src/main/scala/GenCSTrgt.scala 281:27]</span></a>
+<a name="214"><span class="lineNum">     214 </span><span class="lineCov">         22 :     end else if (io_read) begin // @[src/main/scala/GenCSTrgt.scala 284:18]</span></a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">          8 :       if (_T_15) begin // @[src/main/scala/GenCSTrgt.scala 289:31]</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">          4 :         readDataFF &lt;= _readDataFF_T_6; // @[src/main/scala/GenCSTrgt.scala 293:20]</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">          3 :       end else if (_T_14) begin // @[src/main/scala/GenCSTrgt.scala 289:31]</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">          4 :         readDataFF &lt;= _readDataFF_T_3; // @[src/main/scala/GenCSTrgt.scala 293:20]</span></a>
 <a name="219"><span class="lineNum">     219 </span><span class="lineCov">          3 :       end else begin</span></a>
 <a name="220"><span class="lineNum">     220 </span><span class="lineCov">          3 :         readDataFF &lt;= _GEN_61;</span></a>
 <a name="221"><span class="lineNum">     221 </span>            :       end</a>
 <a name="222"><span class="lineNum">     222 </span>            :     end</a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">          2 :     if (reset) begin // @[GenCSTrgt.scala 282:28]</span></a>
-<a name="224"><span class="lineNum">     224 </span><span class="lineCov">          1 :       readErrorFF &lt;= regAlias; // @[GenCSTrgt.scala 282:28]</span></a>
+<a name="223"><span class="lineNum">     223 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/GenCSTrgt.scala 282:28]</span></a>
+<a name="224"><span class="lineNum">     224 </span><span class="lineCov">          1 :       readErrorFF &lt;= regAlias; // @[src/main/scala/GenCSTrgt.scala 282:28]</span></a>
 <a name="225"><span class="lineNum">     225 </span>            :     end</a>
 <a name="226"><span class="lineNum">     226 </span>            :   end</a>
 <a name="227"><span class="lineNum">     227 </span>            : // Register and memory initialization</a>
@@ -361,26 +361,26 @@
 <a name="299"><span class="lineNum">     299 </span>            : module Apb2CSTrgt(</a>
 <a name="300"><span class="lineNum">     300 </span>            :   input         clock,</a>
 <a name="301"><span class="lineNum">     301 </span>            :   input         reset,</a>
-<a name="302"><span class="lineNum">     302 </span>            :   input  [31:0] io_apb2T_req_pAddr,</a>
-<a name="303"><span class="lineNum">     303 </span>            :   input         io_apb2T_req_pSel,</a>
-<a name="304"><span class="lineNum">     304 </span>            :   input         io_apb2T_req_pEnable,</a>
-<a name="305"><span class="lineNum">     305 </span>            :   input         io_apb2T_req_pWrite,</a>
-<a name="306"><span class="lineNum">     306 </span>            :   input  [31:0] io_apb2T_req_pWData,</a>
-<a name="307"><span class="lineNum">     307 </span>            :   input  [3:0]  io_apb2T_req_pStrb,</a>
-<a name="308"><span class="lineNum">     308 </span>            :   output        io_apb2T_rsp_pReady,</a>
-<a name="309"><span class="lineNum">     309 </span>            :   output [31:0] io_apb2T_rsp_pRData,</a>
-<a name="310"><span class="lineNum">     310 </span>            :   output        io_apb2T_rsp_pSlvErr,</a>
-<a name="311"><span class="lineNum">     311 </span>            :   output [7:0]  io_rwVec_10,</a>
-<a name="312"><span class="lineNum">     312 </span>            :   output [7:0]  io_rwVec_9,</a>
-<a name="313"><span class="lineNum">     313 </span>            :   output [7:0]  io_rwVec_8,</a>
-<a name="314"><span class="lineNum">     314 </span>            :   output [7:0]  io_rwVec_7,</a>
-<a name="315"><span class="lineNum">     315 </span>            :   output [7:0]  io_rwVec_6,</a>
-<a name="316"><span class="lineNum">     316 </span>            :   output [7:0]  io_rwVec_5,</a>
-<a name="317"><span class="lineNum">     317 </span>            :   output [7:0]  io_rwVec_4,</a>
-<a name="318"><span class="lineNum">     318 </span>            :   output [7:0]  io_rwVec_3,</a>
-<a name="319"><span class="lineNum">     319 </span>            :   output [15:0] io_rwVec_2,</a>
-<a name="320"><span class="lineNum">     320 </span>            :   output [15:0] io_rwVec_1,</a>
-<a name="321"><span class="lineNum">     321 </span>            :   output [31:0] io_rwVec_0</a>
+<a name="302"><span class="lineNum">     302 </span>            :   input  [31:0] io_apb2T_req_pAddr, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="303"><span class="lineNum">     303 </span>            :   input         io_apb2T_req_pSel, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="304"><span class="lineNum">     304 </span>            :   input         io_apb2T_req_pEnable, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="305"><span class="lineNum">     305 </span>            :   input         io_apb2T_req_pWrite, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="306"><span class="lineNum">     306 </span>            :   input  [31:0] io_apb2T_req_pWData, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="307"><span class="lineNum">     307 </span>            :   input  [3:0]  io_apb2T_req_pStrb, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="308"><span class="lineNum">     308 </span>            :   output        io_apb2T_rsp_pReady, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="309"><span class="lineNum">     309 </span>            :   output [31:0] io_apb2T_rsp_pRData, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="310"><span class="lineNum">     310 </span>            :   output        io_apb2T_rsp_pSlvErr, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="311"><span class="lineNum">     311 </span>            :   output [7:0]  io_rwVec_10, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="312"><span class="lineNum">     312 </span>            :   output [7:0]  io_rwVec_9, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="313"><span class="lineNum">     313 </span>            :   output [7:0]  io_rwVec_8, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="314"><span class="lineNum">     314 </span>            :   output [7:0]  io_rwVec_7, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="315"><span class="lineNum">     315 </span>            :   output [7:0]  io_rwVec_6, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="316"><span class="lineNum">     316 </span>            :   output [7:0]  io_rwVec_5, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="317"><span class="lineNum">     317 </span>            :   output [7:0]  io_rwVec_4, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="318"><span class="lineNum">     318 </span>            :   output [7:0]  io_rwVec_3, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="319"><span class="lineNum">     319 </span>            :   output [15:0] io_rwVec_2, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="320"><span class="lineNum">     320 </span>            :   output [15:0] io_rwVec_1, // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
+<a name="321"><span class="lineNum">     321 </span>            :   output [31:0] io_rwVec_0 // @[src/main/scala/Apb2CSTrgt.scala 63:14]</a>
 <a name="322"><span class="lineNum">     322 </span>            : );</a>
 <a name="323"><span class="lineNum">     323 </span>            : `ifdef RANDOMIZE_REG_INIT</a>
 <a name="324"><span class="lineNum">     324 </span>            :   reg [31:0] _RAND_0;</a>
@@ -388,33 +388,33 @@
 <a name="326"><span class="lineNum">     326 </span>            :   reg [31:0] _RAND_2;</a>
 <a name="327"><span class="lineNum">     327 </span>            :   reg [31:0] _RAND_3;</a>
 <a name="328"><span class="lineNum">     328 </span>            : `endif // RANDOMIZE_REG_INIT</a>
-<a name="329"><span class="lineNum">     329 </span>            :   wire  t_clock; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="330"><span class="lineNum">     330 </span>            :   wire  t_reset; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="331"><span class="lineNum">     331 </span>            :   wire [29:0] t_io_addr; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="332"><span class="lineNum">     332 </span>            :   wire  t_io_write; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="333"><span class="lineNum">     333 </span>            :   wire [3:0] t_io_writeStrb; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="334"><span class="lineNum">     334 </span>            :   wire [31:0] t_io_writeData; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="335"><span class="lineNum">     335 </span>            :   wire  t_io_read; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="336"><span class="lineNum">     336 </span>            :   wire [31:0] t_io_readData; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="337"><span class="lineNum">     337 </span>            :   wire  t_io_error; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="338"><span class="lineNum">     338 </span>            :   wire [7:0] t_io_rwVec_10; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="339"><span class="lineNum">     339 </span>            :   wire [7:0] t_io_rwVec_9; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="340"><span class="lineNum">     340 </span>            :   wire [7:0] t_io_rwVec_8; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="341"><span class="lineNum">     341 </span>            :   wire [7:0] t_io_rwVec_7; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="342"><span class="lineNum">     342 </span>            :   wire [7:0] t_io_rwVec_6; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="343"><span class="lineNum">     343 </span>            :   wire [7:0] t_io_rwVec_5; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="344"><span class="lineNum">     344 </span>            :   wire [7:0] t_io_rwVec_4; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="345"><span class="lineNum">     345 </span>            :   wire [7:0] t_io_rwVec_3; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="346"><span class="lineNum">     346 </span>            :   wire [15:0] t_io_rwVec_2; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="347"><span class="lineNum">     347 </span>            :   wire [15:0] t_io_rwVec_1; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="348"><span class="lineNum">     348 </span>            :   wire [31:0] t_io_rwVec_0; // @[Apb2CSTrgt.scala 71:17]</a>
-<a name="349"><span class="lineNum">     349 </span>            :   reg [31:0] pAddrFF; // @[Apb2CSTrgt.scala 78:26]</a>
-<a name="350"><span class="lineNum">     350 </span>            :   reg  pWriteFF; // @[Apb2CSTrgt.scala 79:26]</a>
-<a name="351"><span class="lineNum">     351 </span>            :   reg [3:0] pStrbFF; // @[Apb2CSTrgt.scala 80:26]</a>
-<a name="352"><span class="lineNum">     352 </span>            :   reg  pReadyFF; // @[Apb2CSTrgt.scala 81:26]</a>
-<a name="353"><span class="lineNum">     353 </span>            :   wire  _GEN_1 = io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable &amp; io_apb2T_req_pWrite; // @[Apb2CSTrgt.scala 91:52 93:14 98:14]</a>
-<a name="354"><span class="lineNum">     354 </span>            :   wire  _GEN_3 = io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable ? io_apb2T_req_pWrite : 1'h1; // @[Apb2CSTrgt.scala 91:52 95:14 97:14]</a>
-<a name="355"><span class="lineNum">     355 </span>            :   GenCSTrgt t ( // @[Apb2CSTrgt.scala 71:17]</a>
+<a name="329"><span class="lineNum">     329 </span>            :   wire  t_clock; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="330"><span class="lineNum">     330 </span>            :   wire  t_reset; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="331"><span class="lineNum">     331 </span>            :   wire [29:0] t_io_addr; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="332"><span class="lineNum">     332 </span>            :   wire  t_io_write; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="333"><span class="lineNum">     333 </span>            :   wire [3:0] t_io_writeStrb; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="334"><span class="lineNum">     334 </span>            :   wire [31:0] t_io_writeData; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="335"><span class="lineNum">     335 </span>            :   wire  t_io_read; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="336"><span class="lineNum">     336 </span>            :   wire [31:0] t_io_readData; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="337"><span class="lineNum">     337 </span>            :   wire  t_io_error; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="338"><span class="lineNum">     338 </span>            :   wire [7:0] t_io_rwVec_10; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="339"><span class="lineNum">     339 </span>            :   wire [7:0] t_io_rwVec_9; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="340"><span class="lineNum">     340 </span>            :   wire [7:0] t_io_rwVec_8; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="341"><span class="lineNum">     341 </span>            :   wire [7:0] t_io_rwVec_7; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="342"><span class="lineNum">     342 </span>            :   wire [7:0] t_io_rwVec_6; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="343"><span class="lineNum">     343 </span>            :   wire [7:0] t_io_rwVec_5; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="344"><span class="lineNum">     344 </span>            :   wire [7:0] t_io_rwVec_4; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="345"><span class="lineNum">     345 </span>            :   wire [7:0] t_io_rwVec_3; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="346"><span class="lineNum">     346 </span>            :   wire [15:0] t_io_rwVec_2; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="347"><span class="lineNum">     347 </span>            :   wire [15:0] t_io_rwVec_1; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="348"><span class="lineNum">     348 </span>            :   wire [31:0] t_io_rwVec_0; // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
+<a name="349"><span class="lineNum">     349 </span>            :   reg [31:0] pAddrFF; // @[src/main/scala/Apb2CSTrgt.scala 79:26]</a>
+<a name="350"><span class="lineNum">     350 </span>            :   reg  pWriteFF; // @[src/main/scala/Apb2CSTrgt.scala 80:26]</a>
+<a name="351"><span class="lineNum">     351 </span>            :   reg [3:0] pStrbFF; // @[src/main/scala/Apb2CSTrgt.scala 81:26]</a>
+<a name="352"><span class="lineNum">     352 </span>            :   reg  pReadyFF; // @[src/main/scala/Apb2CSTrgt.scala 82:26]</a>
+<a name="353"><span class="lineNum">     353 </span>            :   wire  _GEN_1 = io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable &amp; io_apb2T_req_pWrite; // @[src/main/scala/Apb2CSTrgt.scala 92:52 94:14 99:14]</a>
+<a name="354"><span class="lineNum">     354 </span>            :   wire  _GEN_3 = io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable ? io_apb2T_req_pWrite : 1'h1; // @[src/main/scala/Apb2CSTrgt.scala 92:52 96:14 98:14]</a>
+<a name="355"><span class="lineNum">     355 </span>            :   GenCSTrgt t ( // @[src/main/scala/Apb2CSTrgt.scala 72:17]</a>
 <a name="356"><span class="lineNum">     356 </span>            :     .clock(t_clock),</a>
 <a name="357"><span class="lineNum">     357 </span>            :     .reset(t_reset),</a>
 <a name="358"><span class="lineNum">     358 </span>            :     .io_addr(t_io_addr),</a>
@@ -436,44 +436,44 @@
 <a name="374"><span class="lineNum">     374 </span>            :     .io_rwVec_1(t_io_rwVec_1),</a>
 <a name="375"><span class="lineNum">     375 </span>            :     .io_rwVec_0(t_io_rwVec_0)</a>
 <a name="376"><span class="lineNum">     376 </span>            :   );</a>
-<a name="377"><span class="lineNum">     377 </span>            :   assign io_apb2T_rsp_pReady = pReadyFF; // @[Apb2CSTrgt.scala 113:24]</a>
-<a name="378"><span class="lineNum">     378 </span>            :   assign io_apb2T_rsp_pRData = t_io_readData; // @[Apb2CSTrgt.scala 114:24]</a>
-<a name="379"><span class="lineNum">     379 </span>            :   assign io_apb2T_rsp_pSlvErr = t_io_error; // @[Apb2CSTrgt.scala 115:24]</a>
-<a name="380"><span class="lineNum">     380 </span>            :   assign io_rwVec_10 = t_io_rwVec_10; // @[MixedVec.scala 117:9]</a>
-<a name="381"><span class="lineNum">     381 </span>            :   assign io_rwVec_9 = t_io_rwVec_9; // @[MixedVec.scala 117:9]</a>
-<a name="382"><span class="lineNum">     382 </span>            :   assign io_rwVec_8 = t_io_rwVec_8; // @[MixedVec.scala 117:9]</a>
-<a name="383"><span class="lineNum">     383 </span>            :   assign io_rwVec_7 = t_io_rwVec_7; // @[MixedVec.scala 117:9]</a>
-<a name="384"><span class="lineNum">     384 </span>            :   assign io_rwVec_6 = t_io_rwVec_6; // @[MixedVec.scala 117:9]</a>
-<a name="385"><span class="lineNum">     385 </span>            :   assign io_rwVec_5 = t_io_rwVec_5; // @[MixedVec.scala 117:9]</a>
-<a name="386"><span class="lineNum">     386 </span>            :   assign io_rwVec_4 = t_io_rwVec_4; // @[MixedVec.scala 117:9]</a>
-<a name="387"><span class="lineNum">     387 </span>            :   assign io_rwVec_3 = t_io_rwVec_3; // @[MixedVec.scala 117:9]</a>
-<a name="388"><span class="lineNum">     388 </span>            :   assign io_rwVec_2 = t_io_rwVec_2; // @[MixedVec.scala 117:9]</a>
-<a name="389"><span class="lineNum">     389 </span>            :   assign io_rwVec_1 = t_io_rwVec_1; // @[MixedVec.scala 117:9]</a>
-<a name="390"><span class="lineNum">     390 </span>            :   assign io_rwVec_0 = t_io_rwVec_0; // @[MixedVec.scala 117:9]</a>
+<a name="377"><span class="lineNum">     377 </span>            :   assign io_apb2T_rsp_pReady = pReadyFF; // @[src/main/scala/Apb2CSTrgt.scala 114:24]</a>
+<a name="378"><span class="lineNum">     378 </span>            :   assign io_apb2T_rsp_pRData = t_io_readData; // @[src/main/scala/Apb2CSTrgt.scala 115:24]</a>
+<a name="379"><span class="lineNum">     379 </span>            :   assign io_apb2T_rsp_pSlvErr = t_io_error; // @[src/main/scala/Apb2CSTrgt.scala 116:24]</a>
+<a name="380"><span class="lineNum">     380 </span>            :   assign io_rwVec_10 = t_io_rwVec_10; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="381"><span class="lineNum">     381 </span>            :   assign io_rwVec_9 = t_io_rwVec_9; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="382"><span class="lineNum">     382 </span>            :   assign io_rwVec_8 = t_io_rwVec_8; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="383"><span class="lineNum">     383 </span>            :   assign io_rwVec_7 = t_io_rwVec_7; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="384"><span class="lineNum">     384 </span>            :   assign io_rwVec_6 = t_io_rwVec_6; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="385"><span class="lineNum">     385 </span>            :   assign io_rwVec_5 = t_io_rwVec_5; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="386"><span class="lineNum">     386 </span>            :   assign io_rwVec_4 = t_io_rwVec_4; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="387"><span class="lineNum">     387 </span>            :   assign io_rwVec_3 = t_io_rwVec_3; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="388"><span class="lineNum">     388 </span>            :   assign io_rwVec_2 = t_io_rwVec_2; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="389"><span class="lineNum">     389 </span>            :   assign io_rwVec_1 = t_io_rwVec_1; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
+<a name="390"><span class="lineNum">     390 </span>            :   assign io_rwVec_0 = t_io_rwVec_0; // @[src/main/scala/chisel3/util/MixedVec.scala 118:9]</a>
 <a name="391"><span class="lineNum">     391 </span>            :   assign t_clock = clock;</a>
 <a name="392"><span class="lineNum">     392 </span>            :   assign t_reset = reset;</a>
-<a name="393"><span class="lineNum">     393 </span>            :   assign t_io_addr = pAddrFF[29:0]; // @[Apb2CSTrgt.scala 102:13]</a>
-<a name="394"><span class="lineNum">     394 </span>            :   assign t_io_write = pWriteFF; // @[Apb2CSTrgt.scala 105:18]</a>
-<a name="395"><span class="lineNum">     395 </span>            :   assign t_io_writeStrb = pStrbFF; // @[Apb2CSTrgt.scala 106:18]</a>
-<a name="396"><span class="lineNum">     396 </span>            :   assign t_io_writeData = io_apb2T_req_pWData; // @[Apb2CSTrgt.scala 107:18]</a>
-<a name="397"><span class="lineNum">     397 </span>            :   assign t_io_read = ~pReadyFF; // @[Apb2CSTrgt.scala 110:16]</a>
+<a name="393"><span class="lineNum">     393 </span>            :   assign t_io_addr = pAddrFF[29:0]; // @[src/main/scala/Apb2CSTrgt.scala 103:13]</a>
+<a name="394"><span class="lineNum">     394 </span>            :   assign t_io_write = pWriteFF; // @[src/main/scala/Apb2CSTrgt.scala 106:18]</a>
+<a name="395"><span class="lineNum">     395 </span>            :   assign t_io_writeStrb = pStrbFF; // @[src/main/scala/Apb2CSTrgt.scala 107:18]</a>
+<a name="396"><span class="lineNum">     396 </span>            :   assign t_io_writeData = io_apb2T_req_pWData; // @[src/main/scala/Apb2CSTrgt.scala 108:18]</a>
+<a name="397"><span class="lineNum">     397 </span>            :   assign t_io_read = ~pReadyFF; // @[src/main/scala/Apb2CSTrgt.scala 111:16]</a>
 <a name="398"><span class="lineNum">     398 </span><span class="lineCov">        106 :   always @(posedge clock) begin</span></a>
-<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          2 :     if (reset) begin // @[Apb2CSTrgt.scala 78:26]</span></a>
-<a name="400"><span class="lineNum">     400 </span><span class="lineCov">          1 :       pAddrFF &lt;= 32'h0; // @[Apb2CSTrgt.scala 78:26]</span></a>
-<a name="401"><span class="lineNum">     401 </span><span class="lineCov">         30 :     end else if (io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable) begin // @[Apb2CSTrgt.scala 91:52]</span></a>
-<a name="402"><span class="lineNum">     402 </span><span class="lineCov">         22 :       pAddrFF &lt;= io_apb2T_req_pAddr; // @[Apb2CSTrgt.scala 92:14]</span></a>
+<a name="399"><span class="lineNum">     399 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Apb2CSTrgt.scala 79:26]</span></a>
+<a name="400"><span class="lineNum">     400 </span><span class="lineCov">          1 :       pAddrFF &lt;= 32'h0; // @[src/main/scala/Apb2CSTrgt.scala 79:26]</span></a>
+<a name="401"><span class="lineNum">     401 </span><span class="lineCov">         30 :     end else if (io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable) begin // @[src/main/scala/Apb2CSTrgt.scala 92:52]</span></a>
+<a name="402"><span class="lineNum">     402 </span><span class="lineCov">         22 :       pAddrFF &lt;= io_apb2T_req_pAddr; // @[src/main/scala/Apb2CSTrgt.scala 93:14]</span></a>
 <a name="403"><span class="lineNum">     403 </span>            :     end</a>
-<a name="404"><span class="lineNum">     404 </span><span class="lineCov">          2 :     if (reset) begin // @[Apb2CSTrgt.scala 79:26]</span></a>
-<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          1 :       pWriteFF &lt;= 1'h0; // @[Apb2CSTrgt.scala 79:26]</span></a>
+<a name="404"><span class="lineNum">     404 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Apb2CSTrgt.scala 80:26]</span></a>
+<a name="405"><span class="lineNum">     405 </span><span class="lineCov">          1 :       pWriteFF &lt;= 1'h0; // @[src/main/scala/Apb2CSTrgt.scala 80:26]</span></a>
 <a name="406"><span class="lineNum">     406 </span><span class="lineCov">         52 :     end else begin</span></a>
 <a name="407"><span class="lineNum">     407 </span><span class="lineCov">         52 :       pWriteFF &lt;= _GEN_1;</span></a>
 <a name="408"><span class="lineNum">     408 </span>            :     end</a>
-<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          2 :     if (reset) begin // @[Apb2CSTrgt.scala 80:26]</span></a>
-<a name="410"><span class="lineNum">     410 </span><span class="lineCov">          1 :       pStrbFF &lt;= 4'h0; // @[Apb2CSTrgt.scala 80:26]</span></a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineCov">         30 :     end else if (io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable) begin // @[Apb2CSTrgt.scala 91:52]</span></a>
-<a name="412"><span class="lineNum">     412 </span><span class="lineCov">         22 :       pStrbFF &lt;= io_apb2T_req_pStrb; // @[Apb2CSTrgt.scala 94:14]</span></a>
+<a name="409"><span class="lineNum">     409 </span><span class="lineCov">          2 :     if (reset) begin // @[src/main/scala/Apb2CSTrgt.scala 81:26]</span></a>
+<a name="410"><span class="lineNum">     410 </span><span class="lineCov">          1 :       pStrbFF &lt;= 4'h0; // @[src/main/scala/Apb2CSTrgt.scala 81:26]</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">         30 :     end else if (io_apb2T_req_pSel &amp; ~io_apb2T_req_pEnable) begin // @[src/main/scala/Apb2CSTrgt.scala 92:52]</span></a>
+<a name="412"><span class="lineNum">     412 </span><span class="lineCov">         22 :       pStrbFF &lt;= io_apb2T_req_pStrb; // @[src/main/scala/Apb2CSTrgt.scala 95:14]</span></a>
 <a name="413"><span class="lineNum">     413 </span>            :     end</a>
-<a name="414"><span class="lineNum">     414 </span><span class="lineCov">         53 :     pReadyFF &lt;= reset | _GEN_3; // @[Apb2CSTrgt.scala 81:{26,26}]</span></a>
+<a name="414"><span class="lineNum">     414 </span><span class="lineCov">         53 :     pReadyFF &lt;= reset | _GEN_3; // @[src/main/scala/Apb2CSTrgt.scala 82:{26,26}]</span></a>
 <a name="415"><span class="lineNum">     415 </span>            :   end</a>
 <a name="416"><span class="lineNum">     416 </span>            : // Register and memory initialization</a>
 <a name="417"><span class="lineNum">     417 </span>            : `ifdef RANDOMIZE_GARBAGE_ASSIGN</a>
@@ -530,51 +530,51 @@
 <a name="468"><span class="lineNum">     468 </span>            : module Apb2CSTrgt32BitRWRegsTestWrapper(</a>
 <a name="469"><span class="lineNum">     469 </span>            :   input         clock,</a>
 <a name="470"><span class="lineNum">     470 </span>            :   input         reset,</a>
-<a name="471"><span class="lineNum">     471 </span>            :   input  [31:0] io_apb2T_req_pAddr,</a>
-<a name="472"><span class="lineNum">     472 </span>            :   input  [2:0]  io_apb2T_req_pProt,</a>
-<a name="473"><span class="lineNum">     473 </span>            :   input         io_apb2T_req_pSel,</a>
-<a name="474"><span class="lineNum">     474 </span>            :   input         io_apb2T_req_pEnable,</a>
-<a name="475"><span class="lineNum">     475 </span>            :   input         io_apb2T_req_pWrite,</a>
-<a name="476"><span class="lineNum">     476 </span>            :   input  [31:0] io_apb2T_req_pWData,</a>
-<a name="477"><span class="lineNum">     477 </span>            :   input  [3:0]  io_apb2T_req_pStrb,</a>
-<a name="478"><span class="lineNum">     478 </span>            :   output        io_apb2T_rsp_pReady,</a>
-<a name="479"><span class="lineNum">     479 </span>            :   output [31:0] io_apb2T_rsp_pRData,</a>
-<a name="480"><span class="lineNum">     480 </span>            :   output        io_apb2T_rsp_pSlvErr,</a>
-<a name="481"><span class="lineNum">     481 </span>            :   output [31:0] io_rw_RegZero_Word,</a>
-<a name="482"><span class="lineNum">     482 </span>            :   output [15:0] io_rw_RegOne_LowerHalf,</a>
-<a name="483"><span class="lineNum">     483 </span>            :   output [15:0] io_rw_RegOne_UpperHalf,</a>
-<a name="484"><span class="lineNum">     484 </span>            :   output [7:0]  io_rw_RegTwo_ByteZero,</a>
-<a name="485"><span class="lineNum">     485 </span>            :   output [7:0]  io_rw_RegTwo_ByteOne,</a>
-<a name="486"><span class="lineNum">     486 </span>            :   output [7:0]  io_rw_RegTwo_ByteTwo,</a>
-<a name="487"><span class="lineNum">     487 </span>            :   output [7:0]  io_rw_RegTwo_ByteThree,</a>
-<a name="488"><span class="lineNum">     488 </span>            :   output [7:0]  io_rw_RegThree_ByteZero,</a>
-<a name="489"><span class="lineNum">     489 </span>            :   output [7:0]  io_rw_RegThree_ByteOne,</a>
-<a name="490"><span class="lineNum">     490 </span>            :   output [7:0]  io_rw_RegThree_ByteTwo,</a>
-<a name="491"><span class="lineNum">     491 </span>            :   output [7:0]  io_rw_RegThree_ByteThree</a>
+<a name="471"><span class="lineNum">     471 </span>            :   input  [31:0] io_apb2T_req_pAddr, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="472"><span class="lineNum">     472 </span>            :   input  [2:0]  io_apb2T_req_pProt, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="473"><span class="lineNum">     473 </span>            :   input         io_apb2T_req_pSel, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="474"><span class="lineNum">     474 </span>            :   input         io_apb2T_req_pEnable, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="475"><span class="lineNum">     475 </span>            :   input         io_apb2T_req_pWrite, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="476"><span class="lineNum">     476 </span>            :   input  [31:0] io_apb2T_req_pWData, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="477"><span class="lineNum">     477 </span>            :   input  [3:0]  io_apb2T_req_pStrb, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="478"><span class="lineNum">     478 </span>            :   output        io_apb2T_rsp_pReady, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="479"><span class="lineNum">     479 </span>            :   output [31:0] io_apb2T_rsp_pRData, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="480"><span class="lineNum">     480 </span>            :   output        io_apb2T_rsp_pSlvErr, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="481"><span class="lineNum">     481 </span>            :   output [31:0] io_rw_RegZero_Word, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="482"><span class="lineNum">     482 </span>            :   output [15:0] io_rw_RegOne_LowerHalf, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="483"><span class="lineNum">     483 </span>            :   output [15:0] io_rw_RegOne_UpperHalf, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="484"><span class="lineNum">     484 </span>            :   output [7:0]  io_rw_RegTwo_ByteZero, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="485"><span class="lineNum">     485 </span>            :   output [7:0]  io_rw_RegTwo_ByteOne, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="486"><span class="lineNum">     486 </span>            :   output [7:0]  io_rw_RegTwo_ByteTwo, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="487"><span class="lineNum">     487 </span>            :   output [7:0]  io_rw_RegTwo_ByteThree, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="488"><span class="lineNum">     488 </span>            :   output [7:0]  io_rw_RegThree_ByteZero, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="489"><span class="lineNum">     489 </span>            :   output [7:0]  io_rw_RegThree_ByteOne, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="490"><span class="lineNum">     490 </span>            :   output [7:0]  io_rw_RegThree_ByteTwo, // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
+<a name="491"><span class="lineNum">     491 </span>            :   output [7:0]  io_rw_RegThree_ByteThree // @[src/test/scala/Apb2CSTrgtUnitTest.scala 21:14]</a>
 <a name="492"><span class="lineNum">     492 </span>            : );</a>
-<a name="493"><span class="lineNum">     493 </span>            :   wire  t_clock; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="494"><span class="lineNum">     494 </span>            :   wire  t_reset; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="495"><span class="lineNum">     495 </span>            :   wire [31:0] t_io_apb2T_req_pAddr; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="496"><span class="lineNum">     496 </span>            :   wire  t_io_apb2T_req_pSel; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="497"><span class="lineNum">     497 </span>            :   wire  t_io_apb2T_req_pEnable; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="498"><span class="lineNum">     498 </span>            :   wire  t_io_apb2T_req_pWrite; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="499"><span class="lineNum">     499 </span>            :   wire [31:0] t_io_apb2T_req_pWData; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="500"><span class="lineNum">     500 </span>            :   wire [3:0] t_io_apb2T_req_pStrb; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="501"><span class="lineNum">     501 </span>            :   wire  t_io_apb2T_rsp_pReady; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="502"><span class="lineNum">     502 </span>            :   wire [31:0] t_io_apb2T_rsp_pRData; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="503"><span class="lineNum">     503 </span>            :   wire  t_io_apb2T_rsp_pSlvErr; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="504"><span class="lineNum">     504 </span>            :   wire [7:0] t_io_rwVec_10; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="505"><span class="lineNum">     505 </span>            :   wire [7:0] t_io_rwVec_9; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="506"><span class="lineNum">     506 </span>            :   wire [7:0] t_io_rwVec_8; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="507"><span class="lineNum">     507 </span>            :   wire [7:0] t_io_rwVec_7; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="508"><span class="lineNum">     508 </span>            :   wire [7:0] t_io_rwVec_6; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="509"><span class="lineNum">     509 </span>            :   wire [7:0] t_io_rwVec_5; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="510"><span class="lineNum">     510 </span>            :   wire [7:0] t_io_rwVec_4; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="511"><span class="lineNum">     511 </span>            :   wire [7:0] t_io_rwVec_3; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="512"><span class="lineNum">     512 </span>            :   wire [15:0] t_io_rwVec_2; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="513"><span class="lineNum">     513 </span>            :   wire [15:0] t_io_rwVec_1; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="514"><span class="lineNum">     514 </span>            :   wire [31:0] t_io_rwVec_0; // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
-<a name="515"><span class="lineNum">     515 </span>            :   Apb2CSTrgt t ( // @[Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="493"><span class="lineNum">     493 </span>            :   wire  t_clock; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="494"><span class="lineNum">     494 </span>            :   wire  t_reset; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="495"><span class="lineNum">     495 </span>            :   wire [31:0] t_io_apb2T_req_pAddr; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="496"><span class="lineNum">     496 </span>            :   wire  t_io_apb2T_req_pSel; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="497"><span class="lineNum">     497 </span>            :   wire  t_io_apb2T_req_pEnable; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="498"><span class="lineNum">     498 </span>            :   wire  t_io_apb2T_req_pWrite; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="499"><span class="lineNum">     499 </span>            :   wire [31:0] t_io_apb2T_req_pWData; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="500"><span class="lineNum">     500 </span>            :   wire [3:0] t_io_apb2T_req_pStrb; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="501"><span class="lineNum">     501 </span>            :   wire  t_io_apb2T_rsp_pReady; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="502"><span class="lineNum">     502 </span>            :   wire [31:0] t_io_apb2T_rsp_pRData; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="503"><span class="lineNum">     503 </span>            :   wire  t_io_apb2T_rsp_pSlvErr; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="504"><span class="lineNum">     504 </span>            :   wire [7:0] t_io_rwVec_10; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="505"><span class="lineNum">     505 </span>            :   wire [7:0] t_io_rwVec_9; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="506"><span class="lineNum">     506 </span>            :   wire [7:0] t_io_rwVec_8; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="507"><span class="lineNum">     507 </span>            :   wire [7:0] t_io_rwVec_7; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="508"><span class="lineNum">     508 </span>            :   wire [7:0] t_io_rwVec_6; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="509"><span class="lineNum">     509 </span>            :   wire [7:0] t_io_rwVec_5; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="510"><span class="lineNum">     510 </span>            :   wire [7:0] t_io_rwVec_4; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="511"><span class="lineNum">     511 </span>            :   wire [7:0] t_io_rwVec_3; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="512"><span class="lineNum">     512 </span>            :   wire [15:0] t_io_rwVec_2; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="513"><span class="lineNum">     513 </span>            :   wire [15:0] t_io_rwVec_1; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="514"><span class="lineNum">     514 </span>            :   wire [31:0] t_io_rwVec_0; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
+<a name="515"><span class="lineNum">     515 </span>            :   Apb2CSTrgt t ( // @[src/test/scala/Apb2CSTrgtUnitTest.scala 19:17]</a>
 <a name="516"><span class="lineNum">     516 </span>            :     .clock(t_clock),</a>
 <a name="517"><span class="lineNum">     517 </span>            :     .reset(t_reset),</a>
 <a name="518"><span class="lineNum">     518 </span>            :     .io_apb2T_req_pAddr(t_io_apb2T_req_pAddr),</a>
@@ -598,28 +598,28 @@
 <a name="536"><span class="lineNum">     536 </span>            :     .io_rwVec_1(t_io_rwVec_1),</a>
 <a name="537"><span class="lineNum">     537 </span>            :     .io_rwVec_0(t_io_rwVec_0)</a>
 <a name="538"><span class="lineNum">     538 </span>            :   );</a>
-<a name="539"><span class="lineNum">     539 </span>            :   assign io_apb2T_rsp_pReady = t_io_apb2T_rsp_pReady; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="540"><span class="lineNum">     540 </span>            :   assign io_apb2T_rsp_pRData = t_io_apb2T_rsp_pRData; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="541"><span class="lineNum">     541 </span>            :   assign io_apb2T_rsp_pSlvErr = t_io_apb2T_rsp_pSlvErr; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="542"><span class="lineNum">     542 </span>            :   assign io_rw_RegZero_Word = t_io_rwVec_0; // @[Apb2CSTrgtUnitTest.scala 28:28]</a>
-<a name="543"><span class="lineNum">     543 </span>            :   assign io_rw_RegOne_LowerHalf = t_io_rwVec_1; // @[Apb2CSTrgtUnitTest.scala 29:28]</a>
-<a name="544"><span class="lineNum">     544 </span>            :   assign io_rw_RegOne_UpperHalf = t_io_rwVec_2; // @[Apb2CSTrgtUnitTest.scala 30:28]</a>
-<a name="545"><span class="lineNum">     545 </span>            :   assign io_rw_RegTwo_ByteZero = t_io_rwVec_3; // @[Apb2CSTrgtUnitTest.scala 31:28]</a>
-<a name="546"><span class="lineNum">     546 </span>            :   assign io_rw_RegTwo_ByteOne = t_io_rwVec_4; // @[Apb2CSTrgtUnitTest.scala 32:28]</a>
-<a name="547"><span class="lineNum">     547 </span>            :   assign io_rw_RegTwo_ByteTwo = t_io_rwVec_5; // @[Apb2CSTrgtUnitTest.scala 33:28]</a>
-<a name="548"><span class="lineNum">     548 </span>            :   assign io_rw_RegTwo_ByteThree = t_io_rwVec_6; // @[Apb2CSTrgtUnitTest.scala 34:28]</a>
-<a name="549"><span class="lineNum">     549 </span>            :   assign io_rw_RegThree_ByteZero = t_io_rwVec_7; // @[Apb2CSTrgtUnitTest.scala 35:28]</a>
-<a name="550"><span class="lineNum">     550 </span>            :   assign io_rw_RegThree_ByteOne = t_io_rwVec_8; // @[Apb2CSTrgtUnitTest.scala 36:28]</a>
-<a name="551"><span class="lineNum">     551 </span>            :   assign io_rw_RegThree_ByteTwo = t_io_rwVec_9; // @[Apb2CSTrgtUnitTest.scala 37:28]</a>
-<a name="552"><span class="lineNum">     552 </span>            :   assign io_rw_RegThree_ByteThree = t_io_rwVec_10; // @[Apb2CSTrgtUnitTest.scala 38:28]</a>
+<a name="539"><span class="lineNum">     539 </span>            :   assign io_apb2T_rsp_pReady = t_io_apb2T_rsp_pReady; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="540"><span class="lineNum">     540 </span>            :   assign io_apb2T_rsp_pRData = t_io_apb2T_rsp_pRData; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="541"><span class="lineNum">     541 </span>            :   assign io_apb2T_rsp_pSlvErr = t_io_apb2T_rsp_pSlvErr; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="542"><span class="lineNum">     542 </span>            :   assign io_rw_RegZero_Word = t_io_rwVec_0; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 28:28]</a>
+<a name="543"><span class="lineNum">     543 </span>            :   assign io_rw_RegOne_LowerHalf = t_io_rwVec_1; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 29:28]</a>
+<a name="544"><span class="lineNum">     544 </span>            :   assign io_rw_RegOne_UpperHalf = t_io_rwVec_2; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 30:28]</a>
+<a name="545"><span class="lineNum">     545 </span>            :   assign io_rw_RegTwo_ByteZero = t_io_rwVec_3; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 31:28]</a>
+<a name="546"><span class="lineNum">     546 </span>            :   assign io_rw_RegTwo_ByteOne = t_io_rwVec_4; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 32:28]</a>
+<a name="547"><span class="lineNum">     547 </span>            :   assign io_rw_RegTwo_ByteTwo = t_io_rwVec_5; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 33:28]</a>
+<a name="548"><span class="lineNum">     548 </span>            :   assign io_rw_RegTwo_ByteThree = t_io_rwVec_6; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 34:28]</a>
+<a name="549"><span class="lineNum">     549 </span>            :   assign io_rw_RegThree_ByteZero = t_io_rwVec_7; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 35:28]</a>
+<a name="550"><span class="lineNum">     550 </span>            :   assign io_rw_RegThree_ByteOne = t_io_rwVec_8; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 36:28]</a>
+<a name="551"><span class="lineNum">     551 </span>            :   assign io_rw_RegThree_ByteTwo = t_io_rwVec_9; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 37:28]</a>
+<a name="552"><span class="lineNum">     552 </span>            :   assign io_rw_RegThree_ByteThree = t_io_rwVec_10; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 38:28]</a>
 <a name="553"><span class="lineNum">     553 </span>            :   assign t_clock = clock;</a>
 <a name="554"><span class="lineNum">     554 </span>            :   assign t_reset = reset;</a>
-<a name="555"><span class="lineNum">     555 </span>            :   assign t_io_apb2T_req_pAddr = io_apb2T_req_pAddr; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="556"><span class="lineNum">     556 </span>            :   assign t_io_apb2T_req_pSel = io_apb2T_req_pSel; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="557"><span class="lineNum">     557 </span>            :   assign t_io_apb2T_req_pEnable = io_apb2T_req_pEnable; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="558"><span class="lineNum">     558 </span>            :   assign t_io_apb2T_req_pWrite = io_apb2T_req_pWrite; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="559"><span class="lineNum">     559 </span>            :   assign t_io_apb2T_req_pWData = io_apb2T_req_pWData; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
-<a name="560"><span class="lineNum">     560 </span>            :   assign t_io_apb2T_req_pStrb = io_apb2T_req_pStrb; // @[Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="555"><span class="lineNum">     555 </span>            :   assign t_io_apb2T_req_pAddr = io_apb2T_req_pAddr; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="556"><span class="lineNum">     556 </span>            :   assign t_io_apb2T_req_pSel = io_apb2T_req_pSel; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="557"><span class="lineNum">     557 </span>            :   assign t_io_apb2T_req_pEnable = io_apb2T_req_pEnable; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="558"><span class="lineNum">     558 </span>            :   assign t_io_apb2T_req_pWrite = io_apb2T_req_pWrite; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="559"><span class="lineNum">     559 </span>            :   assign t_io_apb2T_req_pWData = io_apb2T_req_pWData; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
+<a name="560"><span class="lineNum">     560 </span>            :   assign t_io_apb2T_req_pStrb = io_apb2T_req_pStrb; // @[src/test/scala/Apb2CSTrgtUnitTest.scala 26:14]</a>
 <a name="561"><span class="lineNum">     561 </span>            : endmodule</a>
 </pre>
       </td>
