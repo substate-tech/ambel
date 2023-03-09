@@ -2,15 +2,14 @@
 package ambel
 
 import chisel3._
-import chisel3.util.isPow2
+import chisel3.util.{is, isPow2}
 import chisel3.util.log2Ceil
 import chisel3.util.DecoupledIO
 import chisel3.util.Arbiter
 import chisel3.util.switch
-import chisel3.util.is
 import chisel3.experimental.BundleLiterals._
-import chisel3.experimental.ChiselEnum
-import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+import chisel3.stage.ChiselGeneratorAnnotation
+import circt.stage.ChiselStage
 
 /** =Apb2ReqCtrl Bundle=
   *

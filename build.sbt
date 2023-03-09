@@ -7,9 +7,9 @@ ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "substate.tech"
 
-val circeVersion = "0.7.0"
-val chisel3Version = "3.5.4"
-val chiseltestVersion = "0.5.1"
+val circeVersion = "0.14.1"
+val chisel3Version = "3.6.0-RC2"
+val chiseltestVersion = "0.6.0-RC2"
 val chiselVerifyVersion = "0.2.0"
 
 libraryDependencies += "io.github.chiselverify" % "chiselverify" % "0.2.0"

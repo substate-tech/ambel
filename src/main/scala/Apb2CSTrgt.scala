@@ -16,9 +16,10 @@ package ambel
 
 import scala.io.Source
 import chisel3._
-import chisel3.util._
+import chisel3.util.{log2Ceil, MixedVec}
 import chisel3.experimental.BundleLiterals._
-import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+import chisel3.stage.ChiselGeneratorAnnotation
+import circt.stage.ChiselStage
 
 /** =Apb2CSTrgt=
   *

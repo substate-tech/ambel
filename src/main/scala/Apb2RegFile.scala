@@ -3,7 +3,8 @@ package ambel
 
 import chisel3._
 import chisel3.util.log2Ceil
-import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}
+import chisel3.stage.ChiselGeneratorAnnotation
+import circt.stage.ChiselStage
 
 /** =Apb2RegFile=
   *
