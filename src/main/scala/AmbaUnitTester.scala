@@ -13,7 +13,7 @@ import chiseltest._
   *
   * @todo use NUM_NIBBLE to format addr/data strings
   */
-abstract class AmbelUnitTester(DATA_W: Int = 32) extends BaseUnitTester {
+abstract class AmbaUnitTester(DATA_W: Int = 32) extends BaseUnitTester {
   val NUM_BYTE = DATA_W/8
   val NUM_NIBBLE = NUM_BYTE * 2
 

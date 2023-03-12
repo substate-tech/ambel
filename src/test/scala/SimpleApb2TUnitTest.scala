@@ -21,7 +21,7 @@ import chiseltest._
   * testOnly ambel.SimpleApb2TUnitTester -- -DwriteVcd=1
   * }}}
   */
-class SimpleApb2TUnitTester extends AmbelUnitTester {
+class SimpleApb2TUnitTester extends AmbaUnitTester {
   behavior of "SimpleApb2T"
 
   /**

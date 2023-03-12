@@ -161,7 +161,7 @@ class Apb2CSTrgtMisalignedRWRegsTestWrapper(val VERBOSE: Boolean = false) extend
   * testOnly ambel.Apb2CSTrgtUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2CSTrgtUnitTester extends AmbelUnitTester {
+class Apb2CSTrgtUnitTester extends AmbaUnitTester {
   behavior of "Apb2CSTrgt"
 
   /**

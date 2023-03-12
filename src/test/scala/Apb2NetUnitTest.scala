@@ -46,7 +46,7 @@ class Apb2NetTestHarness(
   * testOnly ambel.Apb2NetUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2NetUnitTester extends AmbelUnitTester {
+class Apb2NetUnitTester extends AmbaUnitTester {
   behavior of "Apb2NetTestHarness"
 
   /**
