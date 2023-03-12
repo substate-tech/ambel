@@ -39,7 +39,7 @@ class Apb2SliceTestHarness extends Module {
   * testOnly ambel.Apb2SliceUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2SliceUnitTester extends AmbelUnitTester {
+class Apb2SliceUnitTester extends AmbaUnitTester {
   behavior of "Apb2SliceTestHarness"
 
   /**

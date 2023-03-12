@@ -21,7 +21,7 @@ import chiseltest._
   * testOnly ambel.Apb2RegFileUnitTester -- -DwriteVcd=1
   * }}}
   */
-class Apb2RegFileUnitTester extends AmbelUnitTester {
+class Apb2RegFileUnitTester extends AmbaUnitTester {
   behavior of "Apb2RegFile"
 
   /**

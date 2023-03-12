@@ -4,10 +4,10 @@ package ambel
 import java.io.File
 import scala.math._
 import scala.util.Random
-import org.scalatest._
-import org.scalatest.flatspec.AnyFlatSpec
 import chisel3._
 import chiseltest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.{BeforeAndAfterAllConfigMap, ConfigMap}
 import chiseltest.simulator.VerilatorFlags
 import firrtl.AnnotationSeq
 
