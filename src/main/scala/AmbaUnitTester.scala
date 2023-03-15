@@ -8,6 +8,7 @@ import org.scalatest._
 import chisel3._
 import chisel3.util._
 import chiseltest._
+import baster.BaseUnitTester
 
 /** =AMBA Unit Tester Base Class=
   *

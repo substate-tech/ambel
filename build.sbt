@@ -5,17 +5,20 @@
 
 ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "substate.tech"
+ThisBuild / organization     := "substate"
 
+val basterVersion = "0.1.0"
 val circeVersion = "0.14.1"
 val chisel3Version = "3.6.0-RC2"
 val chiseltestVersion = "0.6.0-RC2"
 val chiselVerifyVersion = "0.2.0"
 val scalatestVersion = "3.2.15"
 
+externalResolvers += "substate.baster packages" at "https://maven.pkg.github.com/substate-tech/baster"
+
 lazy val root = (project in file("."))
   .settings(
-    name := "substate.ambel",
+    name := "ambel",
     libraryDependencies ++= Seq(
       "edu.berkeley.cs" %% "chisel3" % chisel3Version,
       "edu.berkeley.cs" %% "chiseltest" % chiseltestVersion,
@@ -23,6 +26,7 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
+      "substate" %% "baster" % basterVersion,
       "org.scalatest" %% "scalatest" % scalatestVersion,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value
     ),
