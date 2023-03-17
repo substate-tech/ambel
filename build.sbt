@@ -14,8 +14,6 @@ val chiseltestVersion = "0.6.0-RC2"
 val chiselVerifyVersion = "0.2.0"
 val scalatestVersion = "3.2.15"
 
-externalResolvers += "substate.baster packages" at "https://maven.pkg.github.com/substate-tech/baster"
-
 lazy val root = (project in file("."))
   .settings(
     name := "ambel",
@@ -26,7 +24,7 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-core" % circeVersion,
       "io.circe" %% "circe-generic" % circeVersion,
       "io.circe" %% "circe-parser" % circeVersion,
-      "substate" %% "baster" % basterVersion,
+      "io.github.substate-tech" %% "baster" % basterVersion,
       "org.scalatest" %% "scalatest" % scalatestVersion,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value
     ),
