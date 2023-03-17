@@ -5,7 +5,7 @@
 
 ThisBuild / scalaVersion     := "2.12.13"
 ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "substate"
+ThisBuild / organization     := "io.github.substate-tech"
 
 val basterVersion = "0.1.0"
 val circeVersion = "0.14.1"
