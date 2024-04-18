@@ -204,7 +204,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       val dataSeq = new ListBuffer[Int]
       for (i <- 0 until NUM_REGS) {
         val addr = i << 2
-        val data = rand.nextInt
+        val data = rand.nextInt()
         dataSeq += data
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0xf)
       }
@@ -258,7 +258,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       // Test word access to all registers
       {
         val addr = 0 << 2
-        val data = rand.nextInt
+        val data = rand.nextInt()
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0xf)
 
         val dataStr = f"h${data}%08x"
@@ -271,7 +271,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       var rdData = 0
       for (i <- 0 until NUM_BYTE / 2) {
         val addr = 4 + (i << 1)
-        val data = rand.nextInt
+        val data = rand.nextInt()
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0x3 << (i * NUM_BYTE / 2))
 
         val dataStr = f"h${(data >> (i * NUM_BYTE / 2 * 8)) & 0xffff}%08x"
@@ -289,7 +289,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       rdData = 0
       for (i <- 0 until NUM_BYTE) {
         val addr = 8 + i
-        val data = rand.nextInt
+        val data = rand.nextInt()
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0x1 << i)
 
         val dataStr = f"h${(data >> (i * 8)) & 0xff}%08x"
@@ -307,7 +307,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       rdData = 0
       for (i <- 0 until NUM_BYTE) {
         val addr = 12 + i
-        val data = rand.nextInt
+        val data = rand.nextInt()
         ApbWriteStrb(dut.io.apb2T, dut.clock, addr, data, 0x1 << i)
 
         val dataStr = f"h${(data >> (i * 8)) & 0xff}%08x"
@@ -362,7 +362,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
             regNameRef.expect(0.U)
           }.fork {
             ApbReadExpect(dut.io.apb2T, dut.clock, addr, 0)
-          }.join
+          }.join()
         }
       }
 
@@ -392,7 +392,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
 
         // Set status to random 8 bit values, read back and check
         for (i <- 0 until 10) {
-          val data = rand.nextInt & 0xff
+          val data = rand.nextInt() & 0xff
 
           r match {
             case 0 => dut.io.ro.RegZero_StatusBits.poke(data.U(8.W))
@@ -631,7 +631,7 @@ class Apb2CSTrgtUnitTester extends AmbaUnitTester {
       // Test access with all pStrb bits set
       val all_regs = 0 :: 4 :: 8 :: 12 :: Nil
       for (r <- all_regs) {
-        val data = rand.nextInt
+        val data = rand.nextInt()
         ApbWriteStrb(dut.io.apb2T, dut.clock, r, data, 0xf)
         ApbExpectNoSlvErr(dut.io.apb2T)
         ApbReadExpect(dut.io.apb2T, dut.clock, r, data)

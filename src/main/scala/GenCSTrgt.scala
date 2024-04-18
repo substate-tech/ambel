@@ -45,7 +45,7 @@ class GenCSTrgt(
 
   // Parse register description JSON
   val RegDescDecoder = new RegisterDescDecoder
-  val jsonString = Source.fromFile(REG_DESC_JSON).getLines.mkString.stripMargin
+  val jsonString = Source.fromFile(REG_DESC_JSON).getLines().mkString.stripMargin
   val regDesc: Option[RegisterDesc] = RegDescDecoder.getReg(Array(jsonString))
 
   regDesc match {
@@ -91,13 +91,13 @@ class GenCSTrgt(
   for (r <- regElements.names) {
     for (f <- regElements.regArray(regElements.regMap(r).offset >> NUM_BITS_SHIFT).iterator) {
       if (f.mode == "RW") {
-        rwIt.next := f.reg
+        rwIt.next() := f.reg
       }
       if (f.mode == "RO") {
-        f.reg := roIt.next
+        f.reg := roIt.next()
       }
       if (f.mode == "WO") {
-        woIt.next := f.reg
+        woIt.next() := f.reg
       }
     }
   }
@@ -263,7 +263,7 @@ class GenCSTrgt(
           wcIdx = wcIdx + 1
 
           val nxtBits = VecInit(f.reg.asBools)
-          val setBits = VecInit(wcIt.next.asBools)
+          val setBits = VecInit(wcIt.next().asBools)
           for ((nxt, set) <- (nxtBits zip setBits).toMap) {
             when (set) {
               nxt := true.B
