@@ -75,11 +75,11 @@ class RegisterDescDecoder {
     }
   }
 
-  def prettyPrint(r: Register) {
+  def prettyPrint(r: Register): Unit = {
     print(f"h${r.offset}%04x: ${r.name}  (${r.typeRef})\n")
   }
 
-  def prettyPrint(f: BitField) {
+  def prettyPrint(f: BitField): Unit = {
     print(f"  ${f.bits.head}%2d:${f.bits.last}%2d  ${f.name}")
     f.mode match {
       case Some(mode) => print(f", $mode")
@@ -96,7 +96,7 @@ class RegisterDescDecoder {
     print("\n")
   }
 
-  def prettyPrint(t: RegisterType) {
+  def prettyPrint(t: RegisterType): Unit = {
     print(f"${t.typeRef}, ${t.width} bits")
     t.comment match {
       case Some(comment) => print(f"  (${comment})\n")
@@ -105,7 +105,7 @@ class RegisterDescDecoder {
     t.fields.map(prettyPrint)
   }
 
-  def prettyPrint(m: RegisterDesc) {
+  def prettyPrint(m: RegisterDesc): Unit = {
     m.regMap.map(prettyPrint)
     m.regTypes.map(prettyPrint)
   }
@@ -123,7 +123,7 @@ class RegisterBitLists() {
   var woRegBits:ListMap[String, Int] = ListMap[String, Int]()
   var wcRegBits:ListMap[String, Int] = ListMap[String, Int]()
 
-  def this(regDesc: Option[RegisterDesc], dataWidth: Int) {
+  def this(regDesc: Option[RegisterDesc], dataWidth: Int) = {
     this()
 
     val types = regDesc match {
@@ -204,7 +204,7 @@ class RegisterElements() {
 
   var regArray: Array[ArrayBuffer[BitFieldDetails]] = Array[ArrayBuffer[BitFieldDetails]]()
 
-  def this(regDesc: Option[RegisterDesc], dataWidth: Int) {
+  def this(regDesc: Option[RegisterDesc], dataWidth: Int) = {
     this()
     this.names = regDesc match {
       case Some(r) => for (m <- r.regMap) yield m.name

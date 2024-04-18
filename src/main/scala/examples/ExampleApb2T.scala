@@ -19,7 +19,8 @@ import chisel3._
 import chisel3.stage.ChiselGeneratorAnnotation
 import circt.stage.ChiselStage
 
-/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="src/main/json/Example.json")=
+/** =Bundles for Connection to Apb2CSTrgt=
+  * (REG_DESC_JSON="src/main/json/Example.json")
   *
   * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!
   */
@@ -43,7 +44,8 @@ class _ExampleApb2TWcVec_ extends Bundle {
   val AmbelW1cStatus_StausBits = UInt(16.W)
 }
 
-/** =Wrapper Module for Apb2CSTrgt(REG_DESC_JSON="src/main/json/Example.json")=
+/** =Wrapper Module for Apb2CSTrgt=
+  * (REG_DESC_JSON="src/main/json/Example.json")
   * Uses Bundles above on IO and makes ordered connection to MixedVec IO on
   * Apb2CSTrgt instance
   *

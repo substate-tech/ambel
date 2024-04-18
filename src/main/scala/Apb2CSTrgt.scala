@@ -46,7 +46,7 @@ class Apb2CSTrgt(
 
   // Parse RW, RO, WO and WC register bits from register description JSON to generate required IO
   val RegDescDecoder = new RegisterDescDecoder
-  val jsonString = Source.fromFile(REG_DESC_JSON).getLines.mkString.stripMargin
+  val jsonString = Source.fromFile(REG_DESC_JSON).getLines().mkString.stripMargin
   val regDesc: Option[RegisterDesc] = RegDescDecoder.getReg(Array(jsonString))
 
   regDesc match {

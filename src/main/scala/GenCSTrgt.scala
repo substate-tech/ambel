@@ -321,7 +321,8 @@ class GenCSTrgt(
     pw.write( "package ambel\n\n")
     pw.write( "import chisel3._\n")
     pw.write( "import chisel3.stage.{ChiselGeneratorAnnotation, ChiselStage}\n\n")
-    pw.write(f"""/** =Bundles for Connection to Apb2CSTrgt(REG_DESC_JSON="${REG_DESC_JSON}")=\n""")
+    pw.write( "/** =Bundles for Connection to Apb2CSTrgt=\n")
+    pw.write(f"""  *  (REG_DESC_JSON="${REG_DESC_JSON}")\n""")
     pw.write( "  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
 
     if (rwBundleBuffer.nonEmpty) {
@@ -344,7 +345,8 @@ class GenCSTrgt(
 
     println(f"Writing wrapper Module to ${chisel3ModuleFilePath}")
 
-    pw.append(f"""\n/** =Wrapper Module for Apb2CSTrgt(REG_DESC_JSONy="${REG_DESC_JSON}")=\n""")
+    pw.append( "\n/** =Wrapper Module for Apb2CSTrgt=\n")
+    pw.append(f"""  *   (REG_DESC_JSON="${REG_DESC_JSON}")\n""")
     pw.append( "  * Uses Bundles above on IO and makes ordered connection to MixedVec IO on\n")
     pw.append( "  * Apb2CSTrgt instance\n")
     pw.append( "  *\n  * THIS IS AUTO-GENERATED CODE - DO NOT MODIFY BY HAND!\n  */\n")
